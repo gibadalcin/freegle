@@ -1,0 +1,24 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">
+            @drawable/rn_edit_text_material
+        </item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+
+        <item name="android:statusBarColor">
+            @color/primary
+        </item>
+
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
+        <item name="android:windowTranslucentNavigation">
+            true
+        </item>
+
+    </style>
+
+</resources>
