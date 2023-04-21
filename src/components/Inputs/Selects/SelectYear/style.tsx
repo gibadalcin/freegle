@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
 
   selectContain: {
     flex: 0.06,
+    minHeight: 50,
+    maxHeight: 50,
+    paddingTop: 10,
     paddingVertical: 12,
     borderBottomColor: '#dfc691',
     borderBottomWidth: 0.8,

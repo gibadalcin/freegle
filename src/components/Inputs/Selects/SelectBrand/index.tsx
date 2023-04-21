@@ -5,7 +5,6 @@ import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import DisabledModel from '../DisabledModel';
 
 interface Option {
   codigo: string;
