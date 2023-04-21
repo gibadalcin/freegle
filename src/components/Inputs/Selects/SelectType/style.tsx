@@ -5,7 +5,7 @@ const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   safe: {
-    flex: 0.14,
+    flex: 0.24,
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
