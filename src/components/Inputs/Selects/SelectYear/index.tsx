@@ -13,6 +13,7 @@ interface Option {
 
 export default function SelectType() {
   const { vehicleType, codeBrands, codeModel, setCodeYear } = useSelects();
+  const [selectVisible, setSelectVisible] = useState(true);
   const [txt, setTxt] = useState('Selecione o Ano');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
@@ -46,6 +47,7 @@ export default function SelectType() {
             setCodeYear(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
+            setSelectVisible(true);
           }}
         >
           <Text style={styles.item}>{item.nome}</Text>
@@ -61,11 +63,12 @@ export default function SelectType() {
 
   return (
     <View>
-      {filterCodeModels && (
+      {filterCodeModels && selectVisible && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
+            setSelectVisible(false);
           }}
         />
       )}
@@ -76,7 +79,12 @@ export default function SelectType() {
           onRequestClose={() => setModalVisible(false)}
           transparent={true}
         >
-          <TouchableOpacity style={styles.safe} onPress={() => setModalVisible(false)} />
+          <TouchableOpacity
+            style={styles.safe}
+            onPress={() => {
+              setModalVisible(false), setSelectVisible(true);
+            }}
+          />
           <View style={styles.selectField}>
             <View style={styles.selectContain}>
               <Text style={styles.selectTitle}>Ano</Text>

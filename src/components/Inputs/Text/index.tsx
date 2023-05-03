@@ -26,7 +26,7 @@ export default function InputText({
       <TextInput
         style={styles.inputField}
         placeholder={placeDescription}
-        placeholderTextColor={'#FFFFFF99'}
+        placeholderTextColor={'#000000'}
         onChangeText={onChange}
         value={value}
         autoCapitalize={autoCap}

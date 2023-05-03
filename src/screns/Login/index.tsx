@@ -5,8 +5,7 @@ import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
 import Button from '../../components/Buttons/Button';
-import { useAuth } from '../../contexts/Auth';
-import Arrow from '../../components/ModelIcon';
+import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,12 +13,10 @@ const Login = () => {
   const [emailField, setEmailField] = useState<string>('');
   const [passField, setPassField] = useState<string>('');
   const [status] = useState<string>('');
-  const { signIn } = useAuth();
 
   function handleLoginButton() {
     setIsLoading(true);
     setTimeout(() => {
-      signIn();
       navigation.navigate('Home');
       setIsLoading(false);
     }, 2000);
@@ -36,11 +33,11 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.arrowField}>
-        <Arrow
-          name={'reply'}
-          size={50}
-          color={'#000000cc'}
-          onPress={() => {
+        <EntypoIcon
+          entName={'arrow-long-left'}
+          entSize={40}
+          entColor={'#ffffff'}
+          entOnPress={() => {
             navigation.navigate('Home');
           }}
         />

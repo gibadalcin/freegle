@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
      <item android:drawable="@color/primary"/>
      <item 
           android:drawable="@drawable/splash"
@@ -22,4 +22,4 @@
           android:gravity="center"
      />
 
-</layer-list>
+</layer-list>-->

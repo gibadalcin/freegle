@@ -17,7 +17,7 @@ export interface ButtonVariant {
 export const buttonPrimary: ButtonVariant = {
   enabled: {
     button: {
-      backgroundColor: '#00000066',
+      backgroundColor: '#000000',
     },
     title: { color: '#ffffff' },
   },

@@ -13,13 +13,14 @@ const styles = StyleSheet.create({
   selectField: {
     flex: 0.86,
     justifyContent: 'space-between',
-    backgroundColor: '#2b464eee',
+    backgroundColor: '#000000aa',
     borderColor: '#dfc691',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     shadow: 20,
-    bottom: 0,
     elevation: 300,
   },
 
@@ -31,22 +32,27 @@ const styles = StyleSheet.create({
   },
 
   selectContain: {
+    minHeight: 50,
+    maxHeight: 50,
     flex: 0.06,
     paddingVertical: 12,
+    borderBottomColor: '#dfc691',
+    borderBottomWidth: 1,
   },
 
   selectTitle: {
     fontSize: 20,
     letterSpacing: 1,
-    color: '#dfc691',
+    color: '#ffffff',
     textAlign: 'center',
     flex: 1,
-    paddingVertical: 0,
   },
 
   containerItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    borderBottomColor: '#dfc691',
+    borderWidth: 1,
   },
 
   item: {
@@ -55,13 +61,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     color: '#FFFFFF',
     paddingVertical: 12,
-    marginHorizontal: 10,
-    backgroundColor: '#00000099',
+    backgroundColor: '#000000',
     textAlign: 'center',
-    borderWidth: 0.8,
-    borderColor: '#dfc691',
-    borderRadius: 8,
-    marginTop: 8,
   },
 
   icon: {

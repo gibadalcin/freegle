@@ -4,16 +4,13 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-import { useAuth } from '../../contexts/Auth';
 
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
-  const { signed, signOut, user } = useAuth();
   //console.log(signed);
   //console.log(user);
 
   function handleSignOut() {
-    signOut();
     Alert.alert('Esta funcionalidade ainda não está disponível!');
   }
 
@@ -27,7 +24,7 @@ const Home = () => {
         }}
         title="Consultar Modelo"
       />
-      {signed && <Button onPress={handleSignOut} title="Consultar Placa" />}
+      <Button onPress={handleSignOut} title="Consultar Placa" />
 
       <View style={styles.containerText}>
         <TouchableOpacity
@@ -37,13 +34,13 @@ const Home = () => {
         >
           <Text style={styles.loginTextLogin}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.loginText}>|</Text>
+        <Text style={styles.loginTextLogin}>|</Text>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Register');
           }}
         >
-          <Text style={styles.loginText}>Registre-se</Text>
+          <Text style={styles.loginTextRegister}>Registre-se</Text>
         </TouchableOpacity>
       </View>
     </View>

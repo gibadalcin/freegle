@@ -3,6 +3,7 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 
+import Splash from '../../screns/Splash';
 import Home from '../../screns/Home';
 import Login from '../../screns/Login';
 import Register from '../../screns/Register';
@@ -12,6 +13,7 @@ import Price from '../../screns/Price';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 type StackNavigation = {
+  Splash: undefined;
   Home: undefined;
   Login: undefined;
   Register: undefined;
@@ -25,12 +27,13 @@ export type StackTypes = NativeStackNavigationProp<StackNavigation>;
 const Stack = () => {
   return (
     <Navigator
-      initialRouteName="Home"
+      initialRouteName="Splash"
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: 'transparent' },
       }}
     >
+      <Screen name="Splash" component={Splash} />
       <Screen name="Home" component={Home} />
       <Screen name="Login" component={Login} />
       <Screen name="Register" component={Register} />

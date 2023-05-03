@@ -3,13 +3,11 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-import Arrow from '../../components/ModelIcon';
-import { useAuth } from '../../contexts/Auth';
+import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
 import { useResult } from '../../contexts/Price';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
-  const { signed } = useAuth();
   const {
     yearModel,
     brand,
@@ -42,11 +40,11 @@ const Model = () => {
           <Text style={styles.priceText}>{price}</Text>
         </View>
         <View style={styles.arrowField}>
-          <Arrow
-            name={'reply'}
-            size={50}
-            color={'#ffffff99'}
-            onPress={() => {
+          <EntypoIcon
+            entName={'arrow-long-left'}
+            entSize={40}
+            entColor={'#ffffff'}
+            entOnPress={() => {
               navigation.navigate('Home');
               setYearModel('');
               setFipeCode('');
@@ -62,25 +60,23 @@ const Model = () => {
         </View>
 
         <View style={styles.resultFieldButtons}>
-          {signed && (
-            <Arrow
-              name={'archive'}
-              size={54}
-              color={'#c8a75a'}
-              onPress={() => {
-                navigation.navigate('Home');
-                setYearModel('');
-                setFipeCode('');
-                setFuel('');
-                setBrand('');
-                setMonthRef('');
-                setModel('');
-                setFuelAcronym('');
-                setType('');
-                setPrice('');
-              }}
-            />
-          )}
+          <EntypoIcon
+            entName={'archive'}
+            entSize={38}
+            entColor={'#ffffff'}
+            entOnPress={() => {
+              navigation.navigate('Home');
+              setYearModel('');
+              setFipeCode('');
+              setFuel('');
+              setBrand('');
+              setMonthRef('');
+              setModel('');
+              setFuelAcronym('');
+              setType('');
+              setPrice('');
+            }}
+          />
         </View>
       </View>
     </View>

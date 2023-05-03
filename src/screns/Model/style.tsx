@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
     rowGap: 30,
     borderRadius: 4,
     height: 54,
-    //borderColor: '#FFFFFF',
-    //borderWidth: 1,
     paddingHorizontal: '8%',
     marginTop: '44%',
     marginBottom: '10%',
@@ -21,10 +19,15 @@ const styles = StyleSheet.create({
   arrowField: {
     flex: 1,
     position: 'absolute',
-    backgroundColor: 'transparent',
-    fontSize: 40,
-    left: '22%',
-    bottom: '20%',
+    left: '38%',
+    bottom: '9%',
+    elevation: 100,
+    backgroundColor: '#000000',
+    paddingHorizontal: 18,
+    paddingVertical: 1,
+    borderWidth: 1,
+    borderColor: '#dfc691',
+    borderRadius: 8,
   },
 });
 

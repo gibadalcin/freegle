@@ -75,7 +75,12 @@ export default function SelectType() {
           onRequestClose={() => setModalVisible(false)}
           transparent={true}
         >
-          <TouchableOpacity style={styles.safe} onPress={() => setModalVisible(false)} />
+          <TouchableOpacity
+            style={styles.safe}
+            onPress={() => {
+              setModalVisible(false);
+            }}
+          />
           <View style={styles.selectField}>
             <View style={styles.selectContain}>
               <Text style={styles.selectTitle}>Marca</Text>

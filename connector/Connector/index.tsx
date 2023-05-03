@@ -10,7 +10,6 @@ import Routes from '../../src/routes';
 import styles from './style';
 import { SelectsProvider } from '../../src/contexts/Select';
 import { ResultProvider } from '../../src/contexts/Price';
-import { AuthProvider } from '../../src/contexts/Auth';
 
 export default function Connector(): JSX.Element {
   return (
@@ -19,9 +18,7 @@ export default function Connector(): JSX.Element {
       <View style={styles.sectionContainer}>
         <ResultProvider>
           <SelectsProvider>
-            <AuthProvider>
-              <Routes />
-            </AuthProvider>
+            <Routes />
           </SelectsProvider>
         </ResultProvider>
       </View>

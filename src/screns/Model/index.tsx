@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
-import Arrow from '../../components/ModelIcon';
+import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
 import SelectType from '../../components/Inputs/Selects/SelectType';
 import SelectBrand from '../../components/Inputs/Selects/SelectBrand';
 import SelectModel from '../../components/Inputs/Selects/SelectModel';
@@ -86,11 +86,11 @@ const Model = () => {
   return (
     <View style={styles.container}>
       <View style={styles.arrowField}>
-        <Arrow
-          name={'reply'}
-          size={50}
-          color={'#00000099'}
-          onPress={() => {
+        <EntypoIcon
+          entName={'arrow-long-left'}
+          entSize={40}
+          entColor={'#ffffff'}
+          entOnPress={() => {
             navigation.navigate('Home');
             setVehicleType('');
             setCodeBrands('');

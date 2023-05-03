@@ -19,23 +19,16 @@ const styles = StyleSheet.create({
     marginHorizontal: '14%',
     marginTop: -16,
   },
-
-  loginText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#123242',
-  },
-
   loginTextRegister: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#00000099',
+    color: '#ffffff',
   },
 
   loginTextLogin: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#00000099',
+    color: '#ffffff',
   },
 });
 

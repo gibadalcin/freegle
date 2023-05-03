@@ -17,6 +17,7 @@ export default function SelectType() {
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [visibleSelect, setvisibleSelect] = useState(true);
 
   useEffect(() => {
     async function fetchList() {
@@ -41,6 +42,7 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setVehicleType(item.nome);
+            setvisibleSelect(true);
           }}
         >
           <Text style={styles.item}>{capitalizedString}</Text>
@@ -55,23 +57,29 @@ export default function SelectType() {
     : null;
   return (
     <View>
-      <Model
-        text={capitalized ? capitalized : txt}
-        onPress={() => {
-          setModalVisible(true);
-        }}
-      />
+      {visibleSelect && (
+        <Model
+          text={capitalized ? capitalized : txt}
+          onPress={() => {
+            setModalVisible(true);
+            setvisibleSelect(false);
+          }}
+        />
+      )}
       <View>
         <Modal
           animationType="slide"
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          onRequestClose={() => {
+            setModalVisible(false);
+          }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
               setModalVisible(false);
+              setvisibleSelect(true);
             }}
           />
           <View style={styles.selectField}>

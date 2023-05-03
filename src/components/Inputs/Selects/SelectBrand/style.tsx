@@ -13,13 +13,14 @@ const styles = StyleSheet.create({
   selectField: {
     flex: 0.86,
     justifyContent: 'space-between',
-    backgroundColor: '#2b464eee',
+    backgroundColor: '#000000aa',
     borderColor: '#dfc691',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     shadow: 20,
-    bottom: 0,
     elevation: 300,
   },
 
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   selectTitle: {
     fontSize: 20,
     letterSpacing: 1,
-    color: '#dfc691',
+    color: '#ffffff',
     textAlign: 'center',
     flex: 1,
     minHeight: 40,
@@ -61,8 +62,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     paddingVertical: 12,
     paddingHorizontal: 10,
-    backgroundColor: '#00000099',
-    borderBottomWidth: 0.8,
+    backgroundColor: '#000000',
+    borderBottomWidth: 1,
     borderColor: '#dfc691',
   },
 
