@@ -12,11 +12,16 @@ const styles = StyleSheet.create({
 
   attention: {
     position: 'absolute',
-    top: '14%',
-    width: '100%',
-    height: 100,
+    top: '18%',
+    left: '-4%',
     marginHorizontal: 16,
-    padding: 8,
+    padding: 10,
+    paddingBottom: 11,
+    borderColor: 'yellow',
+    borderWidth: 1,
+    borderRadius: 50,
+    backgroundColor: 'yellow',
+    opacity: 0.9,
   },
 
   statusResponse: {
@@ -32,8 +37,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     elevation: 300,
     borderRadius: 10,
-    paddingLeft: 28,
-    paddingRight: 16,
+    paddingLeft: 22,
+    paddingRight: 22,
     paddingVertical: 12,
     fontWeight: '300',
     lineHeight: 22,
@@ -76,13 +81,14 @@ const styles = StyleSheet.create({
   },
 
   passStrengthText: {
-    fontSize: 30,
+    fontSize: 22,
     opacity: 0.4,
   },
 
   eye: {
     position: 'absolute',
     right: 18,
+    paddingTop: 2,
   },
 });
 

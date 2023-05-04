@@ -29,14 +29,13 @@ const Register = () => {
   const [progressBar, setProgressBar] = useState<number>(0);
   const [showTextRef, setShowTextRef] = useState<number>(4);
   const [stateIsValid, setStateIsValid] = useState<boolean>(true);
-  const [stateValidator, setStateValidator] = useState<boolean>(false);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const colorIntensity = isValid || showError ? '#000000bb' : 'transparent';
   const showMessageView = <Text style={styles.statusResponse}>{textMessageView}</Text>;
   const showIconMessageView = (
     <View style={styles.attention}>
-      <AntDesignIcon antName={'warning'} antSize={28} antColor={'yellow'} />
+      <AntDesignIcon antName={'warning'} antSize={32} antColor={'#000000'} />
     </View>
   );
 
@@ -68,6 +67,7 @@ const Register = () => {
 
   //Validação senha forte/fraca
   useEffect(() => {
+    let state = false;
     validator.isStrongPassword(pass, {
       minLength: 8,
       minLowercase: 1,
@@ -75,14 +75,14 @@ const Register = () => {
       minNumbers: 1,
       minSymbols: 1,
     })
-      ? setStateValidator(true)
-      : stateValidator;
+      ? (state = true)
+      : state;
 
-    if (stateValidator) {
+    if (state) {
       setTextPassStrength('Forte');
       setColorBar('green');
       setProgressBar(1);
-    } else if (pass === '' && !stateValidator) {
+    } else if (pass === '' && !state) {
       setTextPassStrength('');
       setColorBar('transparent');
       setProgressBar(0);
@@ -91,7 +91,7 @@ const Register = () => {
       setColorBar('red');
       setProgressBar(0.5);
     }
-  }, [pass, colorBar, progressBar, showTextRef, stateValidator]);
+  }, [pass, colorBar, progressBar, showTextRef]);
 
   /*
    * Funções de timer
@@ -210,7 +210,9 @@ const Register = () => {
             />
           </View>
           <View style={styles.passStrength}>
-            <Text style={styles.passStrengthText}>{TextPassStrength}</Text>
+            <Text style={{ color: `${colorBar}`, fontSize: 22, opacity: 0.4 }}>
+              {TextPassStrength}
+            </Text>
           </View>
           <View style={styles.bar}>
             <TextPassStrengthBar
