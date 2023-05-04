@@ -4,15 +4,15 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     alignContent: 'space-between',
-    rowGap: 28,
-    paddingHorizontal: 14,
-    paddingTop: '48%',
+    rowGap: 20,
+    paddingTop: '50%',
     elevation: 300,
+    paddingHorizontal: 14,
   },
 
   attention: {
     position: 'absolute',
-    top: '12%',
+    top: '14%',
     width: '100%',
     height: 100,
     marginHorizontal: 16,
@@ -22,21 +22,20 @@ const styles = StyleSheet.create({
   statusResponse: {
     position: 'absolute',
     textAlignVertical: 'center',
-    backgroundColor: '#3D3E0Ddd',
     color: '#ffffff',
-    borderWidth: 0.5,
+    borderWidth: 0.8,
     borderColor: 'yellow',
     marginHorizontal: 14,
     textAlign: 'center',
     width: '100%',
-    top: '12%',
+    top: '14%',
     fontSize: 20,
     elevation: 300,
     borderRadius: 10,
     paddingLeft: 28,
     paddingRight: 16,
     paddingVertical: 12,
-    fontWeight: '200',
+    fontWeight: '300',
     lineHeight: 22,
   },
 
@@ -56,6 +55,29 @@ const styles = StyleSheet.create({
 
   containerPass: {
     justifyContent: 'center',
+  },
+
+  bar: {
+    position: 'absolute',
+    flex: 1,
+    justifyContent: 'space-evenly',
+    paddingVertical: 10,
+    paddingHorizontal: 2,
+    top: -8,
+    width: '100%',
+  },
+
+  passStrength: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    height: 48,
+    right: '18%',
+  },
+
+  passStrengthText: {
+    fontSize: 30,
+    opacity: 0.4,
   },
 
   eye: {

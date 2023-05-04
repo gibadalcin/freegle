@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
-    padding: 12,
-    marginHorizontal: '12%',
+    padding: 10,
     elevation: 40,
     borderColor: '#dfc691',
     borderWidth: 1,
+    top: -10,
   },
 
   buttonText: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     textAlign: 'center',
     elevation: 1,
-    paddingVertical: 1,
+    paddingVertical: 2,
   },
 });
 

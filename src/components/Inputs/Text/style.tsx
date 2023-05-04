@@ -4,15 +4,16 @@ const styles = StyleSheet.create({
     marginVertical: '2%',
   },
   inputField: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#ffffffcc',
     paddingVertical: 8,
     borderRadius: 4,
     height: 54,
     borderBottomWidth: 1,
     borderBottomColor: '#000000',
     paddingHorizontal: 12,
-    fontSize: 18,
+    fontSize: 22,
     elevation: 20,
+    color: '#000000bb',
   },
 });
 

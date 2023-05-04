@@ -9,7 +9,7 @@ const Splash = () => {
   // Registra um listener para quando a tela se tornar ativa novamente.
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('Splash está ativo novamente');
+      //console.log('Splash está ativo novamente');
       setTimeout(() => {
         navigation.navigate('Home');
       }, 3000);
