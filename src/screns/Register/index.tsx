@@ -5,7 +5,7 @@ import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
+import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
@@ -32,10 +32,14 @@ const Register = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const colorIntensity = isValid || showError ? '#000000bb' : 'transparent';
-  const showMessageView = <Text style={styles.statusResponse}>{textMessageView}</Text>;
+  const showMessageView = (
+    <View style={styles.replyStatus}>
+      <Text style={styles.replyTextStatus}>{textMessageView}</Text>
+    </View>
+  );
   const showIconMessageView = (
     <View style={styles.attention}>
-      <AntDesignIcon antName={'warning'} antSize={32} antColor={'#000000'} />
+      <FontAwesome5Icon awe5Name={'exclamation'} awe5Size={48} awe5Color={'yellow'} />
     </View>
   );
 
