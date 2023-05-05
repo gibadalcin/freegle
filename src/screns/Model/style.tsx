@@ -5,14 +5,18 @@ const styles = StyleSheet.create({
   },
 
   selectContainer: {
-    flex: 0.5,
+    flex: 0.6,
+    justifyContent: 'flex-end',
+    rowGap: 30,
+    paddingHorizontal: 14,
+    marginTop: '40%',
+  },
+
+  selectFields: {
     justifyContent: 'flex-end',
     rowGap: 30,
     borderRadius: 4,
     height: 54,
-    paddingHorizontal: '8%',
-    marginTop: '44%',
-    marginBottom: '10%',
     fontSize: 18,
   },
 

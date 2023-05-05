@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     alignItems: 'center',
     color: '#ffffff',
-    //borderColor: 'yellow',
     marginHorizontal: 14,
     textAlign: 'center',
     width: '100%',

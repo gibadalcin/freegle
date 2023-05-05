@@ -9,6 +9,9 @@ interface SelectsContextData {
   setCodeModel: React.Dispatch<React.SetStateAction<string>>;
   codeYear: string | null;
   setCodeYear: React.Dispatch<React.SetStateAction<string>>;
+
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SelectsContext = createContext<SelectsContextData>({
@@ -20,6 +23,9 @@ const SelectsContext = createContext<SelectsContextData>({
   setCodeModel: () => {},
   codeYear: null,
   setCodeYear: () => {},
+
+  visible: true,
+  setVisible: () => {},
 });
 
 interface SelectsProviderProps {
@@ -31,6 +37,7 @@ export const SelectsProvider: React.FC<SelectsProviderProps> = ({ children }) =>
   const [codeBrands, setCodeBrands] = useState<string>('');
   const [codeModel, setCodeModel] = useState<string>('');
   const [codeYear, setCodeYear] = useState<string>('');
+  const [visible, setVisible] = useState<boolean>(true);
   return (
     <SelectsContext.Provider
       value={{
@@ -42,6 +49,9 @@ export const SelectsProvider: React.FC<SelectsProviderProps> = ({ children }) =>
         setCodeModel,
         codeYear,
         setCodeYear,
+
+        visible,
+        setVisible,
       }}
     >
       {children}

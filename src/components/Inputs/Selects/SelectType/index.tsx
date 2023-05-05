@@ -12,12 +12,12 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { setVehicleType } = useSelects();
+  const { visible, setVisible, vehicleType, setVehicleType } = useSelects();
   const [txt, setTxt] = useState('Selecione o Tipo');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [visibleSelect, setvisibleSelect] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     async function fetchList() {
@@ -26,10 +26,11 @@ export default function SelectType() {
       if (list && list !== compare) {
         setOptions(list);
       }
+      setVisible(true);
     }
 
     fetchList();
-  }, []);
+  }, [vehicleType, visible]);
 
   function renderOption(item: Option) {
     const capitalizedString = item.nome.charAt(0).toUpperCase() + item.nome.slice(1);
@@ -42,8 +43,9 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setVehicleType(item.nome);
-            setvisibleSelect(true);
+            setIsDisabled(true);
           }}
+          disabled={isDisabled}
         >
           <Text style={styles.item}>{capitalizedString}</Text>
           <Icon name={'chevron-right'} style={styles.icon} />
@@ -57,12 +59,12 @@ export default function SelectType() {
     : null;
   return (
     <View>
-      {visibleSelect && (
+      {visible && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
-            setvisibleSelect(false);
+            setVisible(false);
           }}
         />
       )}
@@ -72,14 +74,14 @@ export default function SelectType() {
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(false);
+            setVisible(true);
           }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
-              setModalVisible(false);
-              setvisibleSelect(true);
+              setModalVisible(false), setVisible(true);
             }}
           />
           <View style={styles.selectField}>

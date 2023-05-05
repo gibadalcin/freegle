@@ -12,30 +12,34 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { vehicleType, codeBrands, codeModel, setCodeYear } = useSelects();
-  const [selectVisible, setSelectVisible] = useState(true);
+  const { visible, setVisible, vehicleType, codeBrands, codeModel, codeYear, setCodeYear } =
+    useSelects();
   const [txt, setTxt] = useState('Selecione o Ano');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
-  const filterCodeBrands = codeBrands ? codeBrands : null;
-  const filterCodeModels = codeModel ? codeModel : null;
+  const filterYear = codeModel ? codeModel : null;
   useEffect(() => {
+    const filterBrands = codeBrands ? codeBrands : null;
+
     async function fetchOptions() {
-      if (filterType && filterCodeBrands && filterCodeModels) {
-        try {
-          const baseURL = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterCodeBrands}/modelos/${filterCodeModels}/anos`;
-          const response = await axios.get(baseURL);
-          setOptions(response.data);
-        } catch (error) {
-          console.log('error:', error);
-        }
+      const URL_YEARS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterBrands}/modelos/${filterYear}/anos`;
+      console.log(URL_YEARS);
+      try {
+        const baseURL = URL_YEARS;
+        const response = await axios.get(baseURL);
+        setOptions(response.data);
+        console.log('Sucesso anos');
+      } catch (error) {
+        console.log(error);
       }
     }
-    fetchOptions();
-  }, [vehicleType, codeBrands, codeModel]);
+    if (filterType && filterBrands && filterYear && options.length === 0) {
+      fetchOptions();
+    }
+  }, [vehicleType, codeBrands, codeModel, codeYear, visible]);
 
   function renderOption(item: Option) {
     return (
@@ -47,7 +51,6 @@ export default function SelectType() {
             setCodeYear(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
-            setSelectVisible(true);
           }}
         >
           <Text style={styles.item}>{item.nome}</Text>
@@ -63,12 +66,12 @@ export default function SelectType() {
 
   return (
     <View>
-      {filterCodeModels && selectVisible && (
+      {filterYear && visible && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
-            setSelectVisible(false);
+            setVisible(false);
           }}
         />
       )}
@@ -76,13 +79,16 @@ export default function SelectType() {
         <Modal
           animationType="slide"
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          onRequestClose={() => {
+            setModalVisible(false);
+            setVisible(true);
+          }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
-              setModalVisible(false), setSelectVisible(true);
+              setModalVisible(false), setVisible(true);
             }}
           />
           <View style={styles.selectField}>

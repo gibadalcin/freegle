@@ -12,27 +12,34 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { vehicleType, setCodeBrands } = useSelects();
+  const { visible, setVisible, vehicleType, codeBrands, setCodeBrands } = useSelects();
   const [txt, setTxt] = useState('Selecione a Marca');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
+
   useEffect(() => {
     async function fetchOptions() {
-      if (filterType) {
-        try {
-          const baseURL = 'https://parallelum.com.br/fipe/api/v1/' + filterType + '/marcas';
-          const response = await axios.get(baseURL);
-          setOptions(response.data);
-        } catch (error) {
-          console.log(error);
-        }
+      const URL_BRANDS = filterType
+        ? `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas`
+        : '';
+      console.log(URL_BRANDS);
+      try {
+        const baseURL = URL_BRANDS;
+        const response = await axios.get(baseURL);
+        setOptions(response.data);
+        console.log('Sucesso marcas');
+      } catch (error) {
+        console.log(error);
       }
     }
-    fetchOptions();
-  }, [vehicleType]);
+    if (filterType && options.length === 0) {
+      fetchOptions();
+    }
+  }, [vehicleType, visible, codeBrands, filterType, options]);
 
   function renderOption(item: Option) {
     const capitalizedString = item.nome.charAt(0).toUpperCase() + item.nome.toLowerCase().slice(1);
@@ -46,7 +53,9 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setCodeBrands(item.codigo);
+            setIsDisabled(true);
           }}
+          disabled={isDisabled}
         >
           <Text style={styles.item}>{capitalizedString}</Text>
           <Icon name={'chevron-right'} style={styles.icon} />
@@ -60,11 +69,12 @@ export default function SelectType() {
     : null;
   return (
     <View>
-      {filterType && (
+      {filterType && visible && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
+            setVisible(false);
           }}
         />
       )}
@@ -72,13 +82,16 @@ export default function SelectType() {
         <Modal
           animationType="slide"
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          onRequestClose={() => {
+            setModalVisible(false);
+            setVisible(true);
+          }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
-              setModalVisible(false);
+              setModalVisible(false), setVisible(true);
             }}
           />
           <View style={styles.selectField}>

@@ -101,21 +101,23 @@ const Model = () => {
       </View>
 
       <View style={styles.selectContainer}>
-        <SelectType />
-        <SelectBrand />
-        <SelectModel />
-        <SelectYear />
-      </View>
-
-      <View>
-        {codeYear && (
-          <Button
-            disabled={disabled}
-            isLoading={isLoading}
-            onPress={handleConsult}
-            title="Consultar"
-          />
-        )}
+        <View style={styles.selectFields}>
+          <SelectType />
+          <SelectBrand />
+          <SelectModel />
+          <SelectYear />
+        </View>
+        <View>
+          {codeYear && (
+            <Button
+              disabled={disabled}
+              isLoading={isLoading}
+              onPress={handleConsult}
+              title="Consultar"
+              backgroundColor="#8d0a22"
+            />
+          )}
+        </View>
       </View>
     </View>
   );
