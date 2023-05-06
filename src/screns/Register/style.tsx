@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     paddingVertical: 10,
-    paddingHorizontal: 2,
-    top: -8,
+    paddingHorizontal: 1,
+    top: -9,
     width: '100%',
   },
 
@@ -89,11 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     height: 48,
     right: '18%',
-  },
-
-  passStrengthText: {
-    fontSize: 22,
-    opacity: 0.4,
   },
 
   eye: {

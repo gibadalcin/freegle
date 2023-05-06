@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     rowGap: 30,
     paddingHorizontal: 14,
-    marginTop: '40%',
+    marginTop: '36%',
   },
 
   selectFields: {

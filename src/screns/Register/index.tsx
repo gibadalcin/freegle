@@ -25,9 +25,8 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [TextPassStrength, setTextPassStrength] = useState<String>('');
-  const [colorBar, setColorBar] = useState<string>('');
+  const [colorBar, setColorBar] = useState<string>('transparent');
   const [progressBar, setProgressBar] = useState<number>(0);
-  const [showTextRef, setShowTextRef] = useState<number>(4);
   const [stateIsValid, setStateIsValid] = useState<boolean>(true);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -56,7 +55,6 @@ const Register = () => {
       setTextMessageView('As senhas são diferentes');
     } else if (pass.length !== confirmPass.length && confirmPass && pass) {
       setTextMessageView('As senhas têm comprimento diferente');
-      pass !== confirmPass ? setShowTextRef(1) : setShowTextRef(2);
     } else {
       setStateIsValid(false);
     }
@@ -67,7 +65,7 @@ const Register = () => {
     } else {
       stateIsValid ? setIsValid(true) : setIsValid(false);
     }
-  }, [confirmPass, pass, email, emailRegex, disabled, stateIsValid, showTextRef]);
+  }, [confirmPass, pass, email, emailRegex, disabled, stateIsValid]);
 
   //Validação senha forte/fraca
   useEffect(() => {
@@ -84,7 +82,7 @@ const Register = () => {
 
     if (state) {
       setTextPassStrength('Forte');
-      setColorBar('green');
+      setColorBar('#39ff14');
       setProgressBar(1);
     } else if (pass === '' && !state) {
       setTextPassStrength('');
@@ -95,7 +93,7 @@ const Register = () => {
       setColorBar('red');
       setProgressBar(0.5);
     }
-  }, [pass, colorBar, progressBar, showTextRef]);
+  }, [pass, colorBar, progressBar]);
 
   /*
    * Funções de timer
@@ -213,11 +211,7 @@ const Register = () => {
               entOnPress={toggleHidePass}
             />
           </View>
-          <View style={styles.passStrength}>
-            <Text style={{ color: `${colorBar}`, fontSize: 22, opacity: 0.4 }}>
-              {TextPassStrength}
-            </Text>
-          </View>
+
           <View style={styles.bar}>
             <TextPassStrengthBar
               color={colorBar}
@@ -254,6 +248,7 @@ const Register = () => {
             isLoading={isLoading}
             onPress={handleRegisterButton}
             title="Salvar"
+            backgroundColor={!disabled ? '#8d0a22' : 'transparent'}
           />
         </View>
       </View>
