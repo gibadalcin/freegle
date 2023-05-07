@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     borderWidth: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: 22,
     top: '27%',
   },
 
