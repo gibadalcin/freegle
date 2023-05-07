@@ -3,10 +3,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 1,
-    rowGap: 20,
     paddingHorizontal: 14,
     elevation: 300,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttons: {
+    position: 'absolute',
+    justifyContent: 'center',
+    gap: 20,
+    width: '100%',
   },
 
   customNav: {
@@ -18,8 +24,6 @@ const styles = StyleSheet.create({
     borderWidth: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 22,
-    top: '27%',
   },
 
   customNavButtom: {

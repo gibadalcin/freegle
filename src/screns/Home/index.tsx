@@ -90,13 +90,15 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
-        <Button
-          onPress={() => {
-            navigation.navigate('Model');
-          }}
-          title="Consultar Modelo"
-        />
-        <Button disabled={true} onPress={handleSignOut} title="Consultar Placa" />
+        <View style={styles.buttons}>
+          <Button
+            onPress={() => {
+              navigation.navigate('Model');
+            }}
+            title="Consultar Modelo"
+          />
+          <Button disabled={true} onPress={handleSignOut} title="Consultar Placa" />
+        </View>
       </View>
     </>
   );

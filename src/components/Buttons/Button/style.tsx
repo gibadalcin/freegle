@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     elevation: 40,
     borderColor: '#dfc691',
     borderWidth: 1,
-    top: -10,
     backgroundColor: '#8d0a22',
   },
 
