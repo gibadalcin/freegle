@@ -5,7 +5,8 @@ import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
 import Button from '../../components/Buttons/Button';
-import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
+import { EntypoIcon } from '../../components/ModelIcon';
+import BgImage from '../../components/BgImage';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,58 +32,59 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.arrowField}>
-        <EntypoIcon
-          entName={'arrow-long-left'}
-          entSize={40}
-          entColor={'#ffffff'}
-          entOnPress={() => {
+    <>
+      <BgImage />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.arrowField}
+          onPress={() => {
             navigation.navigate('Home');
           }}
-        />
-      </View>
-      <InputText
-        name={'Email'}
-        placeDescription={'Email...'}
-        value={emailField}
-        onChange={(t: React.SetStateAction<string>) => setEmailField(t)}
-        keyboard={'email-address'}
-        secureText={false}
-        autoCap="none"
-      />
-      <InputText
-        name={'Senha'}
-        placeDescription={'Senha...'}
-        value={passField}
-        onChange={(t: React.SetStateAction<string>) => setPassField(t)}
-        secureText
-        autoCap="none"
-      />
-
-      <View style={styles.containerText}>
-        <TouchableOpacity onPress={handleRegisterButton}>
-          <Text style={styles.loginTextRegister}>Registre-se</Text>
+        >
+          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
         </TouchableOpacity>
-
-        <Text style={styles.loginText}>|</Text>
-
-        <TouchableOpacity onPress={handleForgetButton}>
-          <Text style={styles.loginTextPass}>Esqueci minha senha</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View>
-        <Button
-          //disabled
-          onPress={handleLoginButton}
-          title="Entrar"
-          isLoading={isLoading}
+        <InputText
+          name={'Email'}
+          placeDescription={'Email...'}
+          value={emailField}
+          onChange={(t: React.SetStateAction<string>) => setEmailField(t)}
+          keyboard={'email-address'}
+          secureText={false}
+          autoCap="none"
         />
-      </View>
+        <InputText
+          name={'Senha'}
+          placeDescription={'Senha...'}
+          value={passField}
+          onChange={(t: React.SetStateAction<string>) => setPassField(t)}
+          secureText
+          autoCap="none"
+        />
 
-      <Text style={styles.statusLogin}>{status}</Text>
-    </View>
+        <View style={styles.containerText}>
+          <TouchableOpacity onPress={handleRegisterButton}>
+            <Text style={styles.loginTextRegister}>Registre-se</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.loginText}>|</Text>
+
+          <TouchableOpacity onPress={handleForgetButton}>
+            <Text style={styles.loginTextPass}>Esqueci minha senha</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <Button
+            //disabled
+            onPress={handleLoginButton}
+            title="Entrar"
+            isLoading={isLoading}
+          />
+        </View>
+
+        <Text style={styles.statusLogin}>{status}</Text>
+      </View>
+    </>
   );
 };
 

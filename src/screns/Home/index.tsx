@@ -1,14 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
 import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-
+import { AntDesignIcon, EntypoIcon, IonIcons, FontAwesomeIcon } from '../../components/ModelIcon';
+import { useCurrentPages } from '../../contexts/Pages';
+import BgImage from '../../components/BgImage';
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
-  //console.log(signed);
-  //console.log(user);
+  const { currentPage, setCurrentPage } = useCurrentPages();
+
+  useEffect(() => {
+    setCurrentPage('home');
+  }, [currentPage]);
 
   function handleSignOut() {
     Alert.alert('Esta funcionalidade ainda não está disponível!');
@@ -16,34 +21,84 @@ const Home = () => {
 
   function consultPlate() {}
 
-  return (
-    <View style={styles.container}>
-      <Button
-        onPress={() => {
-          navigation.navigate('Model');
-        }}
-        title="Consultar Modelo"
-      />
-      <Button onPress={handleSignOut} title="Consultar Placa" />
+  const handleBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
 
-      <View style={styles.containerText}>
-        <TouchableOpacity
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
+
+  return (
+    <>
+      <BgImage />
+      <View style={styles.container}>
+        <View style={styles.customNav}>
+          <View style={styles.customNavButtom}></View>
+
+          <TouchableOpacity
+            style={styles.navIconBack}
+            onPress={() => {
+              navigation.navigate('Splash');
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon antName={'arrowleft'} antSize={36} antColor={'#ffffffbb'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.navIconRefresh} onPress={() => {}} disabled>
+            <IonIcons ionName={'refresh'} ionSize={40} ionColor={'#ffffff22'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.navIconClose}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon antName={'close'} antSize={36} antColor={'#ffffffbb'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.navIconRegister}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}
+            disabled={false}
+          >
+            <EntypoIcon entName={'add-user'} entSize={32} entColor={'#ffffffbb'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.navIconList} onPress={() => {}} disabled={true}>
+            <FontAwesomeIcon aweName={'files-o'} aweSize={36} aweColor={'#ffffff22'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.navIconLogin}
+            onPress={() => {
+              navigation.navigate('Login');
+            }}
+            disabled={false}
+          >
+            <EntypoIcon entName={'user'} entSize={32} entColor={'#ffffffbb'} />
+          </TouchableOpacity>
+        </View>
+
+        <Button
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.navigate('Model');
           }}
-        >
-          <Text style={styles.loginTextLogin}>Login</Text>
-        </TouchableOpacity>
-        <Text style={styles.loginTextLogin}>|</Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Register');
-          }}
-        >
-          <Text style={styles.loginTextRegister}>Registre-se</Text>
-        </TouchableOpacity>
+          title="Consultar Modelo"
+        />
+        <Button disabled={true} onPress={handleSignOut} title="Consultar Placa" />
       </View>
-    </View>
+    </>
   );
 };
 

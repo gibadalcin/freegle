@@ -17,13 +17,13 @@ export interface ButtonVariant {
 export const buttonPrimary: ButtonVariant = {
   enabled: {
     button: {
-      backgroundColor: '#000000',
+      backgroundColor: '#8d0a22',
     },
     title: { color: '#ffffff' },
   },
   disabled: {
     button: {
-      backgroundColor: '#88888822',
+      backgroundColor: '#000000',
     },
     title: { color: '#ffffff' },
   },

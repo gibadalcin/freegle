@@ -3,32 +3,73 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 1,
-    rowGap: 28,
+    rowGap: 20,
     paddingHorizontal: 14,
-    paddingBottom: 20,
     elevation: 300,
     justifyContent: 'center',
-    marginTop: -36,
   },
 
-  containerText: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    columnGap: 8,
-    marginHorizontal: '14%',
-    marginTop: -16,
-  },
-  loginTextRegister: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#ffffff',
+  customNav: {
+    position: 'absolute',
+    width: 350,
+    height: 350,
+    borderRadius: 230,
+    borderColor: '#00000099',
+    borderWidth: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    top: '27%',
   },
 
-  loginTextLogin: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#ffffff',
+  customNavButtom: {
+    position: 'relative',
+    backgroundColor: '#000000',
+    width: 226,
+    height: 226,
+    borderRadius: 230,
+    borderColor: '#dfc691',
+    borderWidth: 1,
+  },
+
+  navIconBack: {
+    position: 'absolute',
+    top: '-4%',
+    left: 0,
+    flex: 1,
+  },
+
+  navIconRefresh: {
+    position: 'absolute',
+    top: '-22%',
+    flex: 1,
+  },
+
+  navIconClose: {
+    position: 'absolute',
+    top: '-4%',
+    right: 0,
+    flex: 1,
+  },
+
+  navIconRegister: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    flex: 1,
+  },
+
+  navIconList: {
+    position: 'absolute',
+    bottom: '-20%',
+    flex: 1,
+  },
+
+  navIconLogin: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    flex: 1,
   },
 });
 

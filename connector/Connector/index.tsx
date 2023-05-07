@@ -10,18 +10,18 @@ import Routes from '../../src/routes';
 import styles from './style';
 import { SelectsProvider } from '../../src/contexts/Select';
 import { ResultProvider } from '../../src/contexts/Price';
+import { PageProvider } from '../../src/contexts/Pages';
 
 export default function Connector(): JSX.Element {
   return (
     <SafeAreaView style={styles.totalArea}>
-      <Image source={require('../../src/assets/static_bg.png')} style={styles.imageBackground} />
-      <View style={styles.sectionContainer}>
-        <ResultProvider>
-          <SelectsProvider>
+      <PageProvider>
+        <SelectsProvider>
+          <ResultProvider>
             <Routes />
-          </SelectsProvider>
-        </ResultProvider>
-      </View>
+          </ResultProvider>
+        </SelectsProvider>
+      </PageProvider>
     </SafeAreaView>
   );
 }

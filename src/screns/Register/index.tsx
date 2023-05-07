@@ -1,14 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Alert, TouchableOpacity, Text, ProgressBarAndroidComponent } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
+import { EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
+import BgImage from '../../components/BgImage';
 
 const Register = () => {
   const navigation = useNavigation<StackTypes>();
@@ -159,6 +160,7 @@ const Register = () => {
 
   return (
     <>
+      <BgImage />
       <View
         style={{
           position: 'absolute',
@@ -173,16 +175,14 @@ const Register = () => {
         {isValid ? showMessageView : showError && showMessageView}
         {isValid ? showIconMessageView : showError && showIconMessageView}
 
-        <View style={styles.arrowField}>
-          <EntypoIcon
-            entName={'arrow-long-left'}
-            entSize={40}
-            entColor={'#ffffff'}
-            entOnPress={() => {
-              navigation.navigate('Home');
-            }}
-          />
-        </View>
+        <TouchableOpacity
+          style={styles.arrowField}
+          onPress={() => {
+            navigation.navigate('Home');
+          }}
+        >
+          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
+        </TouchableOpacity>
 
         <InputText
           name={'Email'}
@@ -203,14 +203,9 @@ const Register = () => {
             secureText={hidePassword}
             autoCap="none"
           />
-          <View style={styles.eye}>
-            <EntypoIcon
-              entName={iconEyePass}
-              entSize={28}
-              entColor={'#00000099'}
-              entOnPress={toggleHidePass}
-            />
-          </View>
+          <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
+            <EntypoIcon entName={iconEyePass} entSize={28} entColor={'#00000099'} />
+          </TouchableOpacity>
 
           <View style={styles.bar}>
             <TextPassStrengthBar
@@ -232,14 +227,9 @@ const Register = () => {
             value={confirmPass}
             secureText={hideConfirmPass}
           />
-          <View style={styles.eye}>
-            <EntypoIcon
-              entName={iconEyeConfirm}
-              entSize={28}
-              entColor={'#00000099'}
-              entOnPress={toggleHideConfirm}
-            />
-          </View>
+          <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
+            <EntypoIcon entName={iconEyeConfirm} entSize={28} entColor={'#00000099'} />
+          </TouchableOpacity>
         </View>
 
         <View>

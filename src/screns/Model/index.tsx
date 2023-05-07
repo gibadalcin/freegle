@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
-import { AntDesignIcon, EntypoIcon } from '../../components/ModelIcon';
+import { EntypoIcon } from '../../components/ModelIcon';
 import SelectType from '../../components/Inputs/Selects/SelectType';
 import SelectBrand from '../../components/Inputs/Selects/SelectBrand';
 import SelectModel from '../../components/Inputs/Selects/SelectModel';
@@ -12,9 +12,17 @@ import { useSelects } from '../../contexts/Select';
 import { useResult } from '../../contexts/Price';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useCurrentPages } from '../../contexts/Pages';
+import BgImage from '../../components/BgImage';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
+  const { currentPage, setCurrentPage } = useCurrentPages();
+
+  useEffect(() => {
+    setCurrentPage('model');
+  }, [currentPage]);
+
   const {
     vehicleType,
     setVehicleType,
@@ -69,9 +77,6 @@ const Model = () => {
         setType(data.tipoVeiculo);
         setPrice(data.Valor);
 
-        //console.log(baseURL);
-        //console.log(response.data);
-        setVehicleType('');
         setCodeBrands('');
         setCodeModel('');
         setCodeYear('');
@@ -84,42 +89,43 @@ const Model = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.arrowField}>
-        <EntypoIcon
-          entName={'arrow-long-left'}
-          entSize={40}
-          entColor={'#ffffff'}
-          entOnPress={() => {
+    <>
+      <BgImage />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.arrowField}
+          onPress={() => {
             navigation.navigate('Home');
             setVehicleType('');
             setCodeBrands('');
             setCodeModel('');
             setCodeYear('');
           }}
-        />
-      </View>
+        >
+          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
+        </TouchableOpacity>
 
-      <View style={styles.selectContainer}>
-        <View style={styles.selectFields}>
-          <SelectType />
-          <SelectBrand />
-          <SelectModel />
-          <SelectYear />
-        </View>
-        <View>
-          {codeYear && (
-            <Button
-              disabled={disabled}
-              isLoading={isLoading}
-              onPress={handleConsult}
-              title="Consultar"
-              backgroundColor="#8d0a22"
-            />
-          )}
+        <View style={styles.selectContainer}>
+          <View style={styles.selectFields}>
+            <SelectType />
+            <SelectBrand />
+            <SelectModel />
+            <SelectYear />
+          </View>
+          <View>
+            {codeYear && (
+              <Button
+                disabled={disabled}
+                isLoading={isLoading}
+                onPress={handleConsult}
+                title="Consultar"
+                backgroundColor="#8d0a22"
+              />
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
