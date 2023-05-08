@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, BackHandler } from 'react-native';
 import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
+import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
@@ -18,9 +18,9 @@ const Register = () => {
   const [confirmPass, setConfirmPass] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
   const [hidePassword, setHidePassword] = useState(true);
-  const [iconEyePass, setIconEyePass] = useState<string>('eye-with-line');
+  const [iconEyePass, setIconEyePass] = useState<string>('eye');
   const [hideConfirmPass, setHideConfirmPass] = useState(true);
-  const [iconEyeConfirm, setIconEyeConfirm] = useState<string>('eye-with-line');
+  const [iconEyeConfirm, setIconEyeConfirm] = useState<string>('eye');
   const [isValid, setIsValid] = useState<boolean>(true);
   const [textMessageView, setTextMessageView] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +29,7 @@ const Register = () => {
   const [colorBar, setColorBar] = useState<string>('transparent');
   const [progressBar, setProgressBar] = useState<number>(0);
   const [stateIsValid, setStateIsValid] = useState<boolean>(true);
+  const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const colorIntensity = isValid || showError ? '#000000bb' : 'transparent';
@@ -122,13 +123,31 @@ const Register = () => {
 
   const toggleHidePass = () => {
     setHidePassword(!hidePassword);
-    hidePassword ? setIconEyePass('eye') : setIconEyePass('eye-with-line');
+    hidePassword ? setIconEyePass('eye-with-line') : setIconEyePass('eye');
   };
 
   const toggleHideConfirm = () => {
     setHideConfirmPass(!hideConfirmPass);
-    hideConfirmPass ? setIconEyeConfirm('eye') : setIconEyeConfirm('eye-with-line');
+    hideConfirmPass ? setIconEyeConfirm('eye-with-line') : setIconEyeConfirm('eye');
   };
+
+  useEffect(() => {}, [navPosition]);
+  const toggleReverse = () => {
+    setNavPosition(navPosition === 'left' ? 'right' : 'left');
+  };
+
+  const handleBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
 
   const clearFields = () => {
     setEmail('');
@@ -175,71 +194,101 @@ const Register = () => {
         {isValid ? showMessageView : showError && showMessageView}
         {isValid ? showIconMessageView : showError && showIconMessageView}
 
-        <TouchableOpacity
-          style={styles.arrowField}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-        >
-          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
-        </TouchableOpacity>
-
-        <InputText
-          name={'Email'}
-          placeDescription={'Email...'}
-          onChange={(t: React.SetStateAction<string>) => setEmail(t)}
-          keyboard={'email-address'}
-          secureText={false}
-          autoCap="none"
-          value={email}
-        />
-
-        <View style={styles.containerPass}>
-          <InputText
-            name={'Senha'}
-            placeDescription={'Senha...'}
-            value={pass}
-            onChange={(t: React.SetStateAction<string>) => setPass(t)}
-            secureText={hidePassword}
-            autoCap="none"
-          />
-          <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-            <EntypoIcon entName={iconEyePass} entSize={28} entColor={'#00000099'} />
+        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
+          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
+            <View style={styles.reversePosition}>
+              <AntDesignIcon antName={'swap'} antSize={50} antColor={'#ffffffbb'} />
+            </View>
           </TouchableOpacity>
 
-          <View style={styles.bar}>
-            <TextPassStrengthBar
-              color={colorBar}
-              styleAttr={'Horizontal'}
-              indeterminate={false}
-              progress={progressBar}
+          <TouchableOpacity
+            style={[styles.navIconBack, { [navPosition]: '46%' }]}
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon antName={'arrowleft'} antSize={36} antColor={'#ffffffbb'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconClose, { [navPosition]: '103%' }]}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon antName={'close'} antSize={36} antColor={'#ffffffbb'} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
+            onPress={() => {
+              navigation.navigate('Login');
+            }}
+            disabled={false}
+          >
+            <EntypoIcon entName={'user'} entSize={32} entColor={'#ffffffbb'} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.form}>
+          <InputText
+            name={'Email'}
+            placeDescription={'Email...'}
+            onChange={(t: React.SetStateAction<string>) => setEmail(t)}
+            keyboard={'email-address'}
+            secureText={false}
+            autoCap="none"
+            value={email}
+          />
+
+          <View style={styles.containerPass}>
+            <InputText
+              name={'Senha'}
+              placeDescription={'Senha...'}
+              value={pass}
+              onChange={(t: React.SetStateAction<string>) => setPass(t)}
+              secureText={hidePassword}
+              autoCap="none"
+            />
+            <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
+              <EntypoIcon entName={iconEyePass} entSize={28} entColor={'#00000099'} />
+            </TouchableOpacity>
+
+            <View style={styles.bar}>
+              <TextPassStrengthBar
+                color={colorBar}
+                styleAttr={'Horizontal'}
+                indeterminate={false}
+                progress={progressBar}
+              />
+            </View>
+          </View>
+
+          <View style={styles.containerPass}>
+            <InputText
+              name={'Confirme a Senha'}
+              placeDescription={'Confirme a senha...'}
+              onChange={(t: React.SetStateAction<string>) => {
+                setConfirmPass(t);
+              }}
+              value={confirmPass}
+              secureText={hideConfirmPass}
+            />
+            <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
+              <EntypoIcon entName={iconEyeConfirm} entSize={28} entColor={'#00000099'} />
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <Button
+              disabled={disabled}
+              isLoading={isLoading}
+              onPress={handleRegisterButton}
+              title="Salvar"
             />
           </View>
-        </View>
-
-        <View style={styles.containerPass}>
-          <InputText
-            name={'Confirme a Senha'}
-            placeDescription={'Confirme a senha...'}
-            onChange={(t: React.SetStateAction<string>) => {
-              setConfirmPass(t);
-            }}
-            value={confirmPass}
-            secureText={hideConfirmPass}
-          />
-          <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
-            <EntypoIcon entName={iconEyeConfirm} entSize={28} entColor={'#00000099'} />
-          </TouchableOpacity>
-        </View>
-
-        <View>
-          <Button
-            disabled={disabled}
-            isLoading={isLoading}
-            onPress={handleRegisterButton}
-            title="Salvar"
-            backgroundColor={!disabled ? '#8d0a22' : 'transparent'}
-          />
         </View>
       </View>
     </>

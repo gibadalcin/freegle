@@ -19,6 +19,13 @@ const Splash = () => {
     return unsubscribe;
   }, [navigation]);
 
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.getParent()
+      ?.setOptions({ tabBarStyle: { display: 'none' } });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.splashField}>

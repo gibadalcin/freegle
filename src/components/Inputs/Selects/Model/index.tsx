@@ -5,10 +5,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 interface SelectProps {
   onPress: () => void;
   text: string;
-  disabled?: boolean;
 }
 
-export default function Model({ onPress, text, disabled }: SelectProps) {
+export default function Model({ onPress, text }: SelectProps) {
   return (
     <View>
       <TouchableOpacity style={styles.selectField} onPress={onPress} disabled={false}>

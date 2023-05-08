@@ -5,9 +5,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignContent: 'space-between',
     rowGap: 20,
-    paddingTop: '50%',
     elevation: 300,
     paddingHorizontal: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   attention: {
@@ -55,20 +56,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  arrowField: {
-    flex: 1,
-    position: 'absolute',
-    left: '40%',
-    bottom: '12%',
-    elevation: 100,
-    backgroundColor: '#000000',
-    paddingHorizontal: 18,
-    paddingVertical: 1,
-    borderWidth: 1,
-    borderColor: '#dfc691',
-    borderRadius: 8,
-  },
-
   containerPass: {
     justifyContent: 'center',
   },
@@ -95,6 +82,65 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 18,
     paddingTop: 2,
+  },
+
+  form: {
+    position: 'absolute',
+    justifyContent: 'center',
+    gap: 20,
+    width: '100%',
+    top: '24%',
+  },
+
+  customNav: {
+    position: 'absolute',
+    width: 350,
+    height: 350,
+    borderRadius: 230,
+    borderColor: '#00000099',
+    borderWidth: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: '-18%',
+  },
+
+  customNavButtom: {
+    position: 'absolute',
+    width: 228,
+    height: 228,
+    borderRadius: 230,
+    borderColor: '#dfc691',
+    borderWidth: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  reversePosition: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 224,
+    height: 224,
+    borderRadius: 200,
+    backgroundColor: '#000000',
+    elevation: 300,
+  },
+
+  navIconBack: {
+    position: 'absolute',
+    top: '-20%',
+    flex: 1,
+  },
+
+  navIconLogin: {
+    position: 'absolute',
+    top: '-2%',
+    flex: 1,
+  },
+
+  navIconClose: {
+    position: 'absolute',
+    top: '34%',
+    flex: 1,
   },
 });
 

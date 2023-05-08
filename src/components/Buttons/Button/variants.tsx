@@ -23,8 +23,8 @@ export const buttonPrimary: ButtonVariant = {
   },
   disabled: {
     button: {
-      backgroundColor: '#000000',
+      backgroundColor: '#88888822',
     },
-    title: { color: '#ffffff' },
+    title: { color: '#ffffff22' },
   },
 };

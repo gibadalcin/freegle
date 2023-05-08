@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     elevation: 20,
     color: '#000000bb',
+    textDecorationLine: 'none',
   },
 });
 
