@@ -196,13 +196,13 @@ const Register = () => {
 
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={styles.reversePosition}>
+            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
               <AntDesignIcon antName={'swap'} antSize={50} antColor={'#ffffffbb'} />
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '46%' }]}
+            style={[styles.navIconBack, { [navPosition]: '48%' }]}
             onPress={() => {
               navigation.navigate('Home');
             }}
@@ -212,7 +212,7 @@ const Register = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '103%' }]}
+            style={[styles.navIconClose, { [navPosition]: '104%' }]}
             onPress={() => {
               handleBackButton();
             }}

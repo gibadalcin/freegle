@@ -113,15 +113,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    backgroundColor: '#00000022',
   },
   reversePosition: {
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 224,
-    height: 224,
+    width: 228,
+    height: 228,
+    top: -34,
     borderRadius: 200,
-    backgroundColor: '#000000',
     elevation: 300,
   },
 
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
 
   navIconClose: {
     position: 'absolute',
-    top: '34%',
+    top: '38%',
     flex: 1,
   },
 });
