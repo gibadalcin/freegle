@@ -46,7 +46,7 @@ const Login = () => {
     setIsValid(false);
     setStateIsValid(true);
 
-    if (pass.length < 8 && email && pass && emailRegex.test(email)) {
+    if (pass.length < 8 && email && emailRegex.test(email)) {
       setTextMessageView('A senha deve ter no mínimo 8 caracteres');
     } else {
       setStateIsValid(false);
