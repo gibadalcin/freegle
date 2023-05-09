@@ -118,7 +118,7 @@ const Register = () => {
    */
   const handleRegisterButton = () => {
     signUp();
-    //clearFields();
+    clearFields();
   };
 
   const toggleHidePass = () => {

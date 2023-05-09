@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 
   customNavButtom: {
     position: 'relative',
-    backgroundColor: '#000000',
+    backgroundColor: '#88888822',
     width: 226,
     height: 226,
     borderRadius: 230,

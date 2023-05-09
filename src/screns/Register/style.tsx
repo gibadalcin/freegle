@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: '#00000022',
+    backgroundColor: '#88888822',
   },
   reversePosition: {
     position: 'relative',
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 228,
     height: 228,
-    top: -34,
+    top: -40,
     borderRadius: 200,
     elevation: 300,
   },
