@@ -8,6 +8,7 @@ import { useResult } from '../../contexts/Price';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { useSelects } from '../../contexts/Select';
+import colors from '../../Globals/Colors';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
@@ -67,7 +68,7 @@ const Model = () => {
               setVehicleType('');
             }}
           >
-            <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
+            <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={colors.originalWhite} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -85,7 +86,7 @@ const Model = () => {
               setPrice('');
             }}
           >
-            <EntypoIcon entName={'archive'} entSize={38} entColor={'#ffffff'} />
+            <EntypoIcon entName={'archive'} entSize={38} entColor={colors.originalWhite} />
           </TouchableOpacity>
         </View>
       </View>

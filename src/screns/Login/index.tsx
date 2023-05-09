@@ -7,27 +7,27 @@ import InputText from '../../components/Inputs/Text';
 import Button from '../../components/Buttons/Button';
 import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
 import BgImage from '../../components/BgImage';
-import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
 import Auth from '@react-native-firebase/auth';
+import colors from '../../Globals/Colors';
+import size from '../../Globals/Sizes';
+import text from '../../Globals/Text';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<StackTypes>();
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
-  const [status] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
   const [hidePassword, setHidePassword] = useState(true);
   const [iconEyePass, setIconEyePass] = useState<string>('eye');
-  const [iconEyeConfirm, setIconEyeConfirm] = useState<string>('eye');
-  const [isValid, setIsValid] = useState<boolean>(true);
   const [textMessageView, setTextMessageView] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
   const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
-  const [stateIsValid, setStateIsValid] = useState<boolean>(true);
+  const [passIsValid, setPassIsValid] = useState<boolean>(true);
+  const [emailIsValid, setEmailIsValid] = useState<boolean>(false);
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const colorIntensity = isValid || showError ? '#000000bb' : 'transparent';
+  const emailRegex = text.emailValidationRegex;
+  const colorIntensity = passIsValid || showError ? colors.lightTransBlack : 'transparent';
   const showMessageView = (
     <View style={styles.replyStatus}>
       <Text style={styles.replyTextStatus}>{textMessageView}</Text>
@@ -41,47 +41,31 @@ const Login = () => {
 
   //- Validação tela de registro
   useEffect(() => {
-    const isConfirmed = pass && emailRegex.test(email) && !stateIsValid;
+    const isConfirmed = pass && emailRegex.test(email) && !emailIsValid;
     setDisabled(!isConfirmed);
-    setIsValid(false);
-    setStateIsValid(true);
+    setPassIsValid(false);
+    setEmailIsValid(true);
 
     if (pass.length < 8 && email && emailRegex.test(email)) {
-      setTextMessageView('A senha deve ter no mínimo 8 caracteres');
+      setTextMessageView(text.minPassLentgth);
+      setPassIsValid(false);
     } else {
-      setStateIsValid(false);
+      setEmailIsValid(false);
     }
 
     if (!emailRegex.test(email) && pass.length >= 8) {
-      setTextMessageView('Por favor preencha o email corretamente');
-      setIsValid(true);
+      setTextMessageView(text.wrongEmail);
+      setPassIsValid(true);
     } else {
-      stateIsValid ? setIsValid(true) : setIsValid(false);
+      emailIsValid ? setPassIsValid(true) : setPassIsValid(false);
     }
-  }, [pass, email, emailRegex, disabled, stateIsValid]);
-
-  /*
-   * Funções de timer
-   */
-  const timeToError = () => {
-    setTimeout(() => {
-      setShowError(false);
-    }, 3000);
-  };
-
-  const timeToLogin = () => {
-    setTimeout(() => {
-      setIsLoading(false);
-      navigation.navigate('Home');
-    }, 3000);
-  };
+  }, [pass, email, emailRegex, disabled, emailIsValid]);
 
   /*
    * Funções de ação
    */
-  const handleRegisterButton = () => {
-    //signIn();
-    clearFields();
+  const handleLogin = () => {
+    signIn();
   };
 
   const toggleHidePass = () => {
@@ -111,6 +95,7 @@ const Login = () => {
     setEmail('');
     setPass('');
     setDisabled(true);
+    setPassIsValid(false);
   };
 
   /*
@@ -119,77 +104,58 @@ const Login = () => {
   const signIn = () => {
     setIsLoading(true);
     Auth()
-      .createUserWithEmailAndPassword(email, pass)
+      .signInWithEmailAndPassword(email, pass)
       .then((userCredential) => {
-        console.log('user: ', userCredential);
+        console.log('usuário logado ', userCredential);
         timeToLogin();
+        setIsLoading(false);
+        //navigation.navigate('Home');
+        clearFields();
       })
       .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          setTextMessageView('O email informado já existe!');
-          setShowError(true);
-          timeToError();
-          setIsLoading(false);
+        switch (error.code) {
+          case 'auth/wrong-password':
+            setTextMessageView(text.wrongPass);
+            setShowError(true);
+            setIsLoading(false);
+            break;
+          case 'auth/user-not-found':
+            setTextMessageView(text.emailNotExist);
+            setShowError(true);
+            setIsLoading(false);
+            timeToError();
+            break;
+          default:
+            setIsLoading(false);
+            console.log(error.code);
         }
       });
+  };
+
+  /*
+   * Funções de timer
+   */
+  const timeToError = () => {
+    setTimeout(() => {
+      setShowError(false);
+    }, 3000);
+  };
+
+  const timeToLogin = () => {
+    setTimeout(() => {
+      navigation.navigate('Login');
+    }, 3000);
   };
 
   return (
     <>
       <BgImage />
-      <View
-        style={{
-          position: 'absolute',
-          backgroundColor: `${colorIntensity}`,
-          height: '100%',
-          width: '100%',
-          flex: 1,
-          right: 0,
-        }}
-      />
+      <View style={[styles.bgIntensity, { backgroundColor: `${colorIntensity}` }]} />
       <View style={styles.container}>
-        {isValid ? showMessageView : showError && showMessageView}
-        {isValid ? showIconMessageView : showError && showIconMessageView}
+        {passIsValid ? showMessageView : showError && showMessageView}
+        {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
-        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <AntDesignIcon antName={'swap'} antSize={50} antColor={'#ffffffbb'} />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '48%' }]}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            disabled={false}
-          >
-            <AntDesignIcon antName={'arrowleft'} antSize={36} antColor={'#ffffffbb'} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '104%' }]}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <AntDesignIcon antName={'close'} antSize={36} antColor={'#ffffffbb'} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
-            onPress={() => {
-              navigation.navigate('Register');
-            }}
-            disabled={false}
-          >
-            <EntypoIcon entName={'add-user'} entSize={32} entColor={'#ffffffbb'} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.form}>
+        <View style={styles.form} /* message and button input block*/>
           <InputText
             name={'Email'}
             placeDescription={'Email...'}
@@ -204,13 +170,17 @@ const Login = () => {
             <InputText
               name={'Senha'}
               placeDescription={'Senha...'}
-              value={pass}
               onChange={(t: React.SetStateAction<string>) => setPass(t)}
               secureText={hidePassword}
               autoCap="none"
+              value={pass}
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-              <EntypoIcon entName={iconEyePass} entSize={28} entColor={'#00000099'} />
+              <EntypoIcon
+                entName={iconEyePass}
+                entSize={size.sIcon}
+                entColor={colors.middleTransBlack}
+              />
             </TouchableOpacity>
           </View>
 
@@ -218,10 +188,66 @@ const Login = () => {
             <Button
               disabled={disabled}
               isLoading={isLoading}
-              onPress={handleRegisterButton}
+              onPress={handleLogin}
               title="Entrar"
             />
           </View>
+        </View>
+
+        <View
+          style={[styles.customNav, { [navPosition]: '-40%' }]} /*black hole navigation block */
+        >
+          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
+            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
+              <AntDesignIcon
+                antName={'swap'}
+                antSize={size.bIcon}
+                antColor={colors.lightTransWhite}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon
+              antName={'arrowleft'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconClose, { [navPosition]: '104%' }]}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <AntDesignIcon
+              antName={'close'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}
+            disabled={false}
+          >
+            <EntypoIcon
+              entName={'add-user'}
+              entSize={size.mIcon}
+              entColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </>

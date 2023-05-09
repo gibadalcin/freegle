@@ -7,6 +7,8 @@ import styles from './style';
 import { AntDesignIcon, EntypoIcon, IonIcons, FontAwesomeIcon } from '../../components/ModelIcon';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
+import colors from '../../Globals/Colors';
+import size from '../../Globals/Sizes';
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
   const { currentPage, setCurrentPage } = useCurrentPages();
@@ -48,11 +50,15 @@ const Home = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon antName={'arrowleft'} antSize={36} antColor={'#ffffffbb'} />
+            <AntDesignIcon
+              antName={'arrowleft'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.navIconRefresh} onPress={() => {}} disabled>
-            <IonIcons ionName={'refresh'} ionSize={40} ionColor={'#ffffff22'} />
+            <IonIcons ionName={'refresh'} ionSize={size.mIcon} ionColor={colors.lightTransWhite} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -62,7 +68,11 @@ const Home = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon antName={'close'} antSize={36} antColor={'#ffffffbb'} />
+            <AntDesignIcon
+              antName={'close'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -72,11 +82,19 @@ const Home = () => {
             }}
             disabled={false}
           >
-            <EntypoIcon entName={'add-user'} entSize={32} entColor={'#ffffffbb'} />
+            <EntypoIcon
+              entName={'add-user'}
+              entSize={size.mIcon}
+              entColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.navIconList} onPress={() => {}} disabled={true}>
-            <FontAwesomeIcon aweName={'files-o'} aweSize={36} aweColor={'#ffffff22'} />
+            <FontAwesomeIcon
+              aweName={'files-o'}
+              aweSize={size.mIcon}
+              aweColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -86,7 +104,7 @@ const Home = () => {
             }}
             disabled={false}
           >
-            <EntypoIcon entName={'user'} entSize={32} entColor={'#ffffffbb'} />
+            <EntypoIcon entName={'user'} entSize={size.mIcon} entColor={colors.lightTransWhite} />
           </TouchableOpacity>
         </View>
 

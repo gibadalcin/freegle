@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../Globals/Colors';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,6 +10,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  bgIntensity: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    flex: 1,
+    right: 0,
   },
 
   attention: {
@@ -26,7 +35,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     textAlignVertical: 'center',
     alignItems: 'center',
-    color: '#ffffff',
+    color: colors.originalWhite,
     marginHorizontal: 14,
     textAlign: 'center',
     width: '100%',
@@ -46,7 +55,7 @@ const styles = StyleSheet.create({
     width: '88%',
     height: 90,
     textAlignVertical: 'center',
-    color: '#ffffff',
+    color: colors.originalWhite,
     textAlign: 'center',
     fontSize: 20,
     elevation: 300,
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 350,
     borderRadius: 230,
-    borderColor: '#00000099',
+    borderColor: colors.middleTransBlack,
     borderWidth: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -113,7 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: '#88888822',
+    backgroundColor: colors.specialTranslucid,
   },
   reversePosition: {
     position: 'relative',

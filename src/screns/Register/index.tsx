@@ -10,6 +10,9 @@ import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
 import BgImage from '../../components/BgImage';
+import colors from '../../Globals/Colors';
+import size from '../../Globals/Sizes';
+import text from '../../Globals/Text';
 
 const Register = () => {
   const navigation = useNavigation<StackTypes>();
@@ -21,18 +24,17 @@ const Register = () => {
   const [iconEyePass, setIconEyePass] = useState<string>('eye');
   const [hideConfirmPass, setHideConfirmPass] = useState(true);
   const [iconEyeConfirm, setIconEyeConfirm] = useState<string>('eye');
-  const [isValid, setIsValid] = useState<boolean>(true);
   const [textMessageView, setTextMessageView] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
-  const [TextPassStrength, setTextPassStrength] = useState<String>('');
   const [colorBar, setColorBar] = useState<string>('transparent');
   const [progressBar, setProgressBar] = useState<number>(0);
-  const [stateIsValid, setStateIsValid] = useState<boolean>(true);
   const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
+  const [passIsValid, setPassIsValid] = useState<boolean>(true);
+  const [emailIsValid, setEmailIsValid] = useState<boolean>(false);
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const colorIntensity = isValid || showError ? '#000000bb' : 'transparent';
+  const emailRegex = text.emailValidationRegex;
+  const colorIntensity = passIsValid || showError ? colors.lightTransBlack : 'transparent';
   const showMessageView = (
     <View style={styles.replyStatus}>
       <Text style={styles.replyTextStatus}>{textMessageView}</Text>
@@ -46,28 +48,29 @@ const Register = () => {
 
   //- Validação tela de registro
   useEffect(() => {
-    const isConfirmed = pass === confirmPass && pass && emailRegex.test(email) && !stateIsValid;
+    const isConfirmed = pass === confirmPass && pass && emailRegex.test(email) && !emailIsValid;
     setDisabled(!isConfirmed);
-    setIsValid(false);
-    setStateIsValid(true);
+    setPassIsValid(false);
+    setEmailIsValid(true);
 
     if (pass.length < 8 && pass) {
-      setTextMessageView('A senha deve ter no mínimo 8 caracteres');
+      setTextMessageView(text.minPassLentgth);
+      setPassIsValid(false);
     } else if (pass !== confirmPass && pass.length === confirmPass.length) {
       setTextMessageView('As senhas são diferentes');
     } else if (pass.length !== confirmPass.length && confirmPass && pass) {
       setTextMessageView('As senhas têm comprimento diferente');
     } else {
-      setStateIsValid(false);
+      setEmailIsValid(false);
     }
 
     if (!emailRegex.test(email) && pass === confirmPass && pass) {
-      setTextMessageView('Por favor preencha o email corretamente');
-      setIsValid(true);
+      setTextMessageView(text.wrongEmail);
+      setPassIsValid(true);
     } else {
-      stateIsValid ? setIsValid(true) : setIsValid(false);
+      emailIsValid ? setPassIsValid(true) : setPassIsValid(false);
     }
-  }, [confirmPass, pass, email, emailRegex, disabled, stateIsValid]);
+  }, [confirmPass, pass, email, emailRegex, disabled, emailIsValid]);
 
   //Validação senha forte/fraca
   useEffect(() => {
@@ -83,40 +86,21 @@ const Register = () => {
       : state;
 
     if (state) {
-      setTextPassStrength('Forte');
       setColorBar('#39ff14');
       setProgressBar(1);
     } else if (pass === '' && !state) {
-      setTextPassStrength('');
       setColorBar('transparent');
       setProgressBar(0);
     } else {
-      setTextPassStrength('Fraca');
       setColorBar('red');
       setProgressBar(0.5);
     }
   }, [pass, colorBar, progressBar]);
 
   /*
-   * Funções de timer
-   */
-  const timeToError = () => {
-    setTimeout(() => {
-      setShowError(false);
-    }, 3000);
-  };
-
-  const timeToLogin = () => {
-    setTimeout(() => {
-      setIsLoading(false);
-      navigation.navigate('Login');
-    }, 3000);
-  };
-
-  /*
    * Funções de ação
    */
-  const handleRegisterButton = () => {
+  const handleRegister = () => {
     signUp();
     clearFields();
   };
@@ -163,41 +147,58 @@ const Register = () => {
     setIsLoading(true);
     Auth()
       .createUserWithEmailAndPassword(email, pass)
-      .then((userCredential) => {
-        console.log('user: ', userCredential);
+      .then((response) => {
+        console.log('user: ', response);
         timeToLogin();
       })
       .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          setTextMessageView('O email informado já existe!');
-          setShowError(true);
-          timeToError();
-          setIsLoading(false);
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            setTextMessageView('O email informado já existe!');
+            setShowError(true);
+            timeToError();
+            setIsLoading(false);
+            break;
+
+          default:
+            setIsLoading(false);
+            console.log(error.code);
         }
       });
+  };
+
+  /*
+   * Funções de timer
+   */
+  const timeToError = () => {
+    setTimeout(() => {
+      setShowError(false);
+    }, 3000);
+  };
+
+  const timeToLogin = () => {
+    setTimeout(() => {
+      setIsLoading(false);
+      navigation.navigate('Login');
+    }, 3000);
   };
 
   return (
     <>
       <BgImage />
-      <View
-        style={{
-          position: 'absolute',
-          backgroundColor: `${colorIntensity}`,
-          height: '100%',
-          width: '100%',
-          flex: 1,
-          right: 0,
-        }}
-      />
+      <View style={[styles.bgIntensity, { backgroundColor: `${colorIntensity}` }]} />
       <View style={styles.container}>
-        {isValid ? showMessageView : showError && showMessageView}
-        {isValid ? showIconMessageView : showError && showIconMessageView}
+        {passIsValid ? showMessageView : showError && showMessageView}
+        {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
             <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <AntDesignIcon antName={'swap'} antSize={50} antColor={'#ffffffbb'} />
+              <AntDesignIcon
+                antName={'swap'}
+                antSize={size.bIcon}
+                antColor={colors.lightTransWhite}
+              />
             </View>
           </TouchableOpacity>
 
@@ -208,7 +209,11 @@ const Register = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon antName={'arrowleft'} antSize={36} antColor={'#ffffffbb'} />
+            <AntDesignIcon
+              antName={'arrowleft'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -218,7 +223,11 @@ const Register = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon antName={'close'} antSize={36} antColor={'#ffffffbb'} />
+            <AntDesignIcon
+              antName={'close'}
+              antSize={size.mIcon}
+              antColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -228,7 +237,7 @@ const Register = () => {
             }}
             disabled={false}
           >
-            <EntypoIcon entName={'user'} entSize={32} entColor={'#ffffffbb'} />
+            <EntypoIcon entName={'user'} entSize={size.mIcon} entColor={colors.lightTransWhite} />
           </TouchableOpacity>
         </View>
 
@@ -253,7 +262,11 @@ const Register = () => {
               autoCap="none"
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-              <EntypoIcon entName={iconEyePass} entSize={28} entColor={'#00000099'} />
+              <EntypoIcon
+                entName={iconEyePass}
+                entSize={size.sIcon}
+                entColor={colors.middleTransBlack}
+              />
             </TouchableOpacity>
 
             <View style={styles.bar}>
@@ -277,7 +290,11 @@ const Register = () => {
               secureText={hideConfirmPass}
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
-              <EntypoIcon entName={iconEyeConfirm} entSize={28} entColor={'#00000099'} />
+              <EntypoIcon
+                entName={iconEyeConfirm}
+                entSize={size.sIcon}
+                entColor={colors.middleTransBlack}
+              />
             </TouchableOpacity>
           </View>
 
@@ -285,7 +302,7 @@ const Register = () => {
             <Button
               disabled={disabled}
               isLoading={isLoading}
-              onPress={handleRegisterButton}
+              onPress={handleRegister}
               title="Salvar"
             />
           </View>

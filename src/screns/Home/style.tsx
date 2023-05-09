@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../Globals/Colors';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 350,
     borderRadius: 230,
-    borderColor: '#00000099',
+    borderColor: colors.middleTransBlack,
     borderWidth: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,11 +29,11 @@ const styles = StyleSheet.create({
 
   customNavButtom: {
     position: 'relative',
-    backgroundColor: '#000000',
+    backgroundColor: colors.originalBlack,
     width: 226,
     height: 226,
     borderRadius: 230,
-    borderColor: '#dfc691',
+    borderColor: colors.specialGold,
     borderWidth: 1,
   },
 

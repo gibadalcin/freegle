@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
+import colors from '../../Globals/Colors';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
@@ -102,7 +103,7 @@ const Model = () => {
             setCodeYear('');
           }}
         >
-          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={'#ffffff'} />
+          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={colors.originalWhite} />
         </TouchableOpacity>
 
         <View style={styles.selectContainer}>
@@ -119,7 +120,7 @@ const Model = () => {
                 isLoading={isLoading}
                 onPress={handleConsult}
                 title="Consultar"
-                backgroundColor="#8d0a22"
+                backgroundColor={colors.specialRed}
               />
             )}
           </View>
