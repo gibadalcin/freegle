@@ -1,27 +1,45 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TouchableOpacity, Alert, BackHandler, Text } from 'react-native';
 import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-import { AntDesignIcon, EntypoIcon, IonIcons, FontAwesomeIcon } from '../../components/ModelIcon';
+import { MatComIcons } from '../../components/ModelIcon';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
-import colors from '../../Globals/Colors';
-import size from '../../Globals/Sizes';
+import { colors, size, text } from '../../globals';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
   const { currentPage, setCurrentPage } = useCurrentPages();
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
+  const [loggedOut, setLoggedOut] = useState<boolean>(false);
 
   useEffect(() => {
     setCurrentPage('home');
-  }, [currentPage]);
+    const unsubscribe = auth().onAuthStateChanged((_user) => {
+      setUser(_user);
+      setLoggedOut(false);
+    });
 
-  function handleSignOut() {
-    Alert.alert('Esta funcionalidade ainda não está disponível!');
-  }
+    user?.email ? setDisabled(false) : setDisabled(true);
+    console.log(user, currentPage);
+    return unsubscribe;
+  }, [currentPage, disabled, user, colorDisabled]);
 
-  function consultPlate() {}
+  const consultPlate = () => {};
+
+  const preSignOut = () => {
+    setLoggedOut(true);
+  };
+
+  const signOut = () => {
+    auth().signOut();
+    setLoggedOut(false);
+  };
 
   const handleBackButton = () => {
     BackHandler.exitApp();
@@ -42,23 +60,30 @@ const Home = () => {
       <View style={styles.container}>
         <View style={styles.customNav}>
           <View style={styles.customNavButtom}></View>
-
+          {loggedOut && <Text style={styles.textLogout}>{text.questionLeaving} </Text>}
           <TouchableOpacity
             style={styles.navIconBack}
             onPress={() => {
               navigation.navigate('Splash');
             }}
-            disabled={false}
           >
-            <AntDesignIcon
-              antName={'arrowleft'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
+            <MatComIcons
+              _matComName={'arrow-left-bold'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.navIconRefresh} onPress={() => {}} disabled>
-            <IonIcons ionName={'refresh'} ionSize={size.mIcon} ionColor={colors.lightTransWhite} />
+          <TouchableOpacity
+            style={styles.navIconInstructions}
+            onPress={() => {}}
+            disabled={disabled}
+          >
+            <MatComIcons
+              _matComName={'book-open-page-variant-outline'}
+              _matComSize={size.mIcon}
+              _matComColor={colorDisabled}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -68,55 +93,108 @@ const Home = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon
-              antName={'close'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
+            <MatComIcons
+              _matComName={'window-close'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
             />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.navIconRegister}
-            onPress={() => {
-              navigation.navigate('Register');
-            }}
-            disabled={false}
-          >
-            <EntypoIcon
-              entName={'add-user'}
-              entSize={size.mIcon}
-              entColor={colors.lightTransWhite}
+          {!user ? (
+            <TouchableOpacity
+              style={styles.navIconAccount}
+              onPress={() => {
+                navigation.navigate('Register');
+              }}
+              disabled={false}
+            >
+              <MatComIcons
+                _matComName={'account-plus'}
+                _matComSize={size.mIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.navIconAccount} onPress={() => {}} disabled={false}>
+              <MatComIcons
+                _matComName={'account-edit'}
+                _matComSize={size.mIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity style={styles.navIconList} onPress={() => {}} disabled={disabled}>
+            <MatComIcons
+              _matComName={'format-list-group'}
+              _matComSize={size.mIcon}
+              _matComColor={colorDisabled}
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.navIconList} onPress={() => {}} disabled={true}>
-            <FontAwesomeIcon
-              aweName={'files-o'}
-              aweSize={size.mIcon}
-              aweColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.navIconLogin}
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
-            disabled={false}
-          >
-            <EntypoIcon entName={'user'} entSize={size.mIcon} entColor={colors.lightTransWhite} />
-          </TouchableOpacity>
+          {!user ? (
+            <TouchableOpacity
+              style={styles.navIconLog}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
+              disabled={false}
+            >
+              <MatComIcons
+                _matComName={'login'}
+                _matComSize={size.mIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.navIconLog}
+              onPress={() => {
+                preSignOut();
+              }}
+              disabled={false}
+            >
+              <MatComIcons
+                _matComName={'logout'}
+                _matComSize={size.mIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
-        <View style={styles.buttons}>
-          <Button
-            onPress={() => {
-              navigation.navigate('Model');
-            }}
-            title="Consultar Modelo"
-          />
-          <Button disabled={true} onPress={handleSignOut} title="Consultar Placa" />
-        </View>
+        {!loggedOut ? (
+          <View style={styles.buttons}>
+            <Button
+              onPress={() => {
+                navigation.navigate('Model');
+              }}
+              title="Consulta p/ Modelo"
+            />
+            <Button disabled={disabled} onPress={() => {}} title="Consulta p/ Placa" />
+          </View>
+        ) : (
+          <View style={styles.buttonsLogOut}>
+            <View style={styles.exitButtons}>
+              <Button
+                onPress={() => {
+                  signOut();
+                }}
+                title="Sair"
+              />
+            </View>
+            <View style={styles.exitButtons}>
+              <Button
+                disabled={disabled}
+                onPress={() => {
+                  setLoggedOut(false);
+                }}
+                title="Cancelar"
+                backgroundColor={colors.originalBlack}
+              />
+            </View>
+          </View>
+        )}
       </View>
     </>
   );

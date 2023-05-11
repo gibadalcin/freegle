@@ -8,7 +8,7 @@ import { useResult } from '../../contexts/Price';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { useSelects } from '../../contexts/Select';
-import colors from '../../Globals/Colors';
+import { colors } from '../../globals';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();

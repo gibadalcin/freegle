@@ -4,68 +4,82 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import Awe5Icon from 'react-native-vector-icons/FontAwesome5';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import AweIcon from 'react-native-vector-icons/FontAwesome';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+
 interface EntProps {
-  entName: string;
-  entSize: number;
-  entColor: string;
+  _entName: string;
+  _entSize: number;
+  _entColor: string;
 }
+export const EntypoIcon = ({ _entName, _entSize, _entColor }: EntProps): JSX.Element => (
+  <EntIcon name={_entName} size={_entSize} color={_entColor} />
+);
 
 interface AntProps {
-  antName: string;
-  antSize: number;
-  antColor: string;
+  _antName: string;
+  _antSize: number;
+  _antColor: string;
 }
+export const AntDesignIcon = ({ _antName, _antSize, _antColor }: AntProps): JSX.Element => (
+  <AntIcon name={_antName} size={_antSize} color={_antColor} />
+);
 
 interface Awe5Props {
-  awe5Name: string;
-  awe5Size: number;
-  awe5Color: string;
+  _awe5Name: string;
+  _awe5Size: number;
+  _awe5Color: string;
 }
+export const FontAwesome5Icon = ({ _awe5Name, _awe5Size, _awe5Color }: Awe5Props): JSX.Element => (
+  <Awe5Icon name={_awe5Name} size={_awe5Size} color={_awe5Color} />
+);
+
 interface AweProps {
-  aweName: string;
-  aweSize: number;
-  aweColor: string;
+  _aweName: string;
+  _aweSize: number;
+  _aweColor: string;
 }
+export const FontAwesomeIcon = ({ _aweName, _aweSize, _aweColor }: AweProps): JSX.Element => (
+  <AweIcon name={_aweName} size={_aweSize} color={_aweColor} />
+);
 
 interface IonProps {
-  ionName: string;
-  ionSize: number;
-  ionColor: string;
+  _ionName: string;
+  _ionSize: number;
+  _ionColor: string;
 }
-
-export const EntypoIcon = ({ entName, entSize, entColor }: EntProps): JSX.Element => (
-  <EntIcon name={entName} size={entSize} color={entColor} />
+export const IonIcons = ({ _ionName, _ionSize, _ionColor }: IonProps): JSX.Element => (
+  <IonIcon name={_ionName} size={_ionSize} color={_ionColor} />
 );
 
-export const AntDesignIcon = ({ antName, antSize, antColor }: AntProps): JSX.Element => (
-  <AntIcon name={antName} size={antSize} color={antColor} />
-);
-
-export const FontAwesome5Icon = ({ awe5Name, awe5Size, awe5Color }: Awe5Props): JSX.Element => (
-  <Awe5Icon name={awe5Name} size={awe5Size} color={awe5Color} />
-);
-
-export const FontAwesomeIcon = ({ aweName, aweSize, aweColor }: AweProps): JSX.Element => (
-  <AweIcon name={aweName} size={aweSize} color={aweColor} />
-);
-
-export const IonIcons = ({ ionName, ionSize, ionColor }: IonProps): JSX.Element => (
-  <IonIcon name={ionName} size={ionSize} color={ionColor} />
-);
-
-export default function ModelIcon(
-  { antName, antSize, antColor }: AntProps,
-  { entName, entSize, entColor }: EntProps,
-  { awe5Name, awe5Size, awe5Color }: Awe5Props,
-  { ionName, ionSize, ionColor }: IonProps
-): JSX.Element {
-  return (
-    <>
-      <EntypoIcon entName={entName} entSize={entSize} entColor={entColor} />
-      <AntDesignIcon antName={antName} antSize={antSize} antColor={antColor} />
-      <FontAwesome5Icon awe5Name={awe5Name} awe5Size={awe5Size} awe5Color={awe5Color} />
-      <FontAwesomeIcon aweName={awe5Name} aweSize={awe5Size} aweColor={awe5Color} />
-      <IonIcons ionName={awe5Name} ionSize={awe5Size} ionColor={awe5Color} />
-    </>
-  );
+interface EvilProps {
+  _evilName: string;
+  _evilSize: number;
+  _evilColor: string;
 }
+export const EvilIcons = ({ _evilName, _evilSize, _evilColor }: EvilProps): JSX.Element => (
+  <EvilIcon name={_evilName} size={_evilSize} color={_evilColor} />
+);
+
+interface MatComProps {
+  _matComName: string;
+  _matComSize: number;
+  _matComColor: string;
+}
+export const MatComIcons = ({
+  _matComName,
+  _matComSize,
+  _matComColor,
+}: MatComProps): JSX.Element => (
+  <MatComIcon name={_matComName} size={_matComSize} color={_matComColor} />
+);
+
+interface FontistoProps {
+  _fontName: string;
+  _fontSize: number;
+  _fontColor: string;
+}
+export const FontistoIcons = ({ _fontName, _fontSize, _fontColor }: FontistoProps): JSX.Element => (
+  <FontistoIcon name={_fontName} size={_fontSize} color={_fontColor} />
+);

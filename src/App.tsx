@@ -4,15 +4,16 @@
  *
  * @format
  */
-import { Image, SafeAreaView, View } from 'react-native';
 
-import Routes from '../../src/routes';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import Routes from './routes';
 import styles from './style';
-import { SelectsProvider } from '../../src/contexts/Select';
-import { ResultProvider } from '../../src/contexts/Price';
-import { PageProvider } from '../../src/contexts/Pages';
+import { SelectsProvider } from './contexts/Select';
+import { ResultProvider } from './contexts/Price';
+import { PageProvider } from './contexts/Pages';
 
-export default function Connector(): JSX.Element {
+function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.totalArea}>
       <PageProvider>
@@ -25,3 +26,5 @@ export default function Connector(): JSX.Element {
     </SafeAreaView>
   );
 }
+
+export default App;

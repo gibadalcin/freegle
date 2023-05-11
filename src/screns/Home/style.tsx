@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../Globals/Colors';
+import { colors } from '../../globals';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -16,13 +16,26 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
+  buttonsLogOut: {
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    height: 130,
+    gap: 12,
+  },
+  exitButtons: {
+    width: 150,
+    borderRadius: 10,
+  },
+
   customNav: {
     position: 'absolute',
-    width: 350,
-    height: 350,
+    width: 326,
+    height: 326,
     borderRadius: 230,
     borderColor: colors.middleTransBlack,
-    borderWidth: 60,
+    borderWidth: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -30,50 +43,57 @@ const styles = StyleSheet.create({
   customNavButtom: {
     position: 'relative',
     backgroundColor: colors.originalBlack,
-    width: 226,
-    height: 226,
+    width: 216,
+    height: 216,
     borderRadius: 230,
     borderColor: colors.specialGold,
     borderWidth: 1,
   },
 
+  textLogout: {
+    position: 'absolute',
+    color: colors.originalWhite,
+    fontSize: 18,
+    top: '34%',
+  },
+
   navIconBack: {
     position: 'absolute',
-    top: '-4%',
-    left: 0,
+    top: '0%',
+    left: '-1%',
     flex: 1,
   },
 
-  navIconRefresh: {
+  navIconInstructions: {
     position: 'absolute',
-    top: '-22%',
+    top: '-18%',
     flex: 1,
   },
 
   navIconClose: {
     position: 'absolute',
-    top: '-4%',
-    right: 0,
+    top: '-0%',
+    right: '-1%',
     flex: 1,
   },
 
-  navIconRegister: {
+  navIconAccount: {
     position: 'absolute',
-    bottom: 0,
+    bottom: '-1%',
     left: 0,
     flex: 1,
   },
 
   navIconList: {
     position: 'absolute',
-    bottom: '-20%',
+    bottom: '-18%',
     flex: 1,
   },
 
-  navIconLogin: {
+  navIconLog: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    bottom: '-2%',
+    right: '2%',
     flex: 1,
   },
 });

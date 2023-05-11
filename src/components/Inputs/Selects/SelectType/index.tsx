@@ -3,8 +3,9 @@ import { View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
 import Model from '../Model';
 import styles from './style';
 import { callList } from '../../../../services/TypeList';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelects } from '../../../../contexts/Select';
+import { FontistoIcons, MatComIcons } from '../../../ModelIcon';
+import { colors, size } from '../../../../globals';
 
 interface Option {
   codigo: string;
@@ -32,70 +33,33 @@ export default function SelectType() {
     fetchList();
   }, [vehicleType, visible]);
 
-  function renderOption(item: Option) {
-    const capitalizedString = item.nome.charAt(0).toUpperCase() + item.nome.slice(1);
-    return (
-      <>
-        <TouchableOpacity
-          style={styles.containerItem}
-          onPress={() => {
-            setSelectedOption(item);
-            setTxt(item.nome);
-            setModalVisible(false);
-            setVehicleType(item.nome);
-            setIsDisabled(true);
-          }}
-          disabled={isDisabled}
-        >
-          <Text style={styles.item}>{capitalizedString}</Text>
-          <Icon name={'chevron-right'} style={styles.icon} />
-        </TouchableOpacity>
-      </>
-    );
-  }
-
-  const capitalized = selectedOption
-    ? selectedOption.nome.charAt(0).toUpperCase() + selectedOption.nome.slice(1)
-    : null;
   return (
-    <View>
-      {visible && (
-        <Model
-          text={capitalized ? capitalized : txt}
-          onPress={() => {
-            setModalVisible(true);
-            setVisible(false);
-          }}
-        />
-      )}
-      <View>
-        <Modal
-          animationType="slide"
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-            setVisible(true);
-          }}
-          transparent={true}
-        >
-          <TouchableOpacity
-            style={styles.safe}
-            onPress={() => {
-              setModalVisible(false), setVisible(true);
-            }}
+    <>
+      <View style={styles.selectArea}>
+        <TouchableOpacity style={styles.carSelect} onPress={() => {}}>
+          <FontistoIcons
+            _fontName={'car'}
+            _fontSize={size.bIcon}
+            _fontColor={colors.lightTransWhite}
           />
-          <View style={styles.selectField}>
-            <View style={styles.selectContain}>
-              <Text style={styles.selectTitle}>Tipo</Text>
-            </View>
-            <FlatList
-              data={options}
-              keyExtractor={(item) => String(item.codigo)}
-              renderItem={({ item }) => renderOption(item)}
-            />
-          </View>
-        </Modal>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.carSelect} onPress={() => {}}>
+          <FontistoIcons
+            _fontName={'motorcycle'}
+            _fontSize={size.bIcon}
+            _fontColor={colors.lightTransWhite}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.carSelect} onPress={() => {}}>
+          <FontistoIcons
+            _fontName={'truck'}
+            _fontSize={size.bIcon}
+            _fontColor={colors.lightTransWhite}
+          />
+        </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 }

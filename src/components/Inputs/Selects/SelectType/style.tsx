@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../../globals';
 
 const { width } = Dimensions.get('window');
 
@@ -70,6 +71,28 @@ const styles = StyleSheet.create({
     color: 'transparent',
     fontSize: 28,
     right: 10,
+  },
+
+  //-----------------------------------------------
+  selectArea: {
+    position: 'absolute',
+    width: '100%',
+    height: 100,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    elevation: 300,
+    shadow: 20,
+  },
+  carSelect: {
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.specialTransRed,
+    padding: 20,
+    borderRadius: 200,
+    borderColor: colors.specialGold,
+    borderWidth: 2,
   },
 });
 

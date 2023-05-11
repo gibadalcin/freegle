@@ -1,16 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
+import { View, Text, TouchableOpacity, BackHandler } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
 import Button from '../../components/Buttons/Button';
-import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
+import { FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
 import BgImage from '../../components/BgImage';
 import Auth from '@react-native-firebase/auth';
-import colors from '../../Globals/Colors';
-import size from '../../Globals/Sizes';
-import text from '../../Globals/Text';
+import { colors, size, text } from '../../globals';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +33,7 @@ const Login = () => {
   );
   const showIconMessageView = (
     <View style={styles.attention}>
-      <FontAwesome5Icon awe5Name={'exclamation'} awe5Size={48} awe5Color={'yellow'} />
+      <FontAwesome5Icon _awe5Name={'exclamation'} _awe5Size={48} _awe5Color={'yellow'} />
     </View>
   );
 
@@ -70,7 +68,7 @@ const Login = () => {
 
   const toggleHidePass = () => {
     setHidePassword(!hidePassword);
-    hidePassword ? setIconEyePass('eye-with-line') : setIconEyePass('eye');
+    hidePassword ? setIconEyePass('eye-off') : setIconEyePass('eye');
   };
 
   useEffect(() => {}, [navPosition]);
@@ -108,9 +106,6 @@ const Login = () => {
       .then((userCredential) => {
         console.log('usuário logado ', userCredential);
         timeToLogin();
-        setIsLoading(false);
-        //navigation.navigate('Home');
-        clearFields();
       })
       .catch((error) => {
         switch (error.code) {
@@ -143,8 +138,10 @@ const Login = () => {
 
   const timeToLogin = () => {
     setTimeout(() => {
-      navigation.navigate('Login');
-    }, 3000);
+      navigation.navigate('Home');
+      setIsLoading(false);
+      clearFields();
+    }, 1000);
   };
 
   return (
@@ -155,7 +152,62 @@ const Login = () => {
         {passIsValid ? showMessageView : showError && showMessageView}
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
-        <View style={styles.form} /* message and button input block*/>
+        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '20%' }]}>Login</Text>
+          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
+            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
+              <MatComIcons
+                _matComName={'swap-horizontal'}
+                _matComSize={size.bIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'arrow-left-bold'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconClose, { [navPosition]: '108%' }]}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'window-close'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'account-plus'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.form}>
           <InputText
             name={'Email'}
             placeDescription={'Email...'}
@@ -170,16 +222,16 @@ const Login = () => {
             <InputText
               name={'Senha'}
               placeDescription={'Senha...'}
+              value={pass}
               onChange={(t: React.SetStateAction<string>) => setPass(t)}
               secureText={hidePassword}
               autoCap="none"
-              value={pass}
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-              <EntypoIcon
-                entName={iconEyePass}
-                entSize={size.sIcon}
-                entColor={colors.middleTransBlack}
+              <MatComIcons
+                _matComName={iconEyePass}
+                _matComSize={size.sIcon}
+                _matComColor={colors.middleTransBlack}
               />
             </TouchableOpacity>
           </View>
@@ -189,65 +241,9 @@ const Login = () => {
               disabled={disabled}
               isLoading={isLoading}
               onPress={handleLogin}
-              title="Entrar"
+              title="Salvar"
             />
           </View>
-        </View>
-
-        <View
-          style={[styles.customNav, { [navPosition]: '-40%' }]} /*black hole navigation block */
-        >
-          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <AntDesignIcon
-                antName={'swap'}
-                antSize={size.bIcon}
-                antColor={colors.lightTransWhite}
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '48%' }]}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            disabled={false}
-          >
-            <AntDesignIcon
-              antName={'arrowleft'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '104%' }]}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <AntDesignIcon
-              antName={'close'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
-            onPress={() => {
-              navigation.navigate('Register');
-            }}
-            disabled={false}
-          >
-            <EntypoIcon
-              entName={'add-user'}
-              entSize={size.mIcon}
-              entColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
         </View>
       </View>
     </>

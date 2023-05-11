@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, View } from 'react-native';
+import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
-import { EntypoIcon } from '../../components/ModelIcon';
+import { EntypoIcon, MatComIcons } from '../../components/ModelIcon';
 import SelectType from '../../components/Inputs/Selects/SelectType';
 import SelectBrand from '../../components/Inputs/Selects/SelectBrand';
 import SelectModel from '../../components/Inputs/Selects/SelectModel';
@@ -14,11 +14,17 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
-import colors from '../../Globals/Colors';
+import { colors, size } from '../../globals';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
   const { currentPage, setCurrentPage } = useCurrentPages();
+  const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
+
+  useEffect(() => {}, [navPosition]);
+  const toggleReverse = () => {
+    setNavPosition(navPosition === 'left' ? 'right' : 'left');
+  };
 
   useEffect(() => {
     setCurrentPage('model');
@@ -89,22 +95,87 @@ const Model = () => {
     }
   };
 
+  const handleBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
+
+  const clearFields = () => {
+    setVehicleType('');
+    setCodeBrands('');
+    setCodeModel('');
+    setCodeYear('');
+  };
+
   return (
     <>
       <BgImage />
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.arrowField}
-          onPress={() => {
-            navigation.navigate('Home');
-            setVehicleType('');
-            setCodeBrands('');
-            setCodeModel('');
-            setCodeYear('');
-          }}
-        >
-          <EntypoIcon entName={'arrow-long-left'} entSize={40} entColor={colors.originalWhite} />
-        </TouchableOpacity>
+        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '22%' }]}>
+            {vehicleType ? vehicleType : 'Veículo'}
+          </Text>
+          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
+            <View style={[styles.reversePosition, { [navPosition]: '14%' }]}>
+              <MatComIcons
+                _matComName={'swap-horizontal'}
+                _matComSize={size.bIcon}
+                _matComColor={colors.lightTransWhite}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            onPress={() => {
+              navigation.navigate('Home');
+              clearFields();
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'arrow-left-bold'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconClose, { [navPosition]: '108%' }]}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'window-close'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
+            onPress={() => {
+              clearFields();
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'refresh'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.selectContainer}>
           <View style={styles.selectFields}>

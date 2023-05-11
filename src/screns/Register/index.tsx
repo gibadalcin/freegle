@@ -5,14 +5,12 @@ import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { AntDesignIcon, EntypoIcon, FontAwesome5Icon } from '../../components/ModelIcon';
+import { EntypoIcon, FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
 import BgImage from '../../components/BgImage';
-import colors from '../../Globals/Colors';
-import size from '../../Globals/Sizes';
-import text from '../../Globals/Text';
+import { colors, size, text } from '../../globals';
 
 const Register = () => {
   const navigation = useNavigation<StackTypes>();
@@ -42,7 +40,7 @@ const Register = () => {
   );
   const showIconMessageView = (
     <View style={styles.attention}>
-      <FontAwesome5Icon awe5Name={'exclamation'} awe5Size={48} awe5Color={'yellow'} />
+      <FontAwesome5Icon _awe5Name={'exclamation'} _awe5Size={48} _awe5Color={'yellow'} />
     </View>
   );
 
@@ -107,12 +105,12 @@ const Register = () => {
 
   const toggleHidePass = () => {
     setHidePassword(!hidePassword);
-    hidePassword ? setIconEyePass('eye-with-line') : setIconEyePass('eye');
+    hidePassword ? setIconEyePass('eye-off') : setIconEyePass('eye');
   };
 
   const toggleHideConfirm = () => {
     setHideConfirmPass(!hideConfirmPass);
-    hideConfirmPass ? setIconEyeConfirm('eye-with-line') : setIconEyeConfirm('eye');
+    hideConfirmPass ? setIconEyeConfirm('eye-off') : setIconEyeConfirm('eye');
   };
 
   useEffect(() => {}, [navPosition]);
@@ -192,12 +190,13 @@ const Register = () => {
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '20%' }]}>Cadastro</Text>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
             <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <AntDesignIcon
-                antName={'swap'}
-                antSize={size.bIcon}
-                antColor={colors.lightTransWhite}
+              <MatComIcons
+                _matComName={'swap-horizontal'}
+                _matComSize={size.bIcon}
+                _matComColor={colors.lightTransWhite}
               />
             </View>
           </TouchableOpacity>
@@ -209,24 +208,24 @@ const Register = () => {
             }}
             disabled={false}
           >
-            <AntDesignIcon
-              antName={'arrowleft'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
+            <MatComIcons
+              _matComName={'arrow-left-bold'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
             />
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '104%' }]}
+            style={[styles.navIconClose, { [navPosition]: '108%' }]}
             onPress={() => {
               handleBackButton();
             }}
             disabled={false}
           >
-            <AntDesignIcon
-              antName={'close'}
-              antSize={size.mIcon}
-              antColor={colors.lightTransWhite}
+            <MatComIcons
+              _matComName={'window-close'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
             />
           </TouchableOpacity>
 
@@ -237,7 +236,11 @@ const Register = () => {
             }}
             disabled={false}
           >
-            <EntypoIcon entName={'user'} entSize={size.mIcon} entColor={colors.lightTransWhite} />
+            <MatComIcons
+              _matComName={'login'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
           </TouchableOpacity>
         </View>
 
@@ -262,10 +265,10 @@ const Register = () => {
               autoCap="none"
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-              <EntypoIcon
-                entName={iconEyePass}
-                entSize={size.sIcon}
-                entColor={colors.middleTransBlack}
+              <MatComIcons
+                _matComName={iconEyePass}
+                _matComSize={size.sIcon}
+                _matComColor={colors.middleTransBlack}
               />
             </TouchableOpacity>
 
@@ -290,10 +293,10 @@ const Register = () => {
               secureText={hideConfirmPass}
             />
             <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
-              <EntypoIcon
-                entName={iconEyeConfirm}
-                entSize={size.sIcon}
-                entColor={colors.middleTransBlack}
+              <MatComIcons
+                _matComName={iconEyeConfirm}
+                _matComSize={size.sIcon}
+                _matComColor={colors.middleTransBlack}
               />
             </TouchableOpacity>
           </View>

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../Globals/Colors';
+import { colors } from '../../globals';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
 
   customNav: {
     position: 'absolute',
-    width: 350,
-    height: 350,
+    width: 326,
+    height: 326,
     borderRadius: 230,
     borderColor: colors.middleTransBlack,
     borderWidth: 60,
@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
 
   customNavButtom: {
     position: 'absolute',
-    width: 228,
-    height: 228,
+    width: 216,
+    height: 216,
     borderRadius: 230,
-    borderColor: colors.specialGold,
+    borderColor: '#dfc691',
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -110,16 +110,27 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 228,
-    height: 228,
-    top: -40,
+    width: 216,
+    height: 216,
+    top: -60,
     borderRadius: 200,
     elevation: 300,
+  },
+  reverseTextPage: {
+    position: 'relative',
+    fontSize: 22,
+    color: '#ffffff',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: 216,
+    height: 216,
+    top: '-10%',
+    borderRadius: 200,
   },
 
   navIconBack: {
     position: 'absolute',
-    top: '-20%',
+    top: '-22%',
     flex: 1,
   },
 

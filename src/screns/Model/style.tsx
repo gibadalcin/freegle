@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../Globals/Colors';
+import { colors } from '../../globals';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -21,18 +21,67 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 
-  arrowField: {
-    flex: 1,
+  customNav: {
     position: 'absolute',
-    left: '38%',
-    bottom: '9%',
-    elevation: 100,
-    backgroundColor: colors.originalBlack,
-    paddingHorizontal: 18,
-    paddingVertical: 1,
-    borderWidth: 1,
-    borderColor: colors.specialGold,
-    borderRadius: 8,
+    width: 326,
+    height: 326,
+    borderRadius: 230,
+    borderColor: colors.middleTransBlack,
+    borderWidth: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: '-18%',
+  },
+
+  customNavButtom: {
+    position: 'absolute',
+    width: 216,
+    height: 216,
+    borderRadius: 230,
+    borderColor: '#dfc691',
+    borderWidth: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: colors.specialTranslucid,
+  },
+  reversePosition: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 216,
+    height: 216,
+    top: -60,
+    borderRadius: 200,
+    elevation: 300,
+  },
+  reverseTextPage: {
+    position: 'relative',
+    fontSize: 22,
+    color: '#ffffff',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: 216,
+    height: 216,
+    top: '-10%',
+    borderRadius: 200,
+  },
+
+  navIconBack: {
+    position: 'absolute',
+    top: '-22%',
+    flex: 1,
+  },
+
+  navIconLogin: {
+    position: 'absolute',
+    top: '-2%',
+    flex: 1,
+  },
+
+  navIconClose: {
+    position: 'absolute',
+    top: '38%',
+    flex: 1,
   },
 });
 
