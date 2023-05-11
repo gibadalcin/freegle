@@ -5,7 +5,7 @@ import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { EntypoIcon, FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
+import { FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
