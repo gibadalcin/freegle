@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
 
   navIconClose: {
     position: 'absolute',
-    top: '38%',
+    top: '32%',
     flex: 1,
   },
 });

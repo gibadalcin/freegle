@@ -1,20 +1,20 @@
 import { Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../../globals';
 
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   safe: {
-    flex: 0.24,
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
 
   selectField: {
-    flex: 0.86,
+    flex: 1,
     justifyContent: 'space-between',
-    backgroundColor: '#00000099',
-    borderColor: '#dfc691',
+    backgroundColor: colors.specialTransRed,
+    borderColor: colors.specialGold,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderTopWidth: 1,
@@ -27,8 +27,15 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     letterSpacing: 1,
-    color: '#ffffff',
+    color: colors.originalWhite,
     width: width - 122,
+    textShadowColor: colors.originalBlack,
+    textShadowOffset: {
+      width: 1,
+      height: 1.8,
+    },
+    shadowOpacity: 0.17,
+    textShadowRadius: 3.05,
   },
 
   selectContain: {
@@ -37,17 +44,22 @@ const styles = StyleSheet.create({
     maxHeight: 50,
     paddingTop: 10,
     paddingVertical: 12,
-    borderBottomColor: '#dfc691',
+    borderBottomColor: colors.specialGold,
     borderBottomWidth: 0.8,
   },
 
   selectTitle: {
     fontSize: 20,
     letterSpacing: 1,
-    color: '#ffffff',
+    color: colors.originalWhite,
     textAlign: 'center',
-    flex: 1,
-    paddingVertical: 0,
+    textShadowColor: colors.originalBlack,
+    textShadowOffset: {
+      width: 1,
+      height: 1.8,
+    },
+    shadowOpacity: 0.17,
+    textShadowRadius: 3.05,
   },
 
   containerItem: {
@@ -59,17 +71,17 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     letterSpacing: 1,
-    color: '#FFFFFF',
+    color: colors.originalWhite,
     paddingVertical: 12,
     paddingHorizontal: 10,
-    backgroundColor: '#000000',
+    backgroundColor: colors.originalBlack,
     borderBottomWidth: 0.8,
-    borderColor: '#dfc691',
+    borderColor: colors.specialGold,
   },
 
   icon: {
     position: 'absolute',
-    color: '#ffffff',
+    color: colors.originalWhite,
     fontSize: 28,
     right: 10,
   },

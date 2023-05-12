@@ -1,11 +1,11 @@
 export const colors = {
   originalWhite: '#ffffff',
   originalBlack: '#000000',
-  originalGrey: '#999999',
+  originalGrey: '#99999999',
   lightTransWhite: '#ffffffbb',
   lightTransBlack: '#000000bb',
   middleTransBlack: '#00000099',
-  specialTransRed: '#8d0a22dd',
+  specialTransRed: '#8d0a2299',
   specialGold: '#dfc691',
   specialTranslucid: '#88888822',
   specialRed: '#8d0a22',

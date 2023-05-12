@@ -12,7 +12,16 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { visible, setVisible, vehicleType, codeBrands, setCodeBrands } = useSelects();
+  const {
+    visible,
+    setVisible,
+    vehicleType,
+    setVehicleType,
+    codeBrands,
+    setCodeModel,
+    setCodeBrands,
+    setCodeYear,
+  } = useSelects();
   const [txt, setTxt] = useState('Selecione a Marca');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
@@ -40,6 +49,13 @@ export default function SelectType() {
       fetchOptions();
     }
   }, [vehicleType, visible, codeBrands, filterType, options]);
+
+  const clearFields = () => {
+    setVehicleType('');
+    setCodeBrands('');
+    setCodeModel('');
+    setCodeYear('');
+  };
 
   function renderOption(item: Option) {
     const capitalizedString = item.nome.charAt(0).toUpperCase() + item.nome.toLowerCase().slice(1);
@@ -95,9 +111,14 @@ export default function SelectType() {
             }}
           />
           <View style={styles.selectField}>
-            <View style={styles.selectContain}>
+            <TouchableOpacity
+              style={styles.selectContain}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
               <Text style={styles.selectTitle}>Marca</Text>
-            </View>
+            </TouchableOpacity>
             <FlatList
               data={options}
               keyExtractor={(item) => String(item.codigo)}

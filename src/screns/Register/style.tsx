@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: 216,
     height: 216,
     borderRadius: 230,
-    borderColor: '#dfc691',
+    borderColor: colors.specialGold,
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   reverseTextPage: {
     position: 'relative',
     fontSize: 22,
-    color: '#ffffff',
+    color: colors.originalWhite,
     textAlign: 'center',
     textAlignVertical: 'center',
     width: 216,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
 
   navIconClose: {
     position: 'absolute',
-    top: '38%',
+    top: '32%',
     flex: 1,
   },
 });

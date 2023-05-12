@@ -1,109 +1,149 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { colors } from '../../globals';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-  },
-
-  arrowField: {
-    flex: 1,
-    position: 'absolute',
-    left: '38%',
-    bottom: '10%',
-    elevation: 100,
-    backgroundColor: colors.originalBlack,
-    paddingHorizontal: 18,
-    paddingVertical: 1,
-    borderWidth: 1,
-    borderColor: colors.specialGold,
-    borderRadius: 8,
-  },
-
-  resultContainer: {
-    flex: 0.86,
     backgroundColor: colors.middleTransBlack,
     borderColor: colors.specialGold,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
     borderWidth: 1,
     shadow: 20,
     elevation: 300,
   },
 
   dataField: {
-    flex: 0.5,
-    alignItems: 'center',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  dataItemFields: {
-    justifyContent: 'flex-start',
-    flex: 1,
-    width: '90%',
+    flex: 0.8,
+    width: '100%',
+    height: '80%',
+    position: 'absolute',
+    justifyContent: 'center',
     paddingVertical: 22,
+    paddingHorizontal: 22,
   },
   dataBigTextBrand: {
-    fontSize: 44,
+    position: 'relative',
+    fontSize: 54,
     minHeight: 40,
     textAlign: 'left',
     color: colors.originalWhite,
-    top: '22%',
-    flex: 0.6,
   },
   dataSmallTextModel: {
+    position: 'relative',
     width: '90%',
     minHeight: 40,
-    fontSize: 22,
-    top: 18,
+    fontSize: 28,
     textAlign: 'left',
     color: colors.originalWhite,
+    top: -8,
   },
 
   dataBigTextYear: {
-    fontSize: 74,
+    position: 'relative',
+    width: '100%',
+    fontSize: 84,
     minHeight: 40,
     textAlign: 'center',
     color: colors.originalWhite,
     flex: 0.4,
-    marginTop: 28,
+    marginTop: '32%',
+  },
+
+  priceField: {
+    flex: 0.2,
+    width: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '130%',
   },
   dataSmallTextRef: {
     fontSize: 20,
     textAlign: 'center',
     color: colors.originalWhite,
-    marginTop: 70,
-    marginBottom: -80,
-  },
-
-  priceField: {
-    flex: 0.3,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 42,
+    marginBottom: 10,
   },
   priceText: {
     width: '100%',
     textAlign: 'center',
-    fontSize: 48,
+    fontSize: 42,
+    fontWeight: '700',
     color: colors.specialGold,
     paddingHorizontal: 18,
-    paddingVertical: 32,
+    paddingVertical: 12,
+    backgroundColor: colors.specialRed,
   },
 
-  resultFieldButtons: {
+  shadowProps: {
+    textShadowColor: colors.originalBlack,
+    textShadowOffset: {
+      width: 1,
+      height: 1.8,
+    },
+    shadowOpacity: 0.17,
+    textShadowRadius: 3.05,
+  },
+
+  customNav: {
     position: 'absolute',
-    flex: 0.2,
-    marginTop: 0,
-    left: '22%',
-    bottom: '18%',
+    width: 326,
+    height: 326,
+    borderRadius: 230,
+    borderColor: colors.middleTransBlack,
+    borderWidth: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: '-18%',
+  },
+
+  customNavButtom: {
+    position: 'absolute',
+    width: 216,
+    height: 216,
+    borderRadius: 230,
     borderColor: colors.specialGold,
-    borderWidth: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 18,
-    borderRadius: 6,
-    backgroundColor: colors.originalBlack,
+    borderWidth: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: colors.specialTranslucid,
+  },
+  reversePosition: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 216,
+    height: 216,
+    top: -60,
+    borderRadius: 200,
+    elevation: 300,
+  },
+  reverseTextPage: {
+    position: 'relative',
+    fontSize: 18,
+    color: colors.originalWhite,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: 216,
+    height: 216,
+    top: '-10%',
+    borderRadius: 200,
+  },
+
+  navIconBack: {
+    position: 'absolute',
+    top: '-22%',
+    flex: 1,
+  },
+
+  navIconLogin: {
+    position: 'absolute',
+    top: '-2%',
+    flex: 1,
+  },
+
+  navIconClose: {
+    position: 'absolute',
+    top: '32%',
+    flex: 1,
   },
 });
 

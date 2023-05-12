@@ -3,7 +3,7 @@ import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
-import { EntypoIcon, MatComIcons } from '../../components/ModelIcon';
+import { MatComIcons } from '../../components/ModelIcon';
 import SelectType from '../../components/Inputs/Selects/SelectType';
 import SelectBrand from '../../components/Inputs/Selects/SelectBrand';
 import SelectModel from '../../components/Inputs/Selects/SelectModel';
@@ -25,10 +25,6 @@ const Model = () => {
   const toggleReverse = () => {
     setNavPosition(navPosition === 'left' ? 'right' : 'left');
   };
-
-  useEffect(() => {
-    setCurrentPage('model');
-  }, [currentPage]);
 
   const {
     vehicleType,
@@ -71,8 +67,10 @@ const Model = () => {
       try {
         setIsLoading(true);
         const baseURL = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${codeBrands}/modelos/${codeModel}/anos/${codeYear}`;
+
         const response = await axios.get(baseURL);
         const data = response.data;
+        console.log(data);
 
         setYearModel(data.AnoModelo);
         setFipeCode(data.CodigoFipe);
@@ -119,8 +117,29 @@ const Model = () => {
     <>
       <BgImage />
       <View style={styles.container}>
+        <View style={styles.selectContainer}>
+          <View style={styles.selectFields}>
+            <SelectType />
+            <SelectBrand />
+            <SelectModel />
+            <SelectYear />
+
+            <View>
+              {codeYear && (
+                <Button
+                  disabled={disabled}
+                  isLoading={isLoading}
+                  onPress={handleConsult}
+                  title="Consultar"
+                  backgroundColor={colors.specialRed}
+                />
+              )}
+            </View>
+          </View>
+        </View>
+
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <Text style={[styles.reverseTextPage, { [navPosition]: '22%' }]}>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '24%' }]}>
             {vehicleType ? vehicleType : 'Veículo'}
           </Text>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
@@ -134,7 +153,7 @@ const Model = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            style={[styles.navIconBack, { [navPosition]: '52%' }]}
             onPress={() => {
               navigation.navigate('Home');
               clearFields();
@@ -143,20 +162,6 @@ const Model = () => {
           >
             <MatComIcons
               _matComName={'arrow-left-bold'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '108%' }]}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'window-close'}
               _matComSize={size.mIcon}
               _matComColor={colors.lightTransWhite}
             />
@@ -175,26 +180,20 @@ const Model = () => {
               _matComColor={colors.lightTransWhite}
             />
           </TouchableOpacity>
-        </View>
 
-        <View style={styles.selectContainer}>
-          <View style={styles.selectFields}>
-            <SelectType />
-            <SelectBrand />
-            <SelectModel />
-            <SelectYear />
-          </View>
-          <View>
-            {codeYear && (
-              <Button
-                disabled={disabled}
-                isLoading={isLoading}
-                onPress={handleConsult}
-                title="Consultar"
-                backgroundColor={colors.specialRed}
-              />
-            )}
-          </View>
+          <TouchableOpacity
+            style={[styles.navIconClose, { [navPosition]: '106%' }]}
+            onPress={() => {
+              handleBackButton();
+            }}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'window-close'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </>

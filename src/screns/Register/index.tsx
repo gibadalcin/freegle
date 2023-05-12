@@ -190,7 +190,7 @@ const Register = () => {
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <Text style={[styles.reverseTextPage, { [navPosition]: '20%' }]}>Cadastro</Text>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '22%' }]}>Cadastro</Text>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
             <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
               <MatComIcons
@@ -202,7 +202,7 @@ const Register = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            style={[styles.navIconBack, { [navPosition]: '50%' }]}
             onPress={() => {
               navigation.navigate('Home');
             }}
@@ -216,7 +216,7 @@ const Register = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '108%' }]}
+            style={[styles.navIconClose, { [navPosition]: '106%' }]}
             onPress={() => {
               handleBackButton();
             }}

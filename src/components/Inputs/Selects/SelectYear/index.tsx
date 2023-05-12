@@ -92,9 +92,14 @@ export default function SelectType() {
             }}
           />
           <View style={styles.selectField}>
-            <View style={styles.selectContain}>
+            <TouchableOpacity
+              style={styles.selectContain}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
               <Text style={styles.selectTitle}>Ano</Text>
-            </View>
+            </TouchableOpacity>
 
             <FlatList
               data={options}

@@ -153,7 +153,7 @@ const Login = () => {
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
         <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <Text style={[styles.reverseTextPage, { [navPosition]: '20%' }]}>Login</Text>
+          <Text style={[styles.reverseTextPage, { [navPosition]: '18%' }]}>Login</Text>
           <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
             <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
               <MatComIcons
@@ -165,7 +165,7 @@ const Login = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '48%' }]}
+            style={[styles.navIconBack, { [navPosition]: '50%' }]}
             onPress={() => {
               navigation.navigate('Home');
             }}
@@ -179,7 +179,7 @@ const Login = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '108%' }]}
+            style={[styles.navIconClose, { [navPosition]: '106%' }]}
             onPress={() => {
               handleBackButton();
             }}

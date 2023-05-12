@@ -6,16 +6,15 @@ const styles = StyleSheet.create({
   },
 
   selectContainer: {
-    flex: 0.6,
-    justifyContent: 'flex-end',
-    rowGap: 30,
+    flex: 1,
+    justifyContent: 'center',
+    rowGap: 18,
     paddingHorizontal: 14,
-    marginTop: '36%',
   },
 
   selectFields: {
-    justifyContent: 'flex-end',
-    rowGap: 30,
+    justifyContent: 'center',
+    rowGap: 28,
     borderRadius: 4,
     height: 54,
     fontSize: 18,
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     width: 216,
     height: 216,
     borderRadius: 230,
-    borderColor: '#dfc691',
+    borderColor: colors.specialGold,
     borderWidth: 2,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -56,8 +55,8 @@ const styles = StyleSheet.create({
   },
   reverseTextPage: {
     position: 'relative',
-    fontSize: 22,
-    color: '#ffffff',
+    fontSize: 18,
+    color: colors.originalWhite,
     textAlign: 'center',
     textAlignVertical: 'center',
     width: 216,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
 
   navIconClose: {
     position: 'absolute',
-    top: '38%',
+    top: '32%',
     flex: 1,
   },
 });

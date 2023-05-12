@@ -12,7 +12,17 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { visible, setVisible, vehicleType, codeBrands, codeModel, setCodeModel } = useSelects();
+  const {
+    visible,
+    setVisible,
+    vehicleType,
+    setVehicleType,
+    codeBrands,
+    setCodeBrands,
+    codeModel,
+    setCodeModel,
+    setCodeYear,
+  } = useSelects();
   const [txt, setTxt] = useState('Selecione o Modelo');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
@@ -21,7 +31,6 @@ export default function SelectType() {
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   const filterCode = codeBrands ? codeBrands : null;
-
   useEffect(() => {
     async function fetchOptions() {
       const URL_MODELS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterCode}/modelos`;
@@ -35,6 +44,7 @@ export default function SelectType() {
         console.log(error);
       }
     }
+
     if (filterType && filterCode && options.length === 0) {
       fetchOptions();
     }
@@ -92,9 +102,14 @@ export default function SelectType() {
             }}
           />
           <View style={styles.selectField}>
-            <View style={styles.selectContain}>
+            <TouchableOpacity
+              style={styles.selectContain}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
               <Text style={styles.selectTitle}>Modelo</Text>
-            </View>
+            </TouchableOpacity>
             <FlatList
               data={options}
               keyExtractor={(item) => item.codigo}
