@@ -5,11 +5,6 @@ import { colors } from '../../../../globals';
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  safe: {
-    justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
-  },
-
   selectField: {
     flex: 1,
     justifyContent: 'space-between',
@@ -40,10 +35,11 @@ const styles = StyleSheet.create({
 
   selectContain: {
     flex: 1,
+    height: '120%',
     minHeight: 50,
     maxHeight: 50,
     paddingTop: 10,
-    paddingBottom: 24,
+    //paddingBottom: 24,
     borderBottomColor: colors.specialGold,
     borderBottomWidth: 0.8,
   },

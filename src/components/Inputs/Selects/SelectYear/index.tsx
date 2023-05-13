@@ -21,25 +21,36 @@ export default function SelectType() {
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   const filterYear = codeModel ? codeModel : null;
-  useEffect(() => {
-    const filterBrands = codeBrands ? codeBrands : null;
 
-    async function fetchOptions() {
-      const URL_YEARS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterBrands}/modelos/${filterYear}/anos`;
-      console.log(URL_YEARS);
-      try {
-        const baseURL = URL_YEARS;
-        const response = await axios.get(baseURL);
-        setOptions(response.data);
-        console.log('Sucesso anos');
-      } catch (error) {
-        console.log(error);
-      }
+  const filterBrands = codeBrands ? codeBrands : null;
+
+  async function fetchOptions() {
+    console.log('Entrei de furão em anos');
+    const URL_YEARS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterBrands}/modelos/${filterYear}/anos`;
+
+    try {
+      const response = await axios.get(URL_YEARS);
+      setOptions(response.data);
+      console.log('Sucesso anos: ', codeYear);
+    } catch (error) {
+      console.log(error);
     }
-    if (filterType && filterBrands && filterYear && options.length === 0) {
+  }
+  useEffect(() => {
+    if (filterType && filterBrands && filterYear) {
       fetchOptions();
     }
-  }, [vehicleType, codeBrands, codeModel, codeYear, visible]);
+  }, [codeYear, codeBrands, codeModel, visible, txt]);
+
+  useEffect(() => {
+    clearFields();
+  }, [vehicleType, codeBrands, codeModel]);
+
+  const clearFields = () => {
+    setSelectedOption(null);
+    setTxt('Selecione o ano');
+    setCodeYear('');
+  };
 
   function renderOption(item: Option) {
     return (
@@ -66,13 +77,13 @@ export default function SelectType() {
 
   return (
     <View>
-      {filterYear && visible && (
+      {filterYear && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
-            setVisible(false);
           }}
+          disabled={false}
         />
       )}
       <View>
@@ -81,14 +92,13 @@ export default function SelectType() {
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(false);
-            setVisible(true);
           }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
-              setModalVisible(false), setVisible(true);
+              setModalVisible(false);
             }}
           />
           <View style={styles.selectField}>

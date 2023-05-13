@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
   selectFields: {
     justifyContent: 'center',
-    rowGap: 28,
+    rowGap: 22,
     borderRadius: 4,
     height: 54,
     fontSize: 18,

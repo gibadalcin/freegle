@@ -3,7 +3,7 @@ export const colors = {
   originalBlack: '#000000',
   originalGrey: '#99999999',
   lightTransWhite: '#ffffffbb',
-  lightTransBlack: '#000000bb',
+  lightTransBlack: '#00000022',
   middleTransBlack: '#00000099',
   specialTransRed: '#8d0a2299',
   specialGold: '#dfc691',
@@ -12,7 +12,7 @@ export const colors = {
 };
 
 export const size = {
-  bIcon: 50,
+  bIcon: 46,
   mIcon: 34,
   sIcon: 28,
 };

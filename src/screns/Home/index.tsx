@@ -15,8 +15,9 @@ const Home = () => {
   const { currentPage, setCurrentPage } = useCurrentPages();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
   const [loggedOut, setLoggedOut] = useState<boolean>(false);
+
+  const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
 
   useEffect(() => {
     setCurrentPage('home');
@@ -28,7 +29,7 @@ const Home = () => {
     user?.email ? setDisabled(false) : setDisabled(true);
     console.log(user, currentPage);
     return unsubscribe;
-  }, [currentPage, disabled, user, colorDisabled]);
+  }, [currentPage, user, colorDisabled]);
 
   const consultPlate = () => {};
 
@@ -45,7 +46,6 @@ const Home = () => {
     BackHandler.exitApp();
     return true;
   };
-
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
@@ -169,9 +169,9 @@ const Home = () => {
               onPress={() => {
                 navigation.navigate('Model');
               }}
-              title="Consulta p/ Modelo"
+              title="Consulta por Modelo"
             />
-            <Button disabled={disabled} onPress={() => {}} title="Consulta p/ Placa" />
+            <Button disabled={disabled} onPress={() => {}} title="Consulta por Placa" />
           </View>
         ) : (
           <View style={styles.buttonsLogOut}>

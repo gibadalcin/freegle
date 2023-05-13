@@ -12,53 +12,50 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { visible, setVisible, vehicleType, setVehicleType, codeBrands, setCodeBrands } =
-    useSelects();
-  const [options, setOptions] = useState<Option[]>([]);
-  const [enabled, setEnabled] = useState<boolean>(false);
-  const [topSpace, setTopSpace] = useState<string>('30%');
+  const {
+    setVisible,
+    vehicleType,
+    setVehicleType,
+    isLoading,
+    setIsLoading,
+    setCodeBrands,
+    setCodeModel,
+    setCodeYear,
+  } = useSelects();
+  const [topSpace, setTopSpace] = useState<string>('0%');
+  const car = 'carros';
+  const motorcycle = 'motos';
+  const truck = 'caminhoes';
 
   useEffect(() => {
-    async function fetchList() {
-      const list = callList;
+    vehicleType ? setTopSpace('0%') : setTopSpace('30%');
+  }, [vehicleType, isLoading]);
 
-      let compare = {};
-      if (list && list !== compare) {
-        const optionsArray = list.map((type) => ({
-          codigo: type.codigo,
-          nome: type.nome,
-        }));
+  const fetchOptions = (type: string) => {
+    if (callList) {
+      const newOptions: Option[] = callList.map((call) => {
+        return { codigo: call.codigo, nome: call.nome };
+      });
 
-        setOptions(optionsArray);
-        if (vehicleType === '' && codeBrands === '') {
-          setTopSpace('30%');
-          setEnabled(false);
-        } else {
-          setTopSpace('0%');
-          setEnabled(true);
+      newOptions.forEach((newOptions) => {
+        if (newOptions.nome === type) {
+          setVehicleType(newOptions.nome);
+          console.log('Item selecionado:', newOptions.nome);
         }
-      }
-      setVisible(true);
+        setVisible(true);
+      });
     }
+  };
 
-    fetchList();
-  }, [vehicleType, visible, enabled, topSpace]);
+  useEffect(() => {
+    clearFields();
+  }, [vehicleType]);
 
-  const handledType = (type: string) => {
-    setEnabled(true);
-    switch (type) {
-      case 'carros':
-        setVehicleType(options[0].nome);
-        break;
-      case 'motos':
-        setVehicleType(options[1].nome);
-        break;
-      case 'caminhoes':
-        setVehicleType(options[2].nome);
-        break;
-      default:
-        setEnabled(false);
-    }
+  const clearFields = () => {
+    setCodeBrands('');
+    setCodeModel('');
+    setCodeBrands('');
+    setCodeYear('');
   };
 
   const colorType = (ref: string) => {
@@ -70,13 +67,10 @@ export default function SelectType() {
     <View style={[styles.selectArea, { top: topSpace }]}>
       <View style={styles.vehicleArea}>
         <TouchableOpacity
-          style={[styles.vehicleSelect, { backgroundColor: colorType('carros') }]}
+          style={[styles.vehicleSelect, { backgroundColor: colorType(car) }]}
           onPress={() => {
-            if (vehicleType === '') {
-              handledType('carros');
-            }
+            fetchOptions(car);
           }}
-          disabled={enabled}
         >
           <FontistoIcons
             _fontName={'car'}
@@ -88,11 +82,10 @@ export default function SelectType() {
 
       <View style={styles.vehicleArea}>
         <TouchableOpacity
-          style={[styles.vehicleSelect, { backgroundColor: colorType('motos') }]}
+          style={[styles.vehicleSelect, { backgroundColor: colorType(motorcycle) }]}
           onPress={() => {
-            handledType('motos');
+            fetchOptions(motorcycle);
           }}
-          disabled={enabled}
         >
           <FontistoIcons
             _fontName={'motorcycle'}
@@ -104,11 +97,10 @@ export default function SelectType() {
 
       <View style={styles.vehicleArea}>
         <TouchableOpacity
-          style={[styles.vehicleSelect, { backgroundColor: colorType('caminhoes') }]}
+          style={[styles.vehicleSelect, { backgroundColor: colorType(truck) }]}
           onPress={() => {
-            handledType('caminhoes');
+            fetchOptions(truck);
           }}
-          disabled={enabled}
         >
           <FontistoIcons
             _fontName={'truck'}

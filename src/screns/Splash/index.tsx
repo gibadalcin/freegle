@@ -39,7 +39,7 @@ const Splash = () => {
               top: '20%',
             }}
           >
-            <ActivityIndicator size={'large'} color={colors.specialGold} />
+            <ActivityIndicator size={80} color={colors.originalWhite} />
           </View>
         )}
       </View>

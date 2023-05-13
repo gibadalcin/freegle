@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, BackHandler, Text, TouchableOpacity, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
@@ -18,7 +18,6 @@ import { colors, size } from '../../globals';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
-  const { currentPage, setCurrentPage } = useCurrentPages();
   const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
 
   useEffect(() => {}, [navPosition]);
@@ -35,6 +34,9 @@ const Model = () => {
     setCodeModel,
     codeYear,
     setCodeYear,
+    visible,
+    isLoading,
+    setIsLoading,
   } = useSelects();
 
   const {
@@ -49,47 +51,29 @@ const Model = () => {
     setPrice,
   } = useResult();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(true);
+  const filterType = vehicleType ? vehicleType.toLowerCase() : null;
+  const fetchOptions = async () => {
+    const URL_VEHICLE = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${codeBrands}/modelos/${codeModel}/anos/${codeYear}`;
+    try {
+      setIsLoading(true);
+      const response = await axios.get(URL_VEHICLE);
+      const data = response.data;
+      //console.log(data);
+      setYearModel(data.AnoModelo);
+      setFipeCode(data.CodigoFipe);
+      setFuel(data.Combustivel);
+      setBrand(data.Marca);
+      setMonthRef(data.MesReferencia);
+      setModel(data.Modelo);
+      setFuelAcronym(data.SiglaCombustivel);
+      setType(data.tipoVeiculo);
+      setPrice(data.Valor);
 
-  useEffect(() => {
-    if (vehicleType && codeBrands && codeModel && codeYear) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [vehicleType, codeBrands, codeModel, codeYear]);
-
-  const handleConsult = async () => {
-    const filterType = vehicleType ? vehicleType.toLowerCase() : null;
-
-    if (filterType && codeBrands && codeModel && codeYear) {
-      try {
-        setIsLoading(true);
-        const baseURL = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${codeBrands}/modelos/${codeModel}/anos/${codeYear}`;
-
-        const response = await axios.get(baseURL);
-        const data = response.data;
-        console.log(data);
-
-        setYearModel(data.AnoModelo);
-        setFipeCode(data.CodigoFipe);
-        setFuel(data.Combustivel);
-        setBrand(data.Marca);
-        setMonthRef(data.MesReferencia);
-        setModel(data.Modelo);
-        setFuelAcronym(data.SiglaCombustivel);
-        setType(data.tipoVeiculo);
-        setPrice(data.Valor);
-
-        setCodeBrands('');
-        setCodeModel('');
-        setCodeYear('');
-        setIsLoading(false);
-        navigation.navigate('Price');
-      } catch (error) {
-        console.log(error);
-      }
+      clearFields();
+      setIsLoading(false);
+      navigation.navigate('Price');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -97,7 +81,6 @@ const Model = () => {
     BackHandler.exitApp();
     return true;
   };
-
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
@@ -127,9 +110,13 @@ const Model = () => {
             <View>
               {codeYear && (
                 <Button
-                  disabled={disabled}
+                  disabled={isLoading}
                   isLoading={isLoading}
-                  onPress={handleConsult}
+                  onPress={() => {
+                    if (filterType && codeBrands && codeModel && codeYear) {
+                      fetchOptions();
+                    }
+                  }}
                   title="Consultar"
                   backgroundColor={colors.specialRed}
                 />
@@ -142,15 +129,17 @@ const Model = () => {
           <Text style={[styles.reverseTextPage, { [navPosition]: '24%' }]}>
             {vehicleType ? vehicleType : 'Veículo'}
           </Text>
-          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={[styles.reversePosition, { [navPosition]: '14%' }]}>
-              <MatComIcons
-                _matComName={'swap-horizontal'}
-                _matComSize={size.bIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </View>
-          </TouchableOpacity>
+          {!isLoading && (
+            <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
+              <View style={[styles.reversePosition, { [navPosition]: '14%' }]}>
+                <MatComIcons
+                  _matComName={'swap-horizontal'}
+                  _matComSize={size.bIcon}
+                  _matComColor={colors.lightTransWhite}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             style={[styles.navIconBack, { [navPosition]: '52%' }]}
@@ -195,6 +184,19 @@ const Model = () => {
             />
           </TouchableOpacity>
         </View>
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+              bottom: '6%',
+              [navPosition]: '6%',
+            }}
+          >
+            <ActivityIndicator size={'large'} color={colors.specialGold} />
+          </View>
+        )}
       </View>
     </>
   );

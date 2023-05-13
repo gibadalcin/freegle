@@ -12,6 +12,8 @@ interface SelectsContextData {
 
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SelectsContext = createContext<SelectsContextData>({
@@ -26,6 +28,8 @@ const SelectsContext = createContext<SelectsContextData>({
 
   visible: true,
   setVisible: () => {},
+  isLoading: true,
+  setIsLoading: () => {},
 });
 
 interface SelectsProviderProps {
@@ -38,6 +42,7 @@ export const SelectsProvider: React.FC<SelectsProviderProps> = ({ children }) =>
   const [codeModel, setCodeModel] = useState<string>('');
   const [codeYear, setCodeYear] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   return (
     <SelectsContext.Provider
       value={{
@@ -52,6 +57,8 @@ export const SelectsProvider: React.FC<SelectsProviderProps> = ({ children }) =>
 
         visible,
         setVisible,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

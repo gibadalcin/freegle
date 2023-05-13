@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, Modal, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
 import Model from '../Model';
 import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import { colors } from '../../../../globals';
 
 interface Option {
   codigo: string;
@@ -16,42 +17,49 @@ export default function SelectType() {
     visible,
     setVisible,
     vehicleType,
-    setVehicleType,
-    codeBrands,
     setCodeModel,
     setCodeBrands,
     setCodeYear,
+    isLoading,
+    setIsLoading,
   } = useSelects();
   const [txt, setTxt] = useState('Selecione a Marca');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
+  async function fetchOptions() {
+    console.log('Entrei de furão em marcas');
+    const URL_BRANDS = filterType
+      ? `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas`
+      : '';
+
+    try {
+      const response = await axios.get(URL_BRANDS);
+      setIsLoading(false);
+      setVisible(true);
+      setOptions(response.data);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    async function fetchOptions() {
-      const URL_BRANDS = filterType
-        ? `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas`
-        : '';
-      console.log(URL_BRANDS);
-      try {
-        const baseURL = URL_BRANDS;
-        const response = await axios.get(baseURL);
-        setOptions(response.data);
-        console.log('Sucesso marcas');
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (filterType && options.length === 0) {
+    if (filterType !== null && filterType !== '') {
+      console.log('aqui estou');
       fetchOptions();
     }
-  }, [vehicleType, visible, codeBrands, filterType, options]);
+  }, [vehicleType, visible, txt]);
+
+  useEffect(() => {
+    clearFields();
+  }, [vehicleType]);
 
   const clearFields = () => {
-    setVehicleType('');
+    setSelectedOption(null);
+    setTxt('Selecione a Marca');
     setCodeBrands('');
     setCodeModel('');
     setCodeYear('');
@@ -69,9 +77,8 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setCodeBrands(item.codigo);
-            setIsDisabled(true);
           }}
-          disabled={isDisabled}
+          disabled={false}
         >
           <Text style={styles.item}>{capitalizedString}</Text>
           <Icon name={'chevron-right'} style={styles.icon} />
@@ -84,49 +91,46 @@ export default function SelectType() {
     ? selectedOption.nome.charAt(0).toUpperCase() + selectedOption.nome.toLowerCase().slice(1)
     : null;
   return (
-    <View>
-      {filterType && visible && (
+    <>
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(true);
+        }}
+        transparent={true}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(false);
+          }}
+        />
+        <View style={styles.selectField}>
+          <TouchableOpacity
+            style={styles.selectContain}
+            onPress={() => {
+              setModalVisible(false);
+            }}
+          >
+            <Text style={styles.selectTitle}>Marca</Text>
+          </TouchableOpacity>
+          <FlatList
+            data={options}
+            keyExtractor={(item) => String(item.codigo)}
+            renderItem={({ item }) => renderOption(item)}
+          />
+        </View>
+      </Modal>
+
+      {filterType && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
-            setVisible(false);
           }}
+          disabled={false}
         />
       )}
-      <View>
-        <Modal
-          animationType="slide"
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-            setVisible(true);
-          }}
-          transparent={true}
-        >
-          <TouchableOpacity
-            style={styles.safe}
-            onPress={() => {
-              setModalVisible(false), setVisible(true);
-            }}
-          />
-          <View style={styles.selectField}>
-            <TouchableOpacity
-              style={styles.selectContain}
-              onPress={() => {
-                setModalVisible(false);
-              }}
-            >
-              <Text style={styles.selectTitle}>Marca</Text>
-            </TouchableOpacity>
-            <FlatList
-              data={options}
-              keyExtractor={(item) => String(item.codigo)}
-              renderItem={({ item }) => renderOption(item)}
-            />
-          </View>
-        </Modal>
-      </View>
-    </View>
+    </>
   );
 }

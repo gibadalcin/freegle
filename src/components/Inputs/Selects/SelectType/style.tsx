@@ -3,20 +3,25 @@ import { colors } from '../../../../globals';
 
 const styles = StyleSheet.create({
   selectArea: {
-    marginBottom: 18,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     elevation: 300,
+    marginBottom: 4,
   },
   vehicleArea: {
     justifyContent: 'center',
     alignItems: 'center',
     gap: 6,
+    borderWidth: 12,
+    borderColor: colors.middleTransBlack,
+    borderRadius: 100,
+    width: 118,
+    height: 118,
   },
   vehicleSelect: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

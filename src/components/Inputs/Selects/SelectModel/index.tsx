@@ -22,33 +22,48 @@ export default function SelectType() {
     codeModel,
     setCodeModel,
     setCodeYear,
+    isLoading,
+    setIsLoading,
   } = useSelects();
   const [txt, setTxt] = useState('Selecione o Modelo');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   const filterCode = codeBrands ? codeBrands : null;
-  useEffect(() => {
-    async function fetchOptions() {
-      const URL_MODELS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterCode}/modelos`;
-      console.log(URL_MODELS);
-      try {
-        const baseURL = URL_MODELS;
-        const response = await axios.get(baseURL);
-        setOptions(response.data.modelos);
-        console.log('Sucesso modelos');
-      } catch (error) {
-        console.log(error);
-      }
-    }
 
-    if (filterType && filterCode && options.length === 0) {
+  async function fetchOptions() {
+    console.log('Entrei de furão em modelos');
+    const URL_MODELS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterCode}/modelos`;
+
+    try {
+      const response = await axios.get(URL_MODELS);
+      setIsLoading(false);
+      setVisible(true);
+      setOptions(response.data.modelos);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (filterType && filterCode) {
       fetchOptions();
     }
-  }, [vehicleType, visible, codeBrands, filterType, codeModel, options]);
+  }, [vehicleType, codeBrands, visible, txt]);
+
+  useEffect(() => {
+    clearFields();
+  }, [vehicleType, codeBrands]);
+
+  const clearFields = () => {
+    setSelectedOption(null);
+    setTxt('Selecione o modelo');
+    setCodeModel('');
+    setCodeYear('');
+  };
 
   function renderOption(item: Option) {
     return (
@@ -60,9 +75,8 @@ export default function SelectType() {
             setCodeModel(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
-            setIsDisabled(true);
           }}
-          disabled={isDisabled}
+          disabled={false}
         >
           <Text style={styles.item}>{item.nome}</Text>
           <Icon name={'chevron-right'} style={styles.icon} />
@@ -76,13 +90,13 @@ export default function SelectType() {
     : null;
   return (
     <View>
-      {filterCode && visible && (
+      {filterCode && (
         <Model
           text={capitalized ? capitalized : txt}
           onPress={() => {
             setModalVisible(true);
-            setVisible(false);
           }}
+          disabled={false}
         />
       )}
       <View>
@@ -90,15 +104,14 @@ export default function SelectType() {
           animationType="slide"
           visible={modalVisible}
           onRequestClose={() => {
-            setModalVisible(false);
-            setVisible(true);
+            setModalVisible(true);
           }}
           transparent={true}
         >
           <TouchableOpacity
             style={styles.safe}
             onPress={() => {
-              setModalVisible(false), setVisible(true);
+              setModalVisible(false);
             }}
           />
           <View style={styles.selectField}>
