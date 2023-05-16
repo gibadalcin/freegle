@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Modal, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
 import Model from '../Model';
 import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { colors } from '../../../../globals';
+import { MatComIcons } from '../../../ModelIcon';
 
 interface Option {
   codigo: string;
@@ -20,7 +20,6 @@ export default function SelectType() {
     setCodeModel,
     setCodeBrands,
     setCodeYear,
-    isLoading,
     setIsLoading,
   } = useSelects();
   const [txt, setTxt] = useState('Selecione a Marca');
@@ -30,7 +29,6 @@ export default function SelectType() {
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   async function fetchOptions() {
-    console.log('Entrei de furão em marcas');
     const URL_BRANDS = filterType
       ? `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas`
       : '';
@@ -48,7 +46,6 @@ export default function SelectType() {
 
   useEffect(() => {
     if (filterType !== null && filterType !== '') {
-      console.log('aqui estou');
       fetchOptions();
     }
   }, [vehicleType, visible, txt]);
@@ -77,11 +74,18 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setCodeBrands(item.codigo);
+            setIsLoading(true);
           }}
           disabled={false}
         >
           <Text style={styles.item}>{capitalizedString}</Text>
-          <Icon name={'chevron-right'} style={styles.icon} />
+          <View style={styles.icon}>
+            <MatComIcons
+              _matComName={'chevron-right'}
+              _matComSize={28}
+              _matComColor={colors.originalWhite}
+            />
+          </View>
         </TouchableOpacity>
       </>
     );
@@ -91,7 +95,17 @@ export default function SelectType() {
     ? selectedOption.nome.charAt(0).toUpperCase() + selectedOption.nome.toLowerCase().slice(1)
     : null;
   return (
-    <>
+    <View>
+      {filterType && (
+        <Model
+          text={capitalized ? capitalized : txt}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+          disabled={false}
+        />
+      )}
+
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -113,6 +127,13 @@ export default function SelectType() {
             }}
           >
             <Text style={styles.selectTitle}>Marca</Text>
+            <View style={styles.iconDown}>
+              <MatComIcons
+                _matComName={'chevron-double-down'}
+                _matComSize={28}
+                _matComColor={colors.originalWhite}
+              />
+            </View>
           </TouchableOpacity>
           <FlatList
             data={options}
@@ -121,16 +142,6 @@ export default function SelectType() {
           />
         </View>
       </Modal>
-
-      {filterType && (
-        <Model
-          text={capitalized ? capitalized : txt}
-          onPress={() => {
-            setModalVisible(true);
-          }}
-          disabled={false}
-        />
-      )}
-    </>
+    </View>
   );
 }

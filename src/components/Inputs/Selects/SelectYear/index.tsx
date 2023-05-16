@@ -3,8 +3,9 @@ import { View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
 import Model from '../Model';
 import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import { MatComIcons } from '../../../ModelIcon';
+import { colors } from '../../../../globals';
 
 interface Option {
   codigo: string;
@@ -31,7 +32,6 @@ export default function SelectType() {
     try {
       const response = await axios.get(URL_YEARS);
       setOptions(response.data);
-      console.log('Sucesso anos: ', codeYear);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +65,13 @@ export default function SelectType() {
           }}
         >
           <Text style={styles.item}>{item.nome}</Text>
-          <Icon name={'chevron-right'} style={styles.icon} />
+          <View style={styles.icon}>
+            <MatComIcons
+              _matComName={'chevron-right'}
+              _matComSize={28}
+              _matComColor={colors.originalWhite}
+            />
+          </View>
         </TouchableOpacity>
       </>
     );
@@ -86,7 +92,7 @@ export default function SelectType() {
           disabled={false}
         />
       )}
-      <View>
+      <>
         <Modal
           animationType="slide"
           visible={modalVisible}
@@ -109,6 +115,13 @@ export default function SelectType() {
               }}
             >
               <Text style={styles.selectTitle}>Ano</Text>
+              <View style={styles.iconDown}>
+                <MatComIcons
+                  _matComName={'chevron-double-down'}
+                  _matComSize={28}
+                  _matComColor={colors.originalWhite}
+                />
+              </View>
             </TouchableOpacity>
 
             <FlatList
@@ -118,7 +131,7 @@ export default function SelectType() {
             />
           </View>
         </Modal>
-      </View>
+      </>
     </View>
   );
 }

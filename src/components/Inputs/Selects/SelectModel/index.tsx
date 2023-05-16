@@ -3,8 +3,9 @@ import { View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
 import Model from '../Model';
 import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import { colors } from '../../../../globals';
+import { MatComIcons } from '../../../ModelIcon';
 
 interface Option {
   codigo: string;
@@ -75,11 +76,18 @@ export default function SelectType() {
             setCodeModel(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
+            setIsLoading(true);
           }}
           disabled={false}
         >
           <Text style={styles.item}>{item.nome}</Text>
-          <Icon name={'chevron-right'} style={styles.icon} />
+          <View style={styles.icon}>
+            <MatComIcons
+              _matComName={'chevron-right'}
+              _matComSize={28}
+              _matComColor={colors.originalWhite}
+            />
+          </View>
         </TouchableOpacity>
       </>
     );
@@ -122,6 +130,13 @@ export default function SelectType() {
               }}
             >
               <Text style={styles.selectTitle}>Modelo</Text>
+              <View style={styles.iconDown}>
+                <MatComIcons
+                  _matComName={'chevron-double-down'}
+                  _matComSize={28}
+                  _matComColor={colors.originalWhite}
+                />
+              </View>
             </TouchableOpacity>
             <FlatList
               data={options}

@@ -12,9 +12,9 @@ import { useSelects } from '../../contexts/Select';
 import { useResult } from '../../contexts/Price';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { colors, size } from '../../globals';
+import React from 'react';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();

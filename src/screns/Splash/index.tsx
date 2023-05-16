@@ -8,10 +8,9 @@ import { colors } from '../../globals';
 const Splash = () => {
   const navigation = useNavigation<StackTypes>();
   const [initializing, setInitializing] = useState<boolean>(true);
-  // Registra um listener para quando a tela se tornar ativa novamente.
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      //console.log('Splash está ativo novamente');
       setTimeout(() => {
         if (initializing) {
           setInitializing(false);
@@ -19,8 +18,6 @@ const Splash = () => {
         navigation.navigate('Home');
       }, 3000);
     });
-    console.log('tela de splash: ');
-    // Retorna uma função para desregistrar o listener quando a tela for desmontada.
     return unsubscribe;
   }, [navigation, initializing]);
 

@@ -58,6 +58,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.17,
     textShadowRadius: 3.05,
   },
+  iconDown: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
 
   containerItem: {
     flexDirection: 'row',
@@ -78,8 +83,6 @@ const styles = StyleSheet.create({
 
   icon: {
     position: 'absolute',
-    color: colors.originalWhite,
-    fontSize: 28,
     right: 10,
   },
 });
