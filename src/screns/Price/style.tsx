@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  navIconLogin: {
+  navIconSave: {
     position: 'absolute',
     top: '-2%',
     flex: 1,

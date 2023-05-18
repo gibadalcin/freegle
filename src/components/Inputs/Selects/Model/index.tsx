@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './style';
 import { Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

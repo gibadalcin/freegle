@@ -1,38 +1,38 @@
 import 'react-native-gesture-handler';
 import { Image } from 'react-native';
 import { useEffect, useState } from 'react';
-import { useCurrentPages } from '../../contexts/Pages';
 import { useSelects } from '../../contexts/Select';
 import styles from './style';
+import React from 'react';
 
 const BgImage = () => {
-  const { currentPage } = useCurrentPages();
   const { vehicleType } = useSelects();
   const [showBgCar, setShowBgCar] = useState<boolean>(true);
   const [showBgMotorcycle, setShowBgMotorcycle] = useState<boolean>(false);
   const [showBgTruck, setShowBgTruck] = useState<boolean>(false);
 
   useEffect(() => {
-    if (currentPage === 'model' || currentPage === 'price') {
-      switch (vehicleType) {
-        case 'motos':
-          setShowBgCar(false);
-          setShowBgTruck(false);
-          setShowBgMotorcycle(true);
-          break;
-        case 'caminhoes':
-          setShowBgCar(false);
-          setShowBgMotorcycle(false);
-          setShowBgTruck(true);
-          break;
-        default:
-          setShowBgMotorcycle(false);
-          setShowBgTruck(false);
-          setShowBgCar(true);
-          break;
-      }
+    switch (vehicleType) {
+      case 'motos':
+        setShowBgCar(false);
+        setShowBgTruck(false);
+        setShowBgMotorcycle(true);
+        console.log('imagem motos');
+        break;
+      case 'caminhoes':
+        setShowBgCar(false);
+        setShowBgMotorcycle(false);
+        setShowBgTruck(true);
+        console.log('imagem caminhoes');
+        break;
+      default:
+        setShowBgMotorcycle(false);
+        setShowBgTruck(false);
+        setShowBgCar(true);
+        console.log('imagem carros');
+        break;
     }
-  }, [vehicleType, showBgCar, showBgMotorcycle, showBgTruck, currentPage]);
+  }, [vehicleType]);
 
   return (
     <>

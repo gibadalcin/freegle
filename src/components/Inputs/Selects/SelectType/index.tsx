@@ -22,6 +22,7 @@ export default function SelectType() {
     setCodeModel,
     setCodeYear,
   } = useSelects();
+
   const [topSpace, setTopSpace] = useState<string>('0%');
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const car = 'carros';
@@ -42,7 +43,6 @@ export default function SelectType() {
       unsubscribe();
     };
   }, []);
-  console.log(isConnected);
 
   useEffect(() => {
     vehicleType ? setTopSpace('0%') : setTopSpace('30%');
@@ -58,7 +58,6 @@ export default function SelectType() {
         if (newOptions.nome === type) {
           setVehicleType(newOptions.nome);
           setIsLoading(true);
-          console.log('Item selecionado:', newOptions.nome);
         }
         setVisible(true);
       });

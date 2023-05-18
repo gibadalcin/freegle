@@ -9,27 +9,27 @@ import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { colors, size, text } from '../../globals';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useSelects } from '../../contexts/Select';
 
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
-  const { currentPage, setCurrentPage } = useCurrentPages();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [loggedOut, setLoggedOut] = useState<boolean>(false);
+  const { vehicleType, setVehicleType } = useSelects();
+  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
 
   const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
 
   useEffect(() => {
-    setCurrentPage('home');
     const unsubscribe = auth().onAuthStateChanged((_user) => {
       setUser(_user);
       setLoggedOut(false);
     });
 
     user?.email ? setDisabled(false) : setDisabled(true);
-    console.log(user, currentPage);
     return unsubscribe;
-  }, [currentPage, user, colorDisabled]);
+  }, [user, colorDisabled]);
 
   const consultPlate = () => {};
 

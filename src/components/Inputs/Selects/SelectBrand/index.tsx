@@ -6,6 +6,7 @@ import { useSelects } from '../../../../contexts/Select';
 import axios from 'axios';
 import { colors } from '../../../../globals';
 import { MatComIcons } from '../../../ModelIcon';
+import { useCurrentPages } from '../../../../contexts/Pages';
 
 interface Option {
   codigo: string;
@@ -15,8 +16,9 @@ interface Option {
 export default function SelectType() {
   const {
     visible,
-    setVisible,
     vehicleType,
+    isLoading,
+    setVisible,
     setCodeModel,
     setCodeBrands,
     setCodeYear,
@@ -35,7 +37,7 @@ export default function SelectType() {
 
     try {
       const response = await axios.get(URL_BRANDS);
-      setIsLoading(false);
+      isLoading ? setIsLoading(false) : isLoading;
       setVisible(true);
       setOptions(response.data);
     } catch (error) {
@@ -45,14 +47,17 @@ export default function SelectType() {
   }
 
   useEffect(() => {
+    clearFields();
+  }, [vehicleType]);
+
+  useEffect(() => {
     if (filterType !== null && filterType !== '') {
       fetchOptions();
     }
-  }, [vehicleType, visible, txt]);
-
-  useEffect(() => {
-    clearFields();
   }, [vehicleType]);
+  useEffect(() => {}, [isLoading]);
+  useEffect(() => {}, [visible]);
+  useEffect(() => {}, [txt]);
 
   const clearFields = () => {
     setSelectedOption(null);
@@ -62,7 +67,7 @@ export default function SelectType() {
     setCodeYear('');
   };
 
-  function renderOption(item: Option) {
+  const renderOption = (item: Option) => {
     const capitalizedString = item.nome.charAt(0).toUpperCase() + item.nome.toLowerCase().slice(1);
 
     return (
@@ -74,7 +79,7 @@ export default function SelectType() {
             setTxt(item.nome);
             setModalVisible(false);
             setCodeBrands(item.codigo);
-            setIsLoading(true);
+            isLoading ? isLoading : setIsLoading(true);
           }}
           disabled={false}
         >
@@ -89,7 +94,7 @@ export default function SelectType() {
         </TouchableOpacity>
       </>
     );
-  }
+  };
 
   const capitalized = selectedOption
     ? selectedOption.nome.charAt(0).toUpperCase() + selectedOption.nome.toLowerCase().slice(1)

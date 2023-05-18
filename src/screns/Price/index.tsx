@@ -1,28 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import { useResult } from '../../contexts/Price';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { useSelects } from '../../contexts/Select';
-import { colors, size } from '../../globals';
-import { MatComIcons } from '../../components/ModelIcon';
+import { colors } from '../../globals';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import CustomNavigation from '../../components/CustomNavigation';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
-  const { currentPage, setCurrentPage } = useCurrentPages();
-  const { vehicleType, setVehicleType, setCodeBrands, setCodeModel, setCodeYear } = useSelects();
-  const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
+  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
+  const { vehicleType, setVehicleType, setCodeBrands, setCodeModel, setCodeYear, setIsLoading } =
+    useSelects();
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [disabled, setDisabled] = useState<boolean>(false);
   const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
-
-  useEffect(() => {
-    setCurrentPage('price');
-  }, [currentPage]);
 
   const {
     yearModel,
@@ -42,32 +38,21 @@ const Model = () => {
   } = useResult();
 
   useEffect(() => {
-    setCurrentPage('home');
+    setCurrentBgPage('price');
+  });
+
+  useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((_user) => {
       setUser(_user);
     });
 
     user?.email ? setDisabled(false) : setDisabled(true);
-    console.log(user, currentPage);
     return unsubscribe;
-  }, [currentPage, disabled, user, colorDisabled]);
+  }, [disabled, user, colorDisabled]);
 
-  const handleBackButton = () => {
-    BackHandler.exitApp();
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
-
-  useEffect(() => {}, [navPosition]);
-  const toggleReverse = () => {
-    setNavPosition(navPosition === 'left' ? 'right' : 'left');
+  const onSave = () => {
+    console.log('salvo');
+    clearFields();
   };
 
   const clearFields = () => {
@@ -90,65 +75,14 @@ const Model = () => {
           <Text style={[styles.dataSmallTextRef, styles.shadowProps]}>ref.{monthRef}</Text>
           <Text style={[styles.priceText, styles.shadowProps]}>{price}</Text>
         </View>
-      </View>
 
-      <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-        <Text style={[styles.reverseTextPage, styles.shadowProps, { [navPosition]: '24%' }]}>
-          FIPE
-        </Text>
-        <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-          <View style={[styles.reversePosition, { [navPosition]: '14%' }]}>
-            <MatComIcons
-              _matComName={'swap-horizontal'}
-              _matComSize={size.bIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navIconBack, { [navPosition]: '52%' }]}
+        <CustomNavigation
+          pageTitle="FIPE"
           onPress={() => {
-            navigation.navigate('Home');
-            clearFields();
+            onSave();
           }}
-          disabled={false}
-        >
-          <MatComIcons
-            _matComName={'arrow-left-bold'}
-            _matComSize={size.mIcon}
-            _matComColor={colors.lightTransWhite}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navIconClose, { [navPosition]: '106%' }]}
-          onPress={() => {
-            handleBackButton();
-            clearFields();
-          }}
-          disabled={false}
-        >
-          <MatComIcons
-            _matComName={'window-close'}
-            _matComSize={size.mIcon}
-            _matComColor={colors.lightTransWhite}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navIconLogin, { [navPosition]: '90%' }]}
-          onPress={() => {
-            clearFields();
-          }}
-          disabled={disabled}
-        >
-          <MatComIcons
-            _matComName={'content-save-outline'}
-            _matComSize={size.mIcon}
-            _matComColor={colorDisabled}
-          />
-        </TouchableOpacity>
+          navIconSave={styles.navIconSave}
+        />
       </View>
     </>
   );

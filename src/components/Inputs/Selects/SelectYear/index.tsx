@@ -13,8 +13,16 @@ interface Option {
 }
 
 export default function SelectType() {
-  const { visible, setVisible, vehicleType, codeBrands, codeModel, codeYear, setCodeYear } =
-    useSelects();
+  const {
+    visible,
+    isLoading,
+    vehicleType,
+    codeBrands,
+    codeModel,
+    codeYear,
+    setIsLoading,
+    setCodeYear,
+  } = useSelects();
   const [txt, setTxt] = useState('Selecione o Ano');
   const [modalVisible, setModalVisible] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
@@ -22,18 +30,17 @@ export default function SelectType() {
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   const filterYear = codeModel ? codeModel : null;
-
   const filterBrands = codeBrands ? codeBrands : null;
 
   async function fetchOptions() {
-    console.log('Entrei de furão em anos');
     const URL_YEARS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterBrands}/modelos/${filterYear}/anos`;
 
     try {
       const response = await axios.get(URL_YEARS);
+      isLoading ? setIsLoading(false) : isLoading;
       setOptions(response.data);
     } catch (error) {
-      console.log(error);
+      console.log('erro no input de ano: ', error);
     }
   }
   useEffect(() => {
@@ -62,6 +69,7 @@ export default function SelectType() {
             setCodeYear(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
+            isLoading ? isLoading : setIsLoading(true);
           }}
         >
           <Text style={styles.item}>{item.nome}</Text>
@@ -89,7 +97,7 @@ export default function SelectType() {
           onPress={() => {
             setModalVisible(true);
           }}
-          disabled={false}
+          disabled={isLoading}
         />
       )}
       <>

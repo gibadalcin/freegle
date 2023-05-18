@@ -15,15 +15,12 @@ interface Option {
 export default function SelectType() {
   const {
     visible,
-    setVisible,
+    isLoading,
     vehicleType,
-    setVehicleType,
     codeBrands,
-    setCodeBrands,
-    codeModel,
+    setVisible,
     setCodeModel,
     setCodeYear,
-    isLoading,
     setIsLoading,
   } = useSelects();
   const [txt, setTxt] = useState('Selecione o Modelo');
@@ -33,31 +30,31 @@ export default function SelectType() {
 
   const filterType = vehicleType ? vehicleType.toLowerCase() : null;
   const filterCode = codeBrands ? codeBrands : null;
-
   async function fetchOptions() {
-    console.log('Entrei de furão em modelos');
     const URL_MODELS = `https://parallelum.com.br/fipe/api/v1/${filterType}/marcas/${filterCode}/modelos`;
-
     try {
       const response = await axios.get(URL_MODELS);
-      setIsLoading(false);
+      isLoading ? setIsLoading(false) : isLoading;
       setVisible(true);
       setOptions(response.data.modelos);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      console.log('erro no input de modelo: ', error);
     }
   }
 
   useEffect(() => {
-    if (filterType && filterCode) {
-      fetchOptions();
-    }
-  }, [vehicleType, codeBrands, visible, txt]);
-
-  useEffect(() => {
     clearFields();
   }, [vehicleType, codeBrands]);
+
+  useEffect(() => {
+    if (filterCode) {
+      fetchOptions();
+    }
+  }, [codeBrands]);
+
+  useEffect(() => {}, [visible]);
+  useEffect(() => {}, [txt]);
 
   const clearFields = () => {
     setSelectedOption(null);
@@ -76,7 +73,7 @@ export default function SelectType() {
             setCodeModel(item.codigo);
             setTxt(item.nome);
             setModalVisible(false);
-            setIsLoading(true);
+            isLoading ? isLoading : setIsLoading(true);
           }}
           disabled={false}
         >
@@ -104,7 +101,7 @@ export default function SelectType() {
           onPress={() => {
             setModalVisible(true);
           }}
-          disabled={false}
+          disabled={isLoading}
         />
       )}
       <View>

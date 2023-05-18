@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
@@ -9,10 +9,12 @@ import { FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
 import BgImage from '../../components/BgImage';
 import Auth from '@react-native-firebase/auth';
 import { colors, size, text } from '../../globals';
+import CustomNavigation from '../../components/CustomNavigation';
+import { useCurrentPages } from '../../contexts/Pages';
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<StackTypes>();
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -20,7 +22,6 @@ const Login = () => {
   const [iconEyePass, setIconEyePass] = useState<string>('eye');
   const [textMessageView, setTextMessageView] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
-  const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
   const [passIsValid, setPassIsValid] = useState<boolean>(true);
   const [emailIsValid, setEmailIsValid] = useState<boolean>(false);
 
@@ -37,7 +38,6 @@ const Login = () => {
     </View>
   );
 
-  //- Validação tela de registro
   useEffect(() => {
     const isConfirmed = pass && emailRegex.test(email) && !emailIsValid;
     setDisabled(!isConfirmed);
@@ -59,10 +59,7 @@ const Login = () => {
     }
   }, [pass, email, emailRegex, disabled, emailIsValid]);
 
-  /*
-   * Funções de ação
-   */
-  const handleLogin = () => {
+  const handledLogin = () => {
     signIn();
   };
 
@@ -71,24 +68,6 @@ const Login = () => {
     hidePassword ? setIconEyePass('eye-off') : setIconEyePass('eye');
   };
 
-  useEffect(() => {}, [navPosition]);
-  const toggleReverse = () => {
-    setNavPosition(navPosition === 'left' ? 'right' : 'left');
-  };
-
-  const handleBackButton = () => {
-    BackHandler.exitApp();
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
-
   const clearFields = () => {
     setEmail('');
     setPass('');
@@ -96,9 +75,6 @@ const Login = () => {
     setPassIsValid(false);
   };
 
-  /*
-   * Firebase - Api
-   */
   const signIn = () => {
     setIsLoading(true);
     Auth()
@@ -127,9 +103,6 @@ const Login = () => {
       });
   };
 
-  /*
-   * Funções de timer
-   */
   const timeToError = () => {
     setTimeout(() => {
       setShowError(false);
@@ -152,60 +125,7 @@ const Login = () => {
         {passIsValid ? showMessageView : showError && showMessageView}
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
-        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <Text style={[styles.reverseTextPage, { [navPosition]: '18%' }]}>Login</Text>
-          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <MatComIcons
-                _matComName={'swap-horizontal'}
-                _matComSize={size.bIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '50%' }]}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'arrow-left-bold'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '106%' }]}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'window-close'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
-            onPress={() => {
-              navigation.navigate('Register');
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'account-plus'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-        </View>
+        <CustomNavigation pageTitle={'Login'} navIconLogin={styles.navIconLogin} />
 
         <View style={styles.form}>
           <InputText
@@ -240,8 +160,8 @@ const Login = () => {
             <Button
               disabled={disabled}
               isLoading={isLoading}
-              onPress={handleLogin}
-              title="Salvar"
+              onPress={handledLogin}
+              title="Entrar"
             />
           </View>
         </View>

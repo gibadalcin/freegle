@@ -11,9 +11,12 @@ import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
 import BgImage from '../../components/BgImage';
 import { colors, size, text } from '../../globals';
+import CustomNavigation from '../../components/CustomNavigation';
+import { useCurrentPages } from '../../contexts/Pages';
 
 const Register = () => {
   const navigation = useNavigation<StackTypes>();
+  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [confirmPass, setConfirmPass] = useState<string>('');
@@ -44,7 +47,6 @@ const Register = () => {
     </View>
   );
 
-  //- Validação tela de registro
   useEffect(() => {
     const isConfirmed = pass === confirmPass && pass && emailRegex.test(email) && !emailIsValid;
     setDisabled(!isConfirmed);
@@ -70,7 +72,6 @@ const Register = () => {
     }
   }, [confirmPass, pass, email, emailRegex, disabled, emailIsValid]);
 
-  //Validação senha forte/fraca
   useEffect(() => {
     let state = false;
     validator.isStrongPassword(pass, {
@@ -95,9 +96,6 @@ const Register = () => {
     }
   }, [pass, colorBar, progressBar]);
 
-  /*
-   * Funções de ação
-   */
   const handleRegister = () => {
     signUp();
     clearFields();
@@ -113,24 +111,6 @@ const Register = () => {
     hideConfirmPass ? setIconEyeConfirm('eye-off') : setIconEyeConfirm('eye');
   };
 
-  useEffect(() => {}, [navPosition]);
-  const toggleReverse = () => {
-    setNavPosition(navPosition === 'left' ? 'right' : 'left');
-  };
-
-  const handleBackButton = () => {
-    BackHandler.exitApp();
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
-
   const clearFields = () => {
     setEmail('');
     setPass('');
@@ -138,9 +118,6 @@ const Register = () => {
     setDisabled(true);
   };
 
-  /*
-   * Firebase - Api
-   */
   const signUp = () => {
     setIsLoading(true);
     Auth()
@@ -165,9 +142,6 @@ const Register = () => {
       });
   };
 
-  /*
-   * Funções de timer
-   */
   const timeToError = () => {
     setTimeout(() => {
       setShowError(false);
@@ -189,60 +163,7 @@ const Register = () => {
         {passIsValid ? showMessageView : showError && showMessageView}
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
-        <View style={[styles.customNav, { [navPosition]: '-40%' }]}>
-          <Text style={[styles.reverseTextPage, { [navPosition]: '22%' }]}>Cadastro</Text>
-          <TouchableOpacity style={styles.customNavButtom} onPress={toggleReverse}>
-            <View style={[styles.reversePosition, { [navPosition]: '12%' }]}>
-              <MatComIcons
-                _matComName={'swap-horizontal'}
-                _matComSize={size.bIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconBack, { [navPosition]: '50%' }]}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'arrow-left-bold'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconClose, { [navPosition]: '106%' }]}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'window-close'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navIconLogin, { [navPosition]: '90%' }]}
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'login'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-        </View>
+        <CustomNavigation pageTitle={'Cadastro'} navIconRegister={styles.navIconRegister} />
 
         <View style={styles.form}>
           <InputText

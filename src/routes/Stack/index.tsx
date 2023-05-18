@@ -9,6 +9,7 @@ import Login from '../../screns/Login';
 import Register from '../../screns/Register';
 import Model from '../../screns/Model';
 import Price from '../../screns/Price';
+import React from 'react';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 

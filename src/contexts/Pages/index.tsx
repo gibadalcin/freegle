@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface PageContextData {
-  currentPage: string | null;
-  setCurrentPage: React.Dispatch<React.SetStateAction<string>>;
+  currentBgPage: string | null;
+  setCurrentBgPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CurrentContextPages = createContext<PageContextData>({
-  currentPage: null,
-  setCurrentPage: () => {},
+  currentBgPage: null,
+  setCurrentBgPage: () => {},
 });
 
 interface PageProviderProps {
@@ -15,13 +15,13 @@ interface PageProviderProps {
 }
 
 export const PageProvider: React.FC<PageProviderProps> = ({ children }) => {
-  const [currentPage, setCurrentPage] = useState<string>('');
+  const [currentBgPage, setCurrentBgPage] = useState<string>('');
 
   return (
     <CurrentContextPages.Provider
       value={{
-        currentPage,
-        setCurrentPage,
+        currentBgPage,
+        setCurrentBgPage,
       }}
     >
       {children}
