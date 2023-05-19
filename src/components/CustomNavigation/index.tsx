@@ -20,29 +20,32 @@ interface CustomNavProps {
   navIconLogin?: StyleProp<ViewStyle>;
   navIconRefresh?: StyleProp<ViewStyle>;
   navIconSave?: StyleProp<ViewStyle>;
+  navIconAlert?: StyleProp<ViewStyle>;
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 const CustomNavigation = ({
   pageTitle,
-  valuePositionNav = '-40%',
-  textReversePositionValue = '18%',
-  reverseIconPositionValue = '12%',
-  PositionValueBackIcon = '50%',
+  valuePositionNav = '-38%',
+  textReversePositionValue = '22%',
+  reverseIconPositionValue = '14%',
+  PositionValueBackIcon = '54%',
   alternateIconPositionValue = '90%',
   PositionValueCloseIcon = '106%',
   navIconRegister,
   navIconLogin,
   navIconRefresh,
+  navIconAlert,
   navIconSave,
   onPress,
+  disabled,
 }: CustomNavProps) => {
   const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
   const navigation = useNavigation<StackTypes>();
   const { setVehicleType, setCodeBrands, setCodeModel, setCodeYear } = useSelects();
   const { setCurrentBgPage } = useCurrentPages();
   const { isLoading } = useSelects();
-  const [disabled, setDisabled] = useState<boolean>(true);
   const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
 
   const toggleReverse = () => {
@@ -157,6 +160,20 @@ const CustomNavigation = ({
           >
             <MatComIcons
               _matComName={'refresh'}
+              _matComSize={size.mIcon}
+              _matComColor={colors.lightTransWhite}
+            />
+          </TouchableOpacity>
+        )}
+
+        {navIconAlert && (
+          <TouchableOpacity
+            style={[navIconAlert, { [navPosition]: alternateIconPositionValue }]}
+            onPress={onPress}
+            disabled={false}
+          >
+            <MatComIcons
+              _matComName={'bell-alert-outline'}
               _matComSize={size.mIcon}
               _matComColor={colors.lightTransWhite}
             />

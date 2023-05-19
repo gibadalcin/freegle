@@ -10,11 +10,11 @@ import BgImage from '../../components/BgImage';
 import Auth from '@react-native-firebase/auth';
 import { colors, size, text } from '../../globals';
 import CustomNavigation from '../../components/CustomNavigation';
-import { useCurrentPages } from '../../contexts/Pages';
+import { useSelects } from '../../contexts/Select';
 
 const Login = () => {
   const navigation = useNavigation<StackTypes>();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useSelects();
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -125,7 +125,11 @@ const Login = () => {
         {passIsValid ? showMessageView : showError && showMessageView}
         {passIsValid ? showIconMessageView : showError && showIconMessageView}
 
-        <CustomNavigation pageTitle={'Login'} navIconLogin={styles.navIconLogin} />
+        <CustomNavigation
+          pageTitle={'Login'}
+          onPress={clearFields}
+          navIconLogin={styles.navIconLogin}
+        />
 
         <View style={styles.form}>
           <InputText

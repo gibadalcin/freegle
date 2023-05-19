@@ -3,12 +3,13 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 
-import Splash from '../../screns/Splash';
-import Home from '../../screns/Home';
-import Login from '../../screns/Login';
-import Register from '../../screns/Register';
-import Model from '../../screns/Model';
-import Price from '../../screns/Price';
+import Splash from '../../pages/Splash';
+import Home from '../../pages/Home';
+import Login from '../../pages/Login';
+import Register from '../../pages/Register';
+import Model from '../../pages/Model';
+import Price from '../../pages/Price';
+import Saved from '../../pages/Saved';
 import React from 'react';
 
 const { Navigator, Screen } = createNativeStackNavigator();
@@ -21,6 +22,7 @@ type StackNavigation = {
   Logged: undefined;
   Model: undefined;
   Price: undefined;
+  Saved: undefined;
 };
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;
@@ -40,6 +42,7 @@ const Stack = () => {
       <Screen name="Register" component={Register} />
       <Screen name="Model" component={Model} />
       <Screen name="Price" component={Price} />
+      <Screen name="Saved" component={Saved} />
     </Navigator>
   );
 };

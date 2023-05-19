@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
   navIconAccount: {
     position: 'absolute',
-    bottom: '-1%',
+    bottom: '-2%',
     left: 0,
     flex: 1,
   },

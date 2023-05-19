@@ -12,8 +12,12 @@ export const colors = {
 };
 
 export const size = {
+  bFont: 32,
+  mFont: 22,
+  sFont: 18,
   bIcon: 46,
   mIcon: 34,
+  m2Icon: 38,
   sIcon: 28,
 };
 

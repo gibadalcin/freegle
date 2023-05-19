@@ -12,17 +12,20 @@ import styles from './style';
 import { SelectsProvider } from './contexts/Select';
 import { ResultProvider } from './contexts/Price';
 import { PageProvider } from './contexts/Pages';
+import { DateProvider } from './contexts/Date';
 
 function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.totalArea}>
-      <PageProvider>
-        <SelectsProvider>
-          <ResultProvider>
-            <Routes />
-          </ResultProvider>
-        </SelectsProvider>
-      </PageProvider>
+      <DateProvider>
+        <PageProvider>
+          <SelectsProvider>
+            <ResultProvider>
+              <Routes />
+            </ResultProvider>
+          </SelectsProvider>
+        </PageProvider>
+      </DateProvider>
     </SafeAreaView>
   );
 }

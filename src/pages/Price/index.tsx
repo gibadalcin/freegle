@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import { useResult } from '../../contexts/Price';
@@ -10,15 +10,18 @@ import { useSelects } from '../../contexts/Select';
 import { colors } from '../../globals';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import CustomNavigation from '../../components/CustomNavigation';
+import { useCurrentDate } from '../../contexts/Date';
+import firestore from '@react-native-firebase/firestore';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
-  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
-  const { vehicleType, setVehicleType, setCodeBrands, setCodeModel, setCodeYear, setIsLoading } =
-    useSelects();
+  const { setCurrentBgPage } = useCurrentPages();
+  const { currentDate } = useCurrentDate();
+  const { setVehicleType, setCodeBrands, setCodeModel, setCodeYear, setIsLoading } = useSelects();
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [disabled, setDisabled] = useState<boolean>(false);
   const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
+  const [vehicles, setVehicles] = useState<[]>([]);
 
   const {
     yearModel,
@@ -40,6 +43,7 @@ const Model = () => {
   useEffect(() => {
     setCurrentBgPage('price');
   });
+  useEffect(() => {}, [currentDate]);
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((_user) => {
@@ -51,8 +55,24 @@ const Model = () => {
   }, [disabled, user, colorDisabled]);
 
   const onSave = () => {
-    console.log('salvo');
-    clearFields();
+    setIsLoading(true);
+
+    firestore()
+      .collection('veiculos')
+      .add({
+        yearModel,
+        currentDate,
+        brand,
+        model,
+        price,
+      })
+      .then(() => Alert.alert('Veículo', 'Veículo salvo com sucesso!'))
+      .catch((error) => console.log('error ao salvar dados do veículo', error))
+      .finally(() => {
+        setIsLoading(false);
+        clearFields();
+        navigation.navigate('Home');
+      });
   };
 
   const clearFields = () => {
@@ -82,6 +102,7 @@ const Model = () => {
             onSave();
           }}
           navIconSave={styles.navIconSave}
+          disabled={disabled}
         />
       </View>
     </>

@@ -5,19 +5,15 @@ import Button from '../../components/Buttons/Button';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import { MatComIcons } from '../../components/ModelIcon';
-import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { colors, size, text } from '../../globals';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { useSelects } from '../../contexts/Select';
 
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [loggedOut, setLoggedOut] = useState<boolean>(false);
-  const { vehicleType, setVehicleType } = useSelects();
-  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
 
   const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
 
@@ -118,13 +114,19 @@ const Home = () => {
             <TouchableOpacity style={styles.navIconAccount} onPress={() => {}} disabled={false}>
               <MatComIcons
                 _matComName={'account-edit'}
-                _matComSize={size.mIcon}
+                _matComSize={size.m2Icon}
                 _matComColor={colors.lightTransWhite}
               />
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity style={styles.navIconList} onPress={() => {}} disabled={disabled}>
+          <TouchableOpacity
+            style={styles.navIconList}
+            onPress={() => {
+              navigation.navigate('Saved');
+            }}
+            disabled={disabled}
+          >
             <MatComIcons
               _matComName={'format-list-group'}
               _matComSize={size.mIcon}

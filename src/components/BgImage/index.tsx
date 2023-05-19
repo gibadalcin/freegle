@@ -17,19 +17,16 @@ const BgImage = () => {
         setShowBgCar(false);
         setShowBgTruck(false);
         setShowBgMotorcycle(true);
-        console.log('imagem motos');
         break;
       case 'caminhoes':
         setShowBgCar(false);
         setShowBgMotorcycle(false);
         setShowBgTruck(true);
-        console.log('imagem caminhoes');
         break;
       default:
         setShowBgMotorcycle(false);
         setShowBgTruck(false);
         setShowBgCar(true);
-        console.log('imagem carros');
         break;
     }
   }, [vehicleType]);

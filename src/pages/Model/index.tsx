@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator, BackHandler, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import Button from '../../components/Buttons/Button';
@@ -12,7 +12,7 @@ import { useResult } from '../../contexts/Price';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import BgImage from '../../components/BgImage';
-import { colors, size } from '../../globals';
+import { colors } from '../../globals';
 import React from 'react';
 import { useCurrentPages } from '../../contexts/Pages';
 import CustomNavigation from '../../components/CustomNavigation';
