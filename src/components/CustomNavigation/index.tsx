@@ -13,14 +13,14 @@ interface CustomNavProps {
   valuePositionNav?: string;
   textReversePositionValue?: string;
   reverseIconPositionValue?: string;
-  PositionValueBackIcon?: string;
+  positionValueBackIcon?: string;
   alternateIconPositionValue?: string;
-  PositionValueCloseIcon?: string;
+  positionValueCloseIcon?: string;
   navIconRegister?: StyleProp<ViewStyle>;
   navIconLogin?: StyleProp<ViewStyle>;
   navIconRefresh?: StyleProp<ViewStyle>;
   navIconSave?: StyleProp<ViewStyle>;
-  navIconAlert?: StyleProp<ViewStyle>;
+  navIconSearch?: StyleProp<ViewStyle>;
   onPress?: () => void;
   disabled?: boolean;
 }
@@ -30,13 +30,13 @@ const CustomNavigation = ({
   valuePositionNav = '-38%',
   textReversePositionValue = '22%',
   reverseIconPositionValue = '14%',
-  PositionValueBackIcon = '54%',
+  positionValueBackIcon = '54%',
   alternateIconPositionValue = '90%',
-  PositionValueCloseIcon = '106%',
+  positionValueCloseIcon = '106%',
   navIconRegister,
   navIconLogin,
   navIconRefresh,
-  navIconAlert,
+  navIconSearch,
   navIconSave,
   onPress,
   disabled,
@@ -77,7 +77,7 @@ const CustomNavigation = ({
             styles.reverseTextPage,
             {
               [navPosition]:
-                pageTitle === 'Veículos' || pageTitle === 'Cadastro'
+                pageTitle === 'Veículos' || pageTitle === 'Cadastro' || pageTitle === 'Pesados'
                   ? '24%'
                   : textReversePositionValue,
             },
@@ -105,7 +105,7 @@ const CustomNavigation = ({
         <TouchableOpacity
           style={[
             styles.navIconBack,
-            { [navPosition]: pageTitle === 'Veículos' ? '52%' : PositionValueBackIcon },
+            { [navPosition]: pageTitle === 'Veículos' ? '52%' : positionValueBackIcon },
           ]}
           onPress={() => {
             navigation.navigate('Home');
@@ -166,14 +166,14 @@ const CustomNavigation = ({
           </TouchableOpacity>
         )}
 
-        {navIconAlert && (
+        {navIconSearch && (
           <TouchableOpacity
-            style={[navIconAlert, { [navPosition]: alternateIconPositionValue }]}
+            style={[navIconSearch, { [navPosition]: alternateIconPositionValue }]}
             onPress={onPress}
             disabled={false}
           >
             <MatComIcons
-              _matComName={'bell-alert-outline'}
+              _matComName={'text-search'}
               _matComSize={size.mIcon}
               _matComColor={colors.lightTransWhite}
             />
@@ -195,7 +195,7 @@ const CustomNavigation = ({
         )}
 
         <TouchableOpacity
-          style={[styles.navIconClose, { [navPosition]: PositionValueCloseIcon }]}
+          style={[styles.navIconClose, { [navPosition]: positionValueCloseIcon }]}
           onPress={() => {
             handleBackButton();
           }}

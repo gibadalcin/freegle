@@ -20,9 +20,10 @@ import CustomNavigation from '../../components/CustomNavigation';
 const Model = () => {
   const navigation = useNavigation<StackTypes>();
   const [navPosition] = useState<'left' | 'right'>('left');
-  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
+  const { setCurrentBgPage } = useCurrentPages();
   const { vehicleType, codeBrands, codeModel, codeYear, isLoading, setIsLoading } = useSelects();
   const { setVehicleType, setCodeBrands, setCodeModel, setCodeYear } = useSelects();
+  const titleText = vehicleType ? vehicleType : 'Veículos';
   const {
     setYearModel,
     setFipeCode,
@@ -98,7 +99,11 @@ const Model = () => {
         </View>
 
         <CustomNavigation
-          pageTitle="Veículos"
+          pageTitle={
+            titleText === 'caminhoes'
+              ? 'Pesados'
+              : titleText.charAt(0).toUpperCase() + titleText.toLowerCase().slice(1)
+          }
           onPress={clearfields}
           navIconRefresh={styles.navIconRefresh}
         />

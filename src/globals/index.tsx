@@ -9,6 +9,7 @@ export const colors = {
   specialGold: '#dfc691',
   specialTranslucid: '#88888822',
   specialRed: '#8d0a22',
+  lightRed: '#F60C0C',
 };
 
 export const size = {
@@ -19,6 +20,7 @@ export const size = {
   mIcon: 34,
   m2Icon: 38,
   sIcon: 28,
+  s2Icon: 32,
 };
 
 export const text = {

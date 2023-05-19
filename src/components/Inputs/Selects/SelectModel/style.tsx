@@ -23,20 +23,6 @@ const styles = StyleSheet.create({
     elevation: 300,
   },
 
-  text: {
-    fontSize: 18,
-    letterSpacing: 1,
-    color: colors.originalWhite,
-    width: width - 122,
-    textShadowColor: colors.originalBlack,
-    textShadowOffset: {
-      width: 1,
-      height: 1.8,
-    },
-    shadowOpacity: 0.17,
-    textShadowRadius: 3.05,
-  },
-
   selectContain: {
     flex: 1,
     minHeight: 50,
@@ -78,7 +64,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     color: colors.originalWhite,
     paddingVertical: 12,
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+    paddingRight: 22,
     backgroundColor: colors.originalBlack,
     borderBottomWidth: 1,
     borderColor: colors.specialGold,

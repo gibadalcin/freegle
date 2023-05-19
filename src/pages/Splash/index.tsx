@@ -24,8 +24,8 @@ const Splash = () => {
   return (
     <View style={styles.container}>
       <View style={styles.splashField}>
-        <Image source={require('../../assets/splash.png')} style={styles.splashImage} />
-        <Image source={require('../../assets/company.png')} style={styles.splashCompany} />
+        <Image source={require('../../assets/Images/splash.png')} style={styles.splashImage} />
+        <Image source={require('../../assets/Images/company.png')} style={styles.splashCompany} />
         {initializing && (
           <View
             style={{

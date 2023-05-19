@@ -35,16 +35,19 @@ const BgImage = () => {
     <>
       {showBgMotorcycle && (
         <Image
-          source={require('../../assets/static_bg_motorcycle.png')}
+          source={require('../../assets/Images/static_bg_motorcycle.png')}
           style={styles.imageBackground}
         />
       )}
       {showBgCar && (
-        <Image source={require('../../assets/static_bg_car.png')} style={styles.imageBackground} />
+        <Image
+          source={require('../../assets/Images/static_bg_car.png')}
+          style={styles.imageBackground}
+        />
       )}
       {showBgTruck && (
         <Image
-          source={require('../../assets/static_bg_truck.png')}
+          source={require('../../assets/Images/static_bg_truck.png')}
           style={styles.imageBackground}
         />
       )}

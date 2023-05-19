@@ -91,7 +91,7 @@ export default function SelectType() {
   }
 
   const capitalized = selectedOption
-    ? selectedOption.nome.charAt(0).toUpperCase() + selectedOption.nome.toLowerCase().slice(1)
+    ? selectedOption.nome.replace(/(^\w{1})|(\s+\w{1})/g, (letra) => letra.toUpperCase())
     : null;
   return (
     <View>
