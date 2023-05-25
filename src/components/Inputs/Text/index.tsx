@@ -1,6 +1,7 @@
 import React from 'react';
 import { KeyboardTypeOptions, TextInput, View } from 'react-native';
 import styles from './style';
+import { colors } from '../../../globals/Useful';
 
 interface inputProps {
   name: string;
@@ -26,7 +27,7 @@ export default function InputText({
       <TextInput
         style={styles.inputField}
         placeholder={placeDescription}
-        placeholderTextColor={'#000000bb'}
+        placeholderTextColor={colors.lightTransWhite}
         onChangeText={onChange}
         value={value}
         autoCapitalize={autoCap}

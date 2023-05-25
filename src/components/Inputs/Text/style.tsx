@@ -1,20 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../globals/Useful';
 const styles = StyleSheet.create({
   inputArea: {
-    marginVertical: '2%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: '.5%',
   },
   inputField: {
-    backgroundColor: '#ffffffcc',
+    width: '86%',
+    backgroundColor: colors.middleLightTransBlack,
     paddingVertical: 8,
     borderRadius: 4,
-    height: 54,
+    height: 44,
     borderBottomWidth: 1,
-    borderBottomColor: '#000000',
+    borderBottomColor: colors.specialGold,
     paddingHorizontal: 12,
-    fontSize: 22,
+    fontSize: 18,
     elevation: 20,
-    color: '#000000bb',
-    textDecorationLine: 'none',
+    color: colors.originalWhite,
   },
 });
 
