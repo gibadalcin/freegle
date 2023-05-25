@@ -11,7 +11,7 @@ import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
 import { colors, height, size, text, width } from '../../globals/Useful';
 import { useCurrentConditional } from '../../contexts/Conditional';
 import { useCurrentMessage } from '../../contexts/Messages';
-import CustomNavigation from '../../components/NavControler';
+import CustomNavigation from '../../components/NavController';
 import BgImage from '../../components/BgImage';
 import { useCommon } from '../../contexts/CommonUse';
 

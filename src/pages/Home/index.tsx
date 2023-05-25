@@ -7,7 +7,7 @@ import BgImage from '../../components/BgImage';
 import { colors } from '../../globals/Useful';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useCurrentConditional } from '../../contexts/Conditional';
-import NavControler from '../../components/NavControler';
+import NavControler from '../../components/NavController';
 import {
   ExitHomeButton,
   LogoutHomeButton,

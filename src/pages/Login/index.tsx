@@ -8,8 +8,8 @@ import Button from '../../components/Buttons/Button';
 import { FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
 import BgImage from '../../components/BgImage';
 import Auth from '@react-native-firebase/auth';
-import { colors, size, text } from '../../globals';
-import CustomNavigation from '../../components/CustomNavigation';
+import { colors, size, text } from '../../globals/Useful';
+import CustomNavigation from '../../components/NavController';
 import { useSelects } from '../../contexts/Select';
 
 const Login = () => {
@@ -45,7 +45,7 @@ const Login = () => {
     setEmailIsValid(true);
 
     if (pass.length < 8 && email && emailRegex.test(email)) {
-      setTextMessageView(text.minPassLentgth);
+      setTextMessageView(text.minPassLength);
       setPassIsValid(false);
     } else {
       setEmailIsValid(false);

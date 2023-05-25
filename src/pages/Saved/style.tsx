@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, size } from '../../globals';
+import { colors, size } from '../../globals/Useful';
 import '../../assets/Fonts/Lato-Bold.ttf';
 
 const styles = StyleSheet.create({

@@ -7,9 +7,9 @@ import { useResult } from '../../contexts/Price';
 import { useCurrentPages } from '../../contexts/Pages';
 import BgImage from '../../components/BgImage';
 import { useSelects } from '../../contexts/Select';
-import { colors } from '../../globals';
+import { colors } from '../../globals/Useful';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import CustomNavigation from '../../components/CustomNavigation';
+import CustomNavigation from '../../components/NavController';
 import { useCurrentDate } from '../../contexts/Date';
 import firestore from '@react-native-firebase/firestore';
 

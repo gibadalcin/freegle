@@ -12,10 +12,10 @@ import { useResult } from '../../contexts/Price';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import BgImage from '../../components/BgImage';
-import { colors } from '../../globals';
+import { colors } from '../../globals/Useful';
 import React from 'react';
 import { useCurrentPages } from '../../contexts/Pages';
-import CustomNavigation from '../../components/CustomNavigation';
+import CustomNavigation from '../../components/NavController';
 
 const Model = () => {
   const navigation = useNavigation<StackTypes>();

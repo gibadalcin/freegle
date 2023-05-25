@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-import { colors } from '../../globals';
+import { colors } from '../../globals/Useful';
+import { useCommon } from '../../contexts/CommonUse';
 
 const Splash = () => {
   const navigation = useNavigation<StackTypes>();
-  const [initializing, setInitializing] = useState<boolean>(true);
+  const { initializing, setInitializing } = useCommon();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -33,10 +34,10 @@ const Splash = () => {
               position: 'absolute',
               justifyContent: 'center',
               alignItems: 'center',
-              top: '20%',
+              transform: [{ translateY: 40 }],
             }}
           >
-            <ActivityIndicator size={80} color={colors.originalWhite} />
+            <ActivityIndicator size={60} color={colors.lightTransWhite} />
           </View>
         )}
       </View>

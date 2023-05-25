@@ -4,10 +4,10 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import BgImage from '../../components/BgImage';
 import { useSelects } from '../../contexts/Select';
 import firestore from '@react-native-firebase/firestore';
-import CustomNavigation from '../../components/CustomNavigation';
+import CustomNavigation from '../../components/NavController';
 import { ScrollView } from 'react-native-gesture-handler';
 import { MatComIcons } from '../../components/ModelIcon';
-import { colors, size } from '../../globals';
+import { colors, size } from '../../globals/Useful';
 
 interface VehicleProps {
   id: string;

@@ -6,11 +6,11 @@ import {
 import Splash from '../../pages/Splash';
 import Home from '../../pages/Home';
 import Login from '../../pages/Login';
-import Register from '../../pages/Register';
 import Model from '../../pages/Model';
 import Price from '../../pages/Price';
 import Saved from '../../pages/Saved';
 import React from 'react';
+import Register from '../../pages/Register';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
