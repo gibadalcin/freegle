@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../globals/Useful';
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 8,
-    padding: 10,
     elevation: 40,
-    borderColor: '#dfc691',
+    borderColor: colors.specialGold,
     borderWidth: 1,
-    backgroundColor: '#8d0a22',
+    backgroundColor: colors.specialRed,
+    justifyContent: 'center',
   },
 
   buttonText: {
@@ -15,8 +15,9 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     letterSpacing: 1.5,
     textAlign: 'center',
+    textAlignVertical: 'center',
     elevation: 1,
-    paddingVertical: 2,
+    paddingVertical: '2%',
   },
 });
 

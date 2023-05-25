@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import styles from './style';
 import { buttonPrimary } from './variants';
+const { width, height } = Dimensions.get('window');
 
 interface ButtonProps {
   title: string;
@@ -26,7 +27,7 @@ export default function ButtonModel({
 
   return (
     <View>
-      <TouchableOpacity onPress={onPress} style={styleRoot} disabled={isLoading || disabled}>
+      <TouchableOpacity onPress={onPress} style={[styleRoot]} disabled={isLoading || disabled}>
         {isLoading ? <ActivityIndicator /> : <Text style={styles.buttonText}>{title}</Text>}
       </TouchableOpacity>
     </View>

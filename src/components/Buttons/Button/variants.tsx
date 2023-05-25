@@ -1,3 +1,5 @@
+import { colors } from '../../../globals/Useful';
+
 export interface ButtonStyle {
   button: {
     backgroundColor: string;
@@ -17,14 +19,14 @@ export interface ButtonVariant {
 export const buttonPrimary: ButtonVariant = {
   enabled: {
     button: {
-      backgroundColor: '#8d0a22',
+      backgroundColor: colors.specialRed,
     },
-    title: { color: '#ffffff' },
+    title: { color: colors.originalWhite },
   },
   disabled: {
     button: {
-      backgroundColor: '#88888822',
+      backgroundColor: colors.specialTranslucid,
     },
-    title: { color: '#ffffff22' },
+    title: { color: colors.lightTransWhite },
   },
 };
