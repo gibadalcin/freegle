@@ -4,7 +4,7 @@ import styles from './style';
 import { callList } from '../../../../services/TypeList';
 import { useSelects } from '../../../../contexts/Select';
 import { FontAwesome5Icon, FontistoIcons } from '../../../ModelIcon';
-import { colors, size } from '../../../../globals';
+import { colors, size } from '../../../../globals/Useful';
 import NetInfo from '@react-native-community/netinfo';
 interface Option {
   codigo: string;

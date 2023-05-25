@@ -4,7 +4,7 @@ import Model from '../Model';
 import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
 import axios from 'axios';
-import { colors } from '../../../../globals';
+import { colors } from '../../../../globals/Useful';
 import { MatComIcons } from '../../../ModelIcon';
 
 interface Option {

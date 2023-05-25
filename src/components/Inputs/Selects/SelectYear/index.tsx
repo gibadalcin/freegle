@@ -5,7 +5,7 @@ import styles from './style';
 import { useSelects } from '../../../../contexts/Select';
 import axios from 'axios';
 import { MatComIcons } from '../../../ModelIcon';
-import { colors } from '../../../../globals';
+import { colors } from '../../../../globals/Useful';
 
 interface Option {
   codigo: string;
