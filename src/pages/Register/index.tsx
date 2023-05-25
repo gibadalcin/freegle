@@ -1,76 +1,82 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, BackHandler } from 'react-native';
-import Button from '../../components/Buttons/Button';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
 import InputText from '../../components/Inputs/Text';
-import { FontAwesome5Icon, MatComIcons } from '../../components/ModelIcon';
+import { MatComIcons } from '../../components/ModelIcon';
 import Auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import TextPassStrengthBar from '../../components/ProgressBars/PassStrengthBar';
+import { colors, height, size, text, width } from '../../globals/Useful';
+import { useCurrentConditional } from '../../contexts/Conditional';
+import { useCurrentMessage } from '../../contexts/Messages';
+import CustomNavigation from '../../components/NavControler';
 import BgImage from '../../components/BgImage';
-import { colors, size, text } from '../../globals';
-import CustomNavigation from '../../components/CustomNavigation';
-import { useCurrentPages } from '../../contexts/Pages';
+import { useCommon } from '../../contexts/CommonUse';
 
 const Register = () => {
+  const { initializing, setInitializing } = useCommon();
   const navigation = useNavigation<StackTypes>();
-  const { currentBgPage, setCurrentBgPage } = useCurrentPages();
-  const [email, setEmail] = useState<string>('');
-  const [pass, setPass] = useState<string>('');
-  const [confirmPass, setConfirmPass] = useState<string>('');
-  const [disabled, setDisabled] = useState<boolean>(true);
-  const [hidePassword, setHidePassword] = useState(true);
-  const [iconEyePass, setIconEyePass] = useState<string>('eye');
-  const [hideConfirmPass, setHideConfirmPass] = useState(true);
-  const [iconEyeConfirm, setIconEyeConfirm] = useState<string>('eye');
-  const [textMessageView, setTextMessageView] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [showError, setShowError] = useState<boolean>(false);
-  const [colorBar, setColorBar] = useState<string>('transparent');
-  const [progressBar, setProgressBar] = useState<number>(0);
-  const [navPosition, setNavPosition] = useState<'left' | 'right'>('left');
-  const [passIsValid, setPassIsValid] = useState<boolean>(true);
-  const [emailIsValid, setEmailIsValid] = useState<boolean>(false);
+  const {
+    disabledButtomRegister,
+    setDisabledButtomRegister,
+    validatedRegistration,
+    setValidatedRegistration,
+    showApplicationForm,
+    setShowRegistrationScreen,
+  } = useCurrentConditional();
+  const { registrationStatusMessage, setRegistrationStatusMessage, errorMessage, setErrorMessage } =
+    useCurrentMessage();
 
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
+  const [iconEyePass, setIconEyePass] = useState('eye');
+  const [hideConfirmPass, setHideConfirmPass] = useState(true);
+  const [iconEyeConfirm, setIconEyeConfirm] = useState('eye');
+  const [priorityMessage, setPriorityMessage] = useState(false);
+  const [colorBar, setColorBar] = useState('transparent');
+  const [progressBar, setProgressBar] = useState(0);
+  const [emailIsValid, setEmailIsValid] = useState(false);
   const emailRegex = text.emailValidationRegex;
-  const colorIntensity = passIsValid || showError ? colors.lightTransBlack : 'transparent';
-  const showMessageView = (
-    <View style={styles.replyStatus}>
-      <Text style={styles.replyTextStatus}>{textMessageView}</Text>
-    </View>
-  );
-  const showIconMessageView = (
-    <View style={styles.attention}>
-      <FontAwesome5Icon _awe5Name={'exclamation'} _awe5Size={48} _awe5Color={'yellow'} />
-    </View>
-  );
 
   useEffect(() => {
     const isConfirmed = pass === confirmPass && pass && emailRegex.test(email) && !emailIsValid;
-    setDisabled(!isConfirmed);
-    setPassIsValid(false);
-    setEmailIsValid(true);
+    setDisabledButtomRegister(!isConfirmed);
+    setValidatedRegistration(!!isConfirmed);
+    setEmailIsValid(false);
 
     if (pass.length < 8 && pass) {
-      setTextMessageView(text.minPassLentgth);
-      setPassIsValid(false);
+      setRegistrationStatusMessage(text.minPassLength);
     } else if (pass !== confirmPass && pass.length === confirmPass.length) {
-      setTextMessageView('As senhas são diferentes');
+      setRegistrationStatusMessage(text.differentPass);
     } else if (pass.length !== confirmPass.length && confirmPass && pass) {
-      setTextMessageView('As senhas têm comprimento diferente');
+      setRegistrationStatusMessage(text.passHaveDifferentLengths);
+    } else if (!emailRegex.test(email) && pass === confirmPass && pass && !priorityMessage) {
+      setRegistrationStatusMessage(text.wrongEmail);
+    } else if (validatedRegistration) {
+      setRegistrationStatusMessage(text.saveRecord);
+      if (!errorMessage && priorityMessage) {
+        setRegistrationStatusMessage(text.successfullyRegistered);
+      }
     } else {
-      setEmailIsValid(false);
+      if (priorityMessage) {
+        setRegistrationStatusMessage(text.emailAlreadyExists);
+      } else {
+        setRegistrationStatusMessage(text.fillingSuggestion);
+      }
     }
-
-    if (!emailRegex.test(email) && pass === confirmPass && pass) {
-      setTextMessageView(text.wrongEmail);
-      setPassIsValid(true);
-    } else {
-      emailIsValid ? setPassIsValid(true) : setPassIsValid(false);
-    }
-  }, [confirmPass, pass, email, emailRegex, disabled, emailIsValid]);
+  }, [
+    confirmPass,
+    pass,
+    email,
+    emailRegex,
+    disabledButtomRegister,
+    emailIsValid,
+    registrationStatusMessage,
+  ]);
 
   useEffect(() => {
     let state = false;
@@ -97,8 +103,56 @@ const Register = () => {
   }, [pass, colorBar, progressBar]);
 
   const handleRegister = () => {
-    signUp();
-    clearFields();
+    if (email && pass) {
+      signUp();
+
+      initialClear();
+    }
+  };
+
+  const signUp = () => {
+    Auth()
+      .createUserWithEmailAndPassword(email, pass)
+      .then((response) => {
+        console.log('user: ', response);
+        clearFields();
+      })
+      .catch((error) => {
+        if ('auth/email-already-in-use') {
+          clearError();
+        } else {
+          console.log(error.code);
+        }
+      });
+  };
+
+  const initialClear = () => {
+    setValidatedRegistration(false);
+    setRegistrationStatusMessage('');
+    setErrorMessage(false);
+    setPriorityMessage(true);
+    setInitializing(true);
+  };
+
+  const clearError = () => {
+    setEmail('');
+    setRegistrationStatusMessage('');
+    setErrorMessage(false);
+    setPriorityMessage(false);
+    setInitializing(false);
+  };
+
+  const clearFields = () => {
+    setEmail('');
+    setPass('');
+    setConfirmPass('');
+    setRegistrationStatusMessage('');
+    setErrorMessage(false);
+    setPriorityMessage(false);
+    setPriorityMessage(false);
+    setInitializing(false);
+    setShowRegistrationScreen(false);
+    navigation.navigate('Home');
   };
 
   const toggleHidePass = () => {
@@ -111,126 +165,88 @@ const Register = () => {
     hideConfirmPass ? setIconEyeConfirm('eye-off') : setIconEyeConfirm('eye');
   };
 
-  const clearFields = () => {
-    setEmail('');
-    setPass('');
-    setConfirmPass('');
-    setDisabled(true);
-  };
-
-  const signUp = () => {
-    setIsLoading(true);
-    Auth()
-      .createUserWithEmailAndPassword(email, pass)
-      .then((response) => {
-        console.log('user: ', response);
-        timeToLogin();
-      })
-      .catch((error) => {
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            setTextMessageView('O email informado já existe!');
-            setShowError(true);
-            timeToError();
-            setIsLoading(false);
-            break;
-
-          default:
-            setIsLoading(false);
-            console.log(error.code);
-        }
-      });
-  };
-
-  const timeToError = () => {
-    setTimeout(() => {
-      setShowError(false);
-    }, 3000);
-  };
-
-  const timeToLogin = () => {
-    setTimeout(() => {
-      setIsLoading(false);
-      navigation.navigate('Login');
-    }, 3000);
-  };
-
   return (
     <>
       <BgImage />
-      <View style={[styles.bgIntensity, { backgroundColor: `${colorIntensity}` }]} />
-      <View style={styles.container}>
-        {passIsValid ? showMessageView : showError && showMessageView}
-        {passIsValid ? showIconMessageView : showError && showIconMessageView}
+      <View style={[styles.container, { height: height, width: width }]}>
+        <CustomNavigation
+          onPress={() => {
+            handleRegister();
+          }}
+        />
 
-        <CustomNavigation pageTitle={'Cadastro'} navIconRegister={styles.navIconRegister} />
+        {initializing && (
+          <View
+            style={{
+              flex: 1,
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator size={60} color={colors.lightTransWhite} />
+          </View>
+        )}
 
-        <View style={styles.form}>
-          <InputText
-            name={'Email'}
-            placeDescription={'Email...'}
-            onChange={(t: React.SetStateAction<string>) => setEmail(t)}
-            keyboard={'email-address'}
-            secureText={false}
-            autoCap="none"
-            value={email}
-          />
-
-          <View style={styles.containerPass}>
+        {showApplicationForm && (
+          <View style={styles.form}>
             <InputText
-              name={'Senha'}
-              placeDescription={'Senha...'}
-              value={pass}
-              onChange={(t: React.SetStateAction<string>) => setPass(t)}
-              secureText={hidePassword}
+              name="Email"
+              placeDescription="Email..."
+              onChange={(t) => setEmail(t)}
+              keyboard="email-address"
+              secureText={false}
               autoCap="none"
+              value={email}
             />
-            <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
-              <MatComIcons
-                _matComName={iconEyePass}
-                _matComSize={size.sIcon}
-                _matComColor={colors.middleTransBlack}
-              />
-            </TouchableOpacity>
 
-            <View style={styles.bar}>
-              <TextPassStrengthBar
-                color={colorBar}
-                styleAttr={'Horizontal'}
-                indeterminate={false}
-                progress={progressBar}
+            <View style={styles.containerPass}>
+              <InputText
+                name="Senha"
+                placeDescription="Senha..."
+                value={pass}
+                onChange={(t) => setPass(t)}
+                secureText={hidePassword}
+                autoCap="none"
               />
+              <TouchableOpacity style={styles.eye} onPress={toggleHidePass}>
+                <MatComIcons
+                  _matComName={iconEyePass}
+                  _matComSize={size.sIcon}
+                  _matComColor={colors.lightTransWhite}
+                />
+              </TouchableOpacity>
+
+              <View style={styles.bar}>
+                <TextPassStrengthBar
+                  color={colorBar}
+                  styleAttr="Horizontal"
+                  indeterminate={false}
+                  progress={progressBar}
+                />
+              </View>
+            </View>
+
+            <View style={styles.containerPass}>
+              <InputText
+                name="Confirme a Senha"
+                placeDescription="Confirme a senha..."
+                onChange={(t) => {
+                  setConfirmPass(t);
+                }}
+                value={confirmPass}
+                secureText={hideConfirmPass}
+              />
+              <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
+                <MatComIcons
+                  _matComName={iconEyeConfirm}
+                  _matComSize={size.sIcon}
+                  _matComColor={colors.lightTransWhite}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-
-          <View style={styles.containerPass}>
-            <InputText
-              name={'Confirme a Senha'}
-              placeDescription={'Confirme a senha...'}
-              onChange={(t: React.SetStateAction<string>) => {
-                setConfirmPass(t);
-              }}
-              value={confirmPass}
-              secureText={hideConfirmPass}
-            />
-            <TouchableOpacity style={styles.eye} onPress={toggleHideConfirm}>
-              <MatComIcons
-                _matComName={iconEyeConfirm}
-                _matComSize={size.sIcon}
-                _matComColor={colors.middleTransBlack}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View>
-            <Button
-              disabled={disabled}
-              isLoading={isLoading}
-              onPress={handleRegister}
-              title="Salvar"
-            />
-          </View>
-        </View>
+        )}
       </View>
     </>
   );

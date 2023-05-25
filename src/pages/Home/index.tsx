@@ -1,200 +1,100 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Alert, BackHandler, Text } from 'react-native';
-import Button from '../../components/Buttons/Button';
+import { View, Dimensions, Text, TouchableOpacity } from 'react-native';
 import { StackTypes } from '../../routes/Stack';
 import styles from './style';
-import { MatComIcons } from '../../components/ModelIcon';
 import BgImage from '../../components/BgImage';
-import { colors, size, text } from '../../globals';
+import { colors } from '../../globals/Useful';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useCurrentConditional } from '../../contexts/Conditional';
+import NavControler from '../../components/NavControler';
+import {
+  ExitHomeButton,
+  LogoutHomeButton,
+  ModelHomeButton,
+  PlateHomeButton,
+} from '../../components/Buttons/Home';
 
 const Home = () => {
   const navigation = useNavigation<StackTypes>();
+  const { showRegistrationScreen, validatedRegistration, openLogoutModal, setOpenLogoutModal } =
+    useCurrentConditional();
+
   const [disabled, setDisabled] = useState<boolean>(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  const [loggedOut, setLoggedOut] = useState<boolean>(false);
-
-  const colorDisabled = disabled ? colors.originalGrey : colors.lightTransWhite;
+  const { width, height } = Dimensions.get('window');
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged((_user) => {
       setUser(_user);
-      setLoggedOut(false);
+      setOpenLogoutModal(false);
     });
 
     user?.email ? setDisabled(false) : setDisabled(true);
     return unsubscribe;
-  }, [user, colorDisabled]);
+  }, [user]);
 
   const consultPlate = () => {};
 
-  const preSignOut = () => {
-    setLoggedOut(true);
-  };
-
   const signOut = () => {
     auth().signOut();
-    setLoggedOut(false);
+    setOpenLogoutModal(false);
   };
 
-  const handleBackButton = () => {
-    BackHandler.exitApp();
-    return true;
-  };
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
-
+  console.log('home:', validatedRegistration);
   return (
     <>
       <BgImage />
-      <View style={styles.container}>
-        <View style={styles.customNav}>
-          <View style={styles.customNavButtom}></View>
-          {loggedOut && <Text style={styles.textLogout}>{text.questionLeaving} </Text>}
-          <TouchableOpacity
-            style={styles.navIconBack}
-            onPress={() => {
-              navigation.navigate('Splash');
-            }}
-          >
-            <MatComIcons
-              _matComName={'arrow-left-bold'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
+      <View style={[styles.container, { height: height, width: width }]}>
+        <NavControler />
 
-          <TouchableOpacity
-            style={styles.navIconInstructions}
-            onPress={() => {}}
-            disabled={disabled}
-          >
-            <MatComIcons
-              _matComName={'book-open-page-variant-outline'}
-              _matComSize={size.mIcon}
-              _matComColor={colorDisabled}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.navIconClose}
-            onPress={() => {
-              handleBackButton();
-            }}
-            disabled={false}
-          >
-            <MatComIcons
-              _matComName={'window-close'}
-              _matComSize={size.mIcon}
-              _matComColor={colors.lightTransWhite}
-            />
-          </TouchableOpacity>
-
-          {!user ? (
-            <TouchableOpacity
-              style={styles.navIconAccount}
-              onPress={() => {
-                navigation.navigate('Register');
-              }}
-              disabled={false}
-            >
-              <MatComIcons
-                _matComName={'account-plus'}
-                _matComSize={size.mIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.navIconAccount} onPress={() => {}} disabled={false}>
-              <MatComIcons
-                _matComName={'account-edit'}
-                _matComSize={size.m2Icon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            style={styles.navIconList}
-            onPress={() => {
-              navigation.navigate('Saved');
-            }}
-            disabled={disabled}
-          >
-            <MatComIcons
-              _matComName={'format-list-group'}
-              _matComSize={size.mIcon}
-              _matComColor={colorDisabled}
-            />
-          </TouchableOpacity>
-
-          {!user ? (
-            <TouchableOpacity
-              style={styles.navIconLog}
-              onPress={() => {
-                navigation.navigate('Login');
-              }}
-              disabled={false}
-            >
-              <MatComIcons
-                _matComName={'login'}
-                _matComSize={size.mIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.navIconLog}
-              onPress={() => {
-                preSignOut();
-              }}
-              disabled={false}
-            >
-              <MatComIcons
-                _matComName={'logout'}
-                _matComSize={size.mIcon}
-                _matComColor={colors.lightTransWhite}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {!loggedOut ? (
-          <View style={styles.buttons}>
-            <Button
+        {!showRegistrationScreen && !openLogoutModal && (
+          <View style={styles.buttonsContainer}>
+            <ModelHomeButton
+              style={[styles.buttonModel, { backgroundColor: colors.specialRed }]}
               onPress={() => {
                 navigation.navigate('Model');
               }}
-              title="Consulta por Modelo"
-            />
-            <Button disabled={disabled} onPress={() => {}} title="Consulta por Placa" />
+            >
+              <Text style={[styles.textButtons, { paddingTop: 10 }]}>Consulta Modelo</Text>
+            </ModelHomeButton>
+
+            <PlateHomeButton
+              style={[
+                styles.buttonPlate,
+                {
+                  backgroundColor:
+                    !openLogoutModal && !user ? colors.specialTranslucid : colors.specialRed,
+                },
+              ]}
+              disabled={!user}
+              onPress={() => {}}
+            >
+              <Text style={[styles.textButtons, { paddingBottom: 10 }]}>Consulta Placa</Text>
+            </PlateHomeButton>
           </View>
-        ) : (
-          <View style={styles.buttonsLogOut}>
-            <View style={styles.exitButtons}>
-              <Button
-                onPress={() => {
-                  signOut();
-                }}
-                title="Sair"
-              />
-            </View>
-            <View style={styles.exitButtons}>
-              <Button
-                disabled={disabled}
-                onPress={() => {
-                  setLoggedOut(false);
-                }}
-                title="Cancelar"
-                backgroundColor={colors.originalBlack}
-              />
-            </View>
+        )}
+
+        {user && openLogoutModal && (
+          <View style={styles.logoutContainer}>
+            <LogoutHomeButton
+              style={styles.logoutButton}
+              onPress={() => {
+                signOut();
+              }}
+            >
+              <Text style={styles.textLogout}>Sair</Text>
+            </LogoutHomeButton>
+
+            <ExitHomeButton
+              style={styles.exitButton}
+              disabled={disabled}
+              onPress={() => {
+                setOpenLogoutModal(false);
+              }}
+            >
+              <Text style={styles.textLogout}>Cancelar</Text>
+            </ExitHomeButton>
           </View>
         )}
       </View>

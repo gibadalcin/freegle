@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../globals';
+import { colors, size } from '../../globals/Useful';
+import { transformer } from '../../../metro.config';
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
     flex: 1,
     borderWidth: 1,
     paddingHorizontal: 14,
@@ -9,92 +11,95 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttons: {
+
+  buttonsContainer: {
+    width: 168,
+    height: 168,
+    borderRadius: 200,
+    minHeight: '12%',
+    alignItems: 'center',
+  },
+  buttonModel: {
     position: 'absolute',
+    width: 160,
+    height: '46.4%',
     justifyContent: 'center',
-    gap: 20,
-    width: '100%',
+    alignItems: 'center',
+    borderTopRightRadius: 200,
+    borderTopLeftRadius: 200,
+    elevation: 200,
+    top: 5,
+  },
+  buttonPlate: {
+    position: 'absolute',
+    width: 160,
+    height: '46.4%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomRightRadius: 200,
+    borderBottomLeftRadius: 200,
+    bottom: 5,
+    elevation: 200,
+  },
+  textButtons: {
+    color: colors.lightTransWhite,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: size.s1Font,
+    marginHorizontal: 14,
+    borderRadius: 20,
+    letterSpacing: 1,
+    textShadowColor: colors.originalBlack,
+    textShadowOffset: {
+      width: 1,
+      height: 1.8,
+    },
+    shadowOpacity: 0.17,
+    textShadowRadius: 3.05,
   },
 
-  buttonsLogOut: {
+  logoutContainer: {
     position: 'absolute',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    height: 130,
-    gap: 12,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '70%',
+    height: '12%',
+    transform: [{ translateY: 40 }],
   },
-  exitButtons: {
-    width: 150,
+  logoutButton: {
+    position: 'relative',
+    width: '44%',
+    height: '50%',
     borderRadius: 10,
-  },
-
-  customNav: {
-    position: 'absolute',
-    width: 326,
-    height: 326,
-    borderRadius: 230,
-    borderColor: colors.middleTransBlack,
-    borderWidth: 50,
+    backgroundColor: colors.specialRed,
+    borderColor: colors.specialGold,
+    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  customNavButtom: {
+  exitButton: {
     position: 'relative',
+    width: '44%',
+    height: '50%',
+    borderRadius: 10,
     backgroundColor: colors.originalBlack,
-    width: 216,
-    height: 216,
-    borderRadius: 230,
     borderColor: colors.specialGold,
     borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-
   textLogout: {
     position: 'absolute',
     color: colors.originalWhite,
-    fontSize: 18,
-    top: '34%',
-  },
-
-  navIconBack: {
-    position: 'absolute',
-    top: '0%',
-    left: '-1%',
-    flex: 1,
-  },
-
-  navIconInstructions: {
-    position: 'absolute',
-    top: '-18%',
-    flex: 1,
-  },
-
-  navIconClose: {
-    position: 'absolute',
-    top: '-0%',
-    right: '-1%',
-    flex: 1,
-  },
-
-  navIconAccount: {
-    position: 'absolute',
-    bottom: '-2%',
-    left: 0,
-    flex: 1,
-  },
-
-  navIconList: {
-    position: 'absolute',
-    bottom: '-18%',
-    flex: 1,
-  },
-
-  navIconLog: {
-    position: 'absolute',
-    bottom: '-2%',
-    right: '2%',
-    flex: 1,
+    fontSize: size.s1Font,
+    textShadowColor: colors.originalBlack,
+    textShadowOffset: {
+      width: 1,
+      height: 1.8,
+    },
+    shadowOpacity: 0.17,
+    textShadowRadius: 3.05,
   },
 });
 
